@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/06/10 01:57:08 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/06/10 13:32:41 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,9 @@ typedef enum s_token
 	APP, // append >> 
 	ROUT, // redirection out >
 	PIPE, // |
+	OR,  // ||
+	AND, // &&
+	AMP, // &
 }	t_token;
 
 typedef struct s_parse

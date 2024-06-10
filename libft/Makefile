@@ -39,9 +39,9 @@ bonus : $(OBJB)
 all : $(NAME) 
 
 clean :
-	$(RM) $(OBJS) $(OBJB)
+	@$(RM) $(OBJS) $(OBJB)
 
 fclean : clean 
-	$(RM) $(NAME) 
+	@$(RM) $(NAME) 
 
 re : fclean all

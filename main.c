@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/06/10 08:36:29 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/06/10 13:43:51 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,15 @@ void parse_line(char *line, t_parse **parse)
 		else
 		{
 			j = i;
-			while(line[i] && !check(line[i]) && line[i] != '"' && line[i] != 39)
+			while(line[i] && line[i] != ' ' && !(line[i] >= 9 && line[i] <= 13))
+			{
+				if (line[i+1] == '"' || line[i+1] == 39 || line[i+1] == '<' || line[i+1] == '>' || line[i+1] == '|')
+				{
+					break;
+				}
 				i++;
-			ft_lstadd_back(parse, ft_lstnew(ft_substr(line, j, i-j), WORD, index++));
+			}
+			ft_lstadd_back(parse, ft_lstnew(ft_substr(line, j, i ), WORD, index++));
 		}
 	}
 }
