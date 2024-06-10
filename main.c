@@ -6,12 +6,18 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/06/10 02:46:05 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/06/10 05:41:58 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+int check(char c)
+{
+	if (c != ' ' && !(c >= 9 && c <= 13) && c != '"' && c != 39 && c != '<' && c != '>' && c != '|')
+		return (0);
+	return (1);
+}
 void parse_line(char *line, t_parse **parse)
 {
 	int i;
@@ -78,15 +84,10 @@ void parse_line(char *line, t_parse **parse)
 		else
 		{
 			j = i;
-			while(line[i] && line[i] != ' ' && !(line[i] >= 9 && line[i] <= 13))
-			{
-				if (line[i+1] == '"' || line[i+1] == 39 || line[i+1] == '<' || line[i+1] == '>' || line[i+1] == '|')
-				{
-					break;
-				}
+			while(line[i] && !check(line[i]))
 				i++;
-			}
-			ft_lstadd_back(parse, ft_lstnew(ft_substr(line, j, i ), WORD, index++));
+			i--;
+			ft_lstadd_back(parse, ft_lstnew(ft_substr(line, j, i+1-j), WORD, index++));
 		}
 		i++;
 	}
@@ -111,7 +112,7 @@ int main(int ac, char **av, char **env)
 		print = parse;
 		while(print)
 		{
-			printf("txt : %s %d %d\n", print->text, print->token, print->index);
+			printf("txt : %s\n", print->text);
 			
 			print = print->next;
 		}

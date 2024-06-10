@@ -6,7 +6,7 @@
 #    By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/03 17:08:07 by saharchi          #+#    #+#              #
-#    Updated: 2024/06/03 19:02:28 by saharchi         ###   ########.fr        #
+#    Updated: 2024/06/10 05:45:49 by saharchi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,7 +29,7 @@ $(LIBFT) :
 $(NAME) : $(OBJ) $(LIBFT)
 		cc $(CFLAGS) $(OBJ) $(LIBFT) -lreadline -o $(NAME)
 
-%.o : %.c minishell.h
+%.o : %.c minishell.h $(LIBFT)
 		cc $(CFLAGS) -c $<  -o $@
 
 
