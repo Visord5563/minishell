@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+         #
+#    By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/23 15:43:56 by saharchi          #+#    #+#              #
-#    Updated: 2024/06/10 04:01:06 by saharchi         ###   ########.fr        #
+#    Updated: 2024/06/10 14:42:44 by ehafiane         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,9 +39,9 @@ bonus : $(OBJB)
 all : $(NAME) 
 
 clean :
-	$(RM) $(OBJS) $(OBJB)
+	@$(RM) $(OBJS) $(OBJB)
 
 fclean : clean 
-	$(RM) $(NAME) 
+	@$(RM) $(NAME) 
 
 re : fclean all

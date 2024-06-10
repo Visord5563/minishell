@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+         #
+#    By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/03 17:08:07 by saharchi          #+#    #+#              #
-#    Updated: 2024/06/10 05:45:49 by saharchi         ###   ########.fr        #
+#    Updated: 2024/06/10 14:43:17 by ehafiane         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,26 +19,30 @@ RM = rm -f
 
 SRC = main.c parse_list.c
 
-OBJ = $(SRC:%.c=%.o)
+OBJDIR = obj
+OBJ = $(SRC:%.c=$(OBJDIR)/%.o)
 
-all : $(NAME)
+all: $(NAME)
 
-$(LIBFT) : 
+$(LIBFT):
 	make -C ./libft/
 
-$(NAME) : $(OBJ) $(LIBFT)
-		cc $(CFLAGS) $(OBJ) $(LIBFT) -lreadline -o $(NAME)
+$(NAME): $(OBJ) $(LIBFT)
+	cc $(CFLAGS) $(OBJ) $(LIBFT) -lreadline -o $(NAME)
 
-%.o : %.c minishell.h $(LIBFT)
-		cc $(CFLAGS) -c $<  -o $@
+$(OBJDIR)/%.o: %.c minishell.h | $(OBJDIR)
+	cc $(CFLAGS) -c $< -o $@
 
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
 
-clean :
+clean:
 	$(RM) $(OBJ)
 	make -C ./libft/ clean
+	-rmdir $(OBJDIR)
 
-fclean : clean 
+fclean: clean
 	$(RM) $(NAME)
 	make -C ./libft/ fclean
 
-re : fclean all
+re: fclean all
