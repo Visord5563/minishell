@@ -28,20 +28,20 @@ OBJS = $(SRCS:.c=.o)
 OBJB = $(SRCB:.c=.o)
 
 $(NAME) : $(OBJS)
-	$(ARC) $(NAME) $(OBJS)
+	@$(ARC) $(NAME) $(OBJS)
 
 bonus : $(OBJB)
-	$(ARC) $(NAME) $(OBJB)
+	@$(ARC) $(NAME) $(OBJB)
 
 %.o : %.c libft.h
-		$(CC) $(CFLAGS) -c $< -o $@
+		@$(CC) $(CFLAGS) -c $< -o $@
 
 all : $(NAME) 
 
 clean :
-	$(RM) $(OBJS) $(OBJB)
+	@$(RM) $(OBJS) $(OBJB)
 
 fclean : clean 
-	$(RM) $(NAME) 
+	@$(RM) $(NAME) 
 
 re : fclean all
