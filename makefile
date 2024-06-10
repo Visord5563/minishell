@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+         #
+#    By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/03 17:08:07 by saharchi          #+#    #+#              #
-#    Updated: 2024/06/03 19:02:28 by saharchi         ###   ########.fr        #
+#    Updated: 2024/06/10 13:39:15 by ehafiane         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,8 @@ RM = rm -f
 
 SRC = main.c parse_list.c
 
-OBJ = $(SRC:%.c=%.o)
+OBJDIR = obj
+OBJ = $(SRC:%.c=$(OBJDIR)/%.o)
 
 all : $(NAME)
 
@@ -27,15 +28,18 @@ $(LIBFT) :
 	make -C ./libft/
 
 $(NAME) : $(OBJ) $(LIBFT)
-		cc $(CFLAGS) $(OBJ) $(LIBFT) -lreadline -o $(NAME)
+	cc $(CFLAGS) $(OBJ) $(LIBFT) -lreadline -o $(NAME)
 
-%.o : %.c minishell.h
-		cc $(CFLAGS) -c $<  -o $@
+$(OBJDIR)/%.o : %.c minishell.h | $(OBJDIR)
+	cc $(CFLAGS) -c $< -o $@
 
+$(OBJDIR):
+	mkdir -p $(OBJDIR)
 
 clean :
 	$(RM) $(OBJ)
 	make -C ./libft/ clean
+	-rmdir $(OBJDIR)
 
 fclean : clean 
 	$(RM) $(NAME)

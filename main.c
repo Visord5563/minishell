@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/06/10 01:59:41 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/06/10 13:33:34 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void parse_line(char *line, t_parse **parse)
 				}
 				i++;
 			}
-			ft_lstadd_back(parse, ft_lstnew(ft_substr(line, j, i ), WORD, index++));
+			ft_lstadd_back(parse, ft_lstnew(ft_substr(line, j, i+1), WORD, index++));
 		}
 		i++;
 	}
