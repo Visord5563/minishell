@@ -6,7 +6,7 @@
 #    By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/03 17:08:07 by saharchi          #+#    #+#              #
-#    Updated: 2024/06/10 13:39:15 by ehafiane         ###   ########.fr        #
+#    Updated: 2024/06/10 13:43:39 by ehafiane         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,8 +30,8 @@ $(LIBFT) :
 $(NAME) : $(OBJ) $(LIBFT)
 	cc $(CFLAGS) $(OBJ) $(LIBFT) -lreadline -o $(NAME)
 
-$(OBJDIR)/%.o : %.c minishell.h | $(OBJDIR)
-	cc $(CFLAGS) -c $< -o $@
+%.o : %.c minishell.h
+		cc $(CFLAGS) -c $<  -o $@
 
 $(OBJDIR):
 	mkdir -p $(OBJDIR)
