@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/06/10 13:32:41 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/06/10 13:45:30 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef enum s_token
 	PIPE, // |
 	OR,  // ||
 	AND, // &&
-	AMP, // &
+	AMP, // & 
 }	t_token;
 
 typedef struct s_parse
