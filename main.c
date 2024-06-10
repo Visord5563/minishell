@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/06/10 19:46:30 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/06/10 20:05:17 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,13 +73,13 @@ void parse_line(char *line, t_parse **parse)
             ft_lstadd_back(parse, ft_lstnew(ft_substr(line, j, i - j), SQ, index++));
             i++; // Skip the closing single quote
         }
-        else
+        else if (line[i] != ' ')
         {
             j = i;
 			// Collect a word until a delimiter or special character is found
             while (line[i] && !check(line[i]) && line[i] != '"' && line[i] != 39)
                 i++;
-			// Add the word to the parse list
+			// Add the word to the parse list 
             ft_lstadd_back(parse, ft_lstnew(ft_substr(line, j, i - j), WORD, index++));
         }
     }
@@ -96,7 +96,7 @@ int main(int ac, char **av, char **env)
 
     while (1)
     {
-        line = readline("🤯minishell :");
+        line = readline("🤯\033[0;34mMinishell:\033[0m");
         if (!line)
             break;
         parse_line(line, &parse);
