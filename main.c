@@ -127,3 +127,7 @@ int main(int ac, char **av, char **env)
 // ============ txt =  << || token = HDOC || inde = 2
 // ============ txt =  << || token = HDOC || inde = 3
 // ============ txt =  echo || token = WORD || inde = 4
+
+// tttetttetestt 
+
+
