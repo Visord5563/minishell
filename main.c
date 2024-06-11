@@ -6,11 +6,29 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/06/11 16:34:21 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/06/11 23:07:26 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void heredoc(const char *delimiter) {
+
+    char *line;
+    printf("Delimiter = '%s'\n", delimiter);
+
+    while (1) {
+        line = readline("> ");
+        if (line == NULL) {
+            break;
+        }
+        if (strcmp(line, delimiter) == 0) {
+            free(line);
+            break;
+        }
+        free(line);
+    }
+}
 
 int check(char c)
 {
@@ -36,6 +54,7 @@ int check_token(t_parse **parse, char *line, int *i, int *index)
         {
             ft_lstadd_back(parse, ft_lstnew("<<", HDOC, (*index)++));
             (*i)++;
+            heredoc("EOF");
         }
         else if (line[*i] == '<')
             ft_lstadd_back(parse, ft_lstnew("<", RIN, (*index)++));
