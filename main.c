@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/06/11 04:29:00 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/06/11 05:30:35 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,11 @@ int check(char c)
 void check_token(t_parse *parse, char *line, int *i)
 {
         if (line[*i] == '|')
+		{
+			if (line[*i + 1] == '|')
+				(*i)++;
             ft_lstadd_back(&parse, ft_lstnew("|", PIPE, 0));
+		}
         else if (line[*i] == '<' && line[*i + 1] == '<')
         {
             ft_lstadd_back(&parse, ft_lstnew("<<", HDOC, 0));
