@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/06/10 20:05:17 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/06/11 03:49:30 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,21 @@ void parse_line(char *line, t_parse **parse)
 {
     int i;
     int j;
+    int f;
+    int f2;
     int index;
 
     index = 0;
     i = 0;
+	f = 0;
+	f2 = 0;
     while (line[i])
     {
         j = 0;
         while (line[i] == ' ' || (line[i] >= 9 && line[i] <= 13))
             i++;
+		if (line[i] == '\0')
+			break ;
         if (line[i] == '|' || line[i] == '<' || line[i] == '>')
         {
             if (line[i] == '|')
@@ -53,35 +59,37 @@ void parse_line(char *line, t_parse **parse)
                 ft_lstadd_back(parse, ft_lstnew(">", ROUT, index++));
             i++;
         }
-        else if (line[i] == '"')
+        else 
         {
-            j = ++i; // Skip the initial double quote
-			// Collect everything inside the double quotes
-            while (line[i] && (line[i] != '"' || (line[i] == '"' && line[i-1] == '\\')))
+            j = i; 
+            while (line[i])
+			{
+				if (check(line[i]) && f == 0)
+					break ;
+				if ((line[i] == '"' || line[i] == 39) && f == 0)
+					f = 1;
+				while (line[i])
+				{
+					printf("----%c %d\n", line[i] , f);
+					if (line[i+1] == '"' || line[i+1] == 39)
+					{
+						i++;
+						break ;
+					}
+					if (check(line[i]) && f == 1)
+					{
+						f2 = 1;
+						break ;
+					}
+					i++;
+				}
+				if (f2 == 1)
+					break ;
                 i++;
-			// Add the double-quoted string to the parse list
-            ft_lstadd_back(parse, ft_lstnew(ft_substr(line, j, i - j), DQ, index++));
-            i++; // Skip the closing double quote
-        }
-        else if (line[i] == '\'')
-        {
-            j = ++i; // Skip the initial single quote
-			// Collect everything inside the single quotes
-            while (line[i] && (line[i] != '\'' || (line[i] == '\'' && line[i-1] == '\\')))
-                i++;
-			// Add the single-quoted string to the parse list
-            ft_lstadd_back(parse, ft_lstnew(ft_substr(line, j, i - j), SQ, index++));
-            i++; // Skip the closing single quote
-        }
-        else if (line[i] != ' ')
-        {
-            j = i;
-			// Collect a word until a delimiter or special character is found
-            while (line[i] && !check(line[i]) && line[i] != '"' && line[i] != 39)
-                i++;
-			// Add the word to the parse list 
+			}
             ft_lstadd_back(parse, ft_lstnew(ft_substr(line, j, i - j), WORD, index++));
         }
+    
     }
 }
 
