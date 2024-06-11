@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+         #
+#    By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/03 17:08:07 by saharchi          #+#    #+#              #
-#    Updated: 2024/06/11 03:16:13 by ehafiane         ###   ########.fr        #
+#    Updated: 2024/06/11 10:58:46 by saharchi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,7 @@ OBJ = $(SRC:%.c=$(OBJDIR)/%.o)
 
 all: $(NAME)
 
-$(LIBFT):
+$(LIBFT): ./libft/*.c ./libft/libft.h 
 	make -C ./libft/
 
 $(NAME): $(OBJ) $(LIBFT)
