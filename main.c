@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/06/11 03:10:43 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/06/11 03:21:17 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,16 @@ void check_token(t_parse **parse, char *line, int i, int j)
         ft_lstadd_back(parse, ft_lstnew(">", ROUT, j));
 }
 
+void parse_quoted_string(char *line, int *i, t_parse **parse, int *index, char quote_char, t_token token_type)
+{
+    int j = (*i)++;
+    while (line[*i] && (line[*i] != quote_char || (line[*i] == quote_char && line[*i-1] == '\\')))
+        (*i)++;
+    if (line[*i] == quote_char)
+        (*i)++;
+    ft_lstadd_back(parse, ft_lstnew(ft_substr(line, j, (*i) - j), token_type, (*index)++));
+}
+
 void parse_line(char *line, t_parse **parse)
 {
     int i;
@@ -62,23 +72,9 @@ void parse_line(char *line, t_parse **parse)
             i++;
         }
         else if (line[i] == '"')
-        {
-            j = i++; // Include the initial double quote
-            while (line[i] && (line[i] != '"' || (line[i] == '"' && line[i-1] == '\\')))
-                i++;
-            if (line[i] == '"') // Include the closing double quote
-                i++;
-            ft_lstadd_back(parse, ft_lstnew(ft_substr(line, j, i - j), DQ, index++));
-        }
+            parse_quoted_string(line, &i, parse, &index, '"', DQ);
         else if (line[i] == '\'')
-        {
-            j = i++; // Include the initial single quote
-            while (line[i] && (line[i] != '\'' || (line[i] == '\'' && line[i-1] == '\\')))
-                i++;
-            if (line[i] == '\'') // Include the closing single quote
-                i++;
-            ft_lstadd_back(parse, ft_lstnew(ft_substr(line, j, i - j), SQ, index++));
-        }
+            parse_quoted_string(line, &i, parse, &index, '\'', SQ);
         else if (line[i] != ' ')
         {
             j = i;
