@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/06/11 02:48:49 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/06/11 03:10:43 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,29 @@ int check(char c)
 		return (0);
 	return (1);
 }
+
+void check_token(t_parse **parse, char *line, int i, int j)
+{
+    if (line[i] == '|')
+        ft_lstadd_back(parse, ft_lstnew("|", PIPE, j));
+    else if (line[i] == '<' && line[i + 1] == '<')
+    {
+        ft_lstadd_back(parse, ft_lstnew("<<", HDOC, j));
+        i++;
+    }
+    else if (line[i] == '<' && line[i + 1] != '<')
+    {
+        ft_lstadd_back(parse, ft_lstnew("<", RIN, j));
+    }
+    else if (line[i] == '>' && line[i + 1] == '>')
+    {
+        ft_lstadd_back(parse, ft_lstnew(">>", APP, j));
+        i++;
+    }
+    else
+        ft_lstadd_back(parse, ft_lstnew(">", ROUT, j));
+}
+
 void parse_line(char *line, t_parse **parse)
 {
     int i;
@@ -35,24 +58,7 @@ void parse_line(char *line, t_parse **parse)
             break;
         if (line[i] == '|' || line[i] == '<' || line[i] == '>')
         {
-            if (line[i] == '|')
-                ft_lstadd_back(parse, ft_lstnew("|", PIPE, index++));
-            else if (line[i] == '<' && line[i + 1] == '<')
-            {
-                ft_lstadd_back(parse, ft_lstnew("<<", HDOC, index++));
-                i++;
-            }
-            else if (line[i] == '<' && line[i + 1] != '<')
-            {
-                ft_lstadd_back(parse, ft_lstnew("<", RIN, index++));
-            }
-            else if (line[i] == '>' && line[i + 1] == '>')
-            {
-                ft_lstadd_back(parse, ft_lstnew(">>", APP, index++));
-                i++;
-            }
-            else
-                ft_lstadd_back(parse, ft_lstnew(">", ROUT, index++));
+            check_token(parse, line, i, index++);
             i++;
         }
         else if (line[i] == '"')
