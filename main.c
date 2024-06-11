@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/06/11 04:06:11 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/06/11 04:17:22 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,25 +18,22 @@ int check(char c)
 		return (0);
 	return (1);
 }
+
+
 void parse_line(char *line, t_parse **parse)
 {
-    int i;
-    int j;
-    int f;
-    int f2;
-    int index;
+    int i = 0;
+    int start;
+    int index = 0;
+    char quote = '\0';
 
-    index = 0;
-    i = 0;
-	f = 0;
-	f2 = 0;
     while (line[i])
     {
-        j = 0;
         while (line[i] == ' ' || (line[i] >= 9 && line[i] <= 13))
             i++;
-		if (line[i] == '\0')
-			break ;
+        if (line[i] == '\0')
+            break;
+
         if (line[i] == '|' || line[i] == '<' || line[i] == '>')
         {
             if (line[i] == '|')
@@ -46,10 +43,8 @@ void parse_line(char *line, t_parse **parse)
                 ft_lstadd_back(parse, ft_lstnew("<<", HDOC, index++));
                 i++;
             }
-            else if (line[i] == '<' && line[i + 1] != '<')
-            {
+            else if (line[i] == '<')
                 ft_lstadd_back(parse, ft_lstnew("<", RIN, index++));
-            }
             else if (line[i] == '>' && line[i + 1] == '>')
             {
                 ft_lstadd_back(parse, ft_lstnew(">>", APP, index++));
@@ -61,35 +56,19 @@ void parse_line(char *line, t_parse **parse)
         }
         else 
         {
-            j = i; 
+            start = i;
             while (line[i])
-			{
-				if (check(line[i]) && f == 0)
-					break ;
-				if ((line[i] == '"' || line[i] == 39) && f == 0)
-					f = 1;
-				while (line[i])
-				{
-					printf("----%c %d\n", line[i] , f);
-					if (line[i+1] == '"' || line[i+1] == 39)
-					{
-						i++;
-						break ;
-					}
-					if (check(line[i]) && f == 1)
-					{
-						f2 = 1;
-						break ;
-					}
-					i++;
-				}
-				if (f2 == 1)
-					break ;
+            {
+                if (quote == '\0' && (line[i] == '"' || line[i] == '\''))
+                    quote = line[i];
+                else if (line[i] == quote)
+                    quote = '\0';
+                else if (quote == '\0' && check(line[i]))
+                    break;
                 i++;
-			}
-            ft_lstadd_back(parse, ft_lstnew(ft_substr(line, j, i - j), WORD, index++));
+            }
+            ft_lstadd_back(parse, ft_lstnew(ft_substr(line, start, i - start), WORD, index++));
         }
-    
     }
 }
 
