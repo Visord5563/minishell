@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/06/11 04:25:07 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/06/11 04:29:00 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ void parse_line(char *line, t_parse **parse)
                 i++;
             }
             ft_lstadd_back(parse, ft_lstnew(ft_substr(line, start, i - start), token, index++));
+			token = 0;
         }
     }
 }
