@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 18:34:16 by saharchi          #+#    #+#             */
-/*   Updated: 2024/06/03 19:02:52 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/06/12 11:46:09 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,18 @@ t_parse	*ft_lstnew(char *content, t_token token, int index)
 	return (list);
 }
 
-// void	ft_lstclear(t_parse **lst)
-// {
-// 	t_parse	*node;
+void	ft_lstclear(t_parse *lst)
+{
+	t_parse	*tmp;
 
-// 	if (!lst || !del)
-// 		return ;
-// 	while (*lst)
-// 	{
-// 		node = (*lst)->next;
-		
-// 		*lst = node;
-// 	}
-// }
+	while (lst)
+	{
+		tmp = lst->next;
+		free(lst->text);
+		free(lst);
+		lst = tmp;
+	}
+}
 
 void	ft_lstadd_back(t_parse **lst, t_parse *new)
 {
