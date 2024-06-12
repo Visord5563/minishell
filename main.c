@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/06/11 23:07:26 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/06/12 15:28:20 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int check_token(t_parse **parse, char *line, int *i, int *index)
 		{
 			if ((*index) == 0)
 			{
-				printf("🤯Minishell: syntax error near unexpected token `|'\n"); 
+				printf("Minishell: syntax error near unexpected token `|'\n"); 
 				return (0);
 			}
 			if (line[*i + 1] == '|')
@@ -54,7 +54,6 @@ int check_token(t_parse **parse, char *line, int *i, int *index)
         {
             ft_lstadd_back(parse, ft_lstnew("<<", HDOC, (*index)++));
             (*i)++;
-            heredoc("EOF");
         }
         else if (line[*i] == '<')
             ft_lstadd_back(parse, ft_lstnew("<", RIN, (*index)++));
@@ -76,39 +75,39 @@ void check_syntax(t_parse **parse)
 	{
 		if (tmp->token == PIPE && (!tmp->next || tmp->next->token == PIPE))
 		{
-			printf("🤯Minishell: syntax error near unexpected token `|'\n");
+			printf("Minishell: syntax error near unexpected token `|'\n");
 			return ;
 		}
-		if (tmp->token == RIN && (!tmp->next || tmp->next->token == PIPE || tmp->next->token == ROUT || tmp->next->token == APP))
+		if (tmp->token == RIN && (!tmp->next || tmp->next->token == PIPE || tmp->next->token == ROUT || tmp->next->token == APP || tmp->next->token == RIN || tmp->next->token == HDOC))
 		{
 			if (!tmp->next)
-				printf("🤯Minishell: syntax error near unexpected token `newline'\n");
+				printf("Minishell: syntax error near unexpected token `newline'\n");
 			else
-				printf("🤯Minishell: syntax error near unexpected token `%s'\n", tmp->next->text);
+				printf("Minishell: syntax error near unexpected token `%s'\n", tmp->next->text);
 			return ;
 		}
-		if (tmp->token == ROUT && (!tmp->next || tmp->next->token == PIPE || tmp->next->token == ROUT || tmp->next->token == APP))
+		if (tmp->token == ROUT && (!tmp->next || tmp->next->token == PIPE || tmp->next->token == ROUT || tmp->next->token == APP || tmp->next->token == RIN || tmp->next->token == HDOC))
 		{
 			if (!tmp->next)
-				printf("🤯Minishell: syntax error near unexpected token `newline'\n");
+				printf("Minishell: syntax error near unexpected token `newline'\n");
 			else
-				printf("🤯Minishell: syntax error near unexpected token `%s'\n", tmp->next->text);
+				printf("Minishell: syntax error near unexpected token `%s'\n", tmp->next->text);
 			return ;
 		}
-		if (tmp->token == APP && (!tmp->next || tmp->next->token == PIPE || tmp->next->token == ROUT || tmp->next->token == APP))
+		if (tmp->token == APP && (!tmp->next || tmp->next->token == PIPE || tmp->next->token == ROUT || tmp->next->token == APP || tmp->next->token == RIN || tmp->next->token == HDOC))
 		{
 			if (!tmp->next)
-				printf("🤯Minishell: syntax error near unexpected token `newline'\n");
+				printf("Minishell: syntax error near unexpected token `newline'\n");
 			else
-				printf("🤯Minishell: syntax error near unexpected token `%s'\n", tmp->next->text);
+				printf("Minishell: syntax error near unexpected token `%s'\n", tmp->next->text);
 			return ;
 		}
-		if (tmp->token == HDOC && (!tmp->next || tmp->next->token == PIPE || tmp->next->token == ROUT || tmp->next->token == APP))
+		if (tmp->token == HDOC && (!tmp->next || tmp->next->token == PIPE || tmp->next->token == ROUT || tmp->next->token == APP || tmp->next->token == HDOC || tmp->next->token == RIN))
 		{
 			if (!tmp->next)
-				printf("🤯Minishell: syntax error near unexpected token `newline'\n");
+				printf("Minishell: syntax error near unexpected token `newline'\n");
 			else
-				printf("🤯Minishell: syntax error near unexpected token `%s'\n", tmp->next->text);
+				printf("Minishell: syntax error near unexpected token `%s'\n", tmp->next->text);
 			return ;
 		}
 		tmp = tmp->next;
@@ -184,6 +183,7 @@ int main(int ac, char **av, char **env)
             printf("txt : %s %s\n", print->text, str[print->token]);
             print = print->next;
         }
+		ft_lstclear(parse);
         print = NULL;
         parse = NULL;
         add_history(line);
