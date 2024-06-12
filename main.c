@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/06/11 23:07:26 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/06/12 15:52:10 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,6 +175,11 @@ int main(int ac, char **av, char **env)
         line = readline("🤯\033[0;34mMinishell$ \033[0m");
         if (!line)
             break;
+        if (strcmp(line, "env") == 0)
+        {
+            while (*env)
+                printf("%s\n", *env++);
+        }
         parse_line(line, &parse);
 
         char *str[8] = {"WORD", "SQ", "DQ", "HDOC", "RIN", "APP", "ROUT", "PIPE"};
