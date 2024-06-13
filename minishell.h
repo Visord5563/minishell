@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/06/12 13:10:41 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/06/12 19:20:43 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,13 @@ typedef struct s_parse
 	struct s_parse *next;//
 } t_parse;
 
+typedef struct s_env
+{
+	char *key;
+	char *value;
+	t_parse *parse;
+	struct s_env *next;
+} t_env;
 
 t_parse	*ft_lstnew(char *content, t_token token, int index);
 void	ft_lstadd_back(t_parse **lst, t_parse *new);
