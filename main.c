@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/06/13 16:12:36 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/06/13 16:57:21 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,6 +208,40 @@ void ft_env(t_env **envs, char **env)
 	}
 }
 
+char *delete_quotes(char *str)
+{
+	char *new;
+	int i = 0;
+	int j = 0;
+	new = malloc(sizeof(char) * (ft_strlen(str) + 1));
+	if (!new)
+		return (NULL);
+	while (str[i])
+	{
+		if (str[i] != '"' && str[i] != '\'')
+		{
+			new[j] = str[i];
+			j++;
+		}
+		i++;
+	}
+	new[j] = '\0';
+	free(str);
+	return (new);
+}
+
+void check_quotes(t_parse **parse)
+{
+	t_parse *tmp = *parse;
+	while (tmp)
+	{
+		if (tmp->token == SQ || tmp->token == DQ)
+		{
+			tmp->text = delete_quotes(tmp->text);
+		}
+		tmp = tmp->next;
+	}
+}
 int main(int ac, char **av, char **env)
 {
     char *line;
@@ -223,14 +257,14 @@ int main(int ac, char **av, char **env)
         if (!line)
             break;
         parse_line(line, &parse);
-
-        char *str[8] = {"WORD", "SQ", "DQ", "HDOC", "RIN", "APP", "ROUT", "PIPE"};
-        print = parse;
-        while (print)
-        {
-            printf("txt : %s %s\n", print->text, str[print->token]);
-            print = print->next;
-        }
+		ft_env(&envs, env);
+        // char *str[8] = {"WORD", "SQ", "DQ", "HDOC", "RIN", "APP", "ROUT", "PIPE"};
+        // print = parse;
+        // while (print)
+        // {
+        //     printf("txt : %s %s\n", print->text, str[print->token]);
+        //     print = print->next;
+        // }
 		ft_lstclear(parse);
         print = NULL;
         parse = NULL;
