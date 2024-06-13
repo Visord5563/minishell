@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/06/12 16:04:10 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/06/12 16:09:37 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -187,8 +187,9 @@ int main(int ac, char **av, char **env)
         parse = NULL;
         if (strcmp(line, "env") == 0)
         {
-            while (*env)
-                printf("%s\n", *env++);
+            int i = 0;
+            while (env[i])
+                printf("%s\n", env[i++]);
         }
         add_history(line);
         free(line);
