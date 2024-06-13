@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/06/12 16:09:37 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/06/13 16:12:36 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,8 @@ void check_syntax(t_parse **parse)
 			printf("Minishell: syntax error near unexpected token `|'\n");
 			return ;
 		}
-		if (tmp->token == RIN && (!tmp->next || tmp->next->token == PIPE || tmp->next->token == ROUT || tmp->next->token == APP || tmp->next->token == RIN || tmp->next->token == HDOC))
+		if (tmp->token == RIN && (!tmp->next || tmp->next->token == PIPE || tmp->next->token == ROUT
+			|| tmp->next->token == APP || tmp->next->token == RIN || tmp->next->token == HDOC))
 		{
 			if (!tmp->next)
 				printf("Minishell: syntax error near unexpected token `newline'\n");
@@ -86,7 +87,8 @@ void check_syntax(t_parse **parse)
 				printf("Minishell: syntax error near unexpected token `%s'\n", tmp->next->text);
 			return ;
 		}
-		if (tmp->token == ROUT && (!tmp->next || tmp->next->token == PIPE || tmp->next->token == ROUT || tmp->next->token == APP || tmp->next->token == RIN || tmp->next->token == HDOC))
+		if (tmp->token == ROUT && (!tmp->next || tmp->next->token == PIPE || tmp->next->token == ROUT
+			|| tmp->next->token == APP || tmp->next->token == RIN || tmp->next->token == HDOC))
 		{
 			if (!tmp->next)
 				printf("Minishell: syntax error near unexpected token `newline'\n");
@@ -94,7 +96,8 @@ void check_syntax(t_parse **parse)
 				printf("Minishell: syntax error near unexpected token `%s'\n", tmp->next->text);
 			return ;
 		}
-		if (tmp->token == APP && (!tmp->next || tmp->next->token == PIPE || tmp->next->token == ROUT || tmp->next->token == APP || tmp->next->token == RIN || tmp->next->token == HDOC))
+		if (tmp->token == APP && (!tmp->next || tmp->next->token == PIPE || tmp->next->token == ROUT
+			|| tmp->next->token == APP || tmp->next->token == RIN || tmp->next->token == HDOC))
 		{
 			if (!tmp->next)
 				printf("Minishell: syntax error near unexpected token `newline'\n");
@@ -102,7 +105,8 @@ void check_syntax(t_parse **parse)
 				printf("Minishell: syntax error near unexpected token `%s'\n", tmp->next->text);
 			return ;
 		}
-		if (tmp->token == HDOC && (!tmp->next || tmp->next->token == PIPE || tmp->next->token == ROUT || tmp->next->token == APP || tmp->next->token == HDOC || tmp->next->token == RIN))
+		if (tmp->token == HDOC && (!tmp->next || tmp->next->token == PIPE || tmp->next->token == ROUT
+			|| tmp->next->token == APP || tmp->next->token == HDOC || tmp->next->token == RIN))
 		{
 			if (!tmp->next)
 				printf("Minishell: syntax error near unexpected token `newline'\n");
@@ -160,12 +164,56 @@ void parse_line(char *line, t_parse **parse)
 	check_syntax(parse);
 }
 
+t_env *ft_envnew(char *key, char *value)
+{
+	t_env *env;
+	env = malloc(sizeof(t_env));
+	if (!env)
+		return (NULL);
+	env->key = ft_strdup(key);
+	env->value = ft_strdup(value);
+	env->next = NULL;
+	return (env);
+}
+
+void add_env(t_env **envs, char *key, char *value)
+{
+	t_env *tmp;
+	t_env *new;
+	new = ft_envnew(key, value);
+	if (!new)
+		return ;
+	if (!*envs)
+	{
+		*envs = new;
+		return ;
+	}
+	tmp = *envs;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = new;
+}
+
+void ft_env(t_env **envs, char **env)
+{
+	int i = 0;
+	char *key = NULL;
+	char *value = NULL;
+	while (env[i])
+	{
+		key = ft_substr(env[i], 0, ft_strchr(env[i], '=') - env[i]);
+		value = ft_strdup(ft_strchr(env[i], '=') + 1);
+		add_env(envs, key, value);
+		i++;
+	}
+}
+
 int main(int ac, char **av, char **env)
 {
     char *line;
     t_parse *parse;
     t_parse *print;
-    (void)env;
+	t_env *envs = NULL;
     (void)ac;
     (void)av;
 
@@ -183,16 +231,18 @@ int main(int ac, char **av, char **env)
             printf("txt : %s %s\n", print->text, str[print->token]);
             print = print->next;
         }
+		ft_lstclear(parse);
         print = NULL;
         parse = NULL;
+        add_history(line);
         if (strcmp(line, "env") == 0)
         {
-            int i = 0;
-            while (env[i])
-                printf("%s\n", env[i++]);
+            while (*env)
+                printf("%s\n", *env++);
         }
         add_history(line);
         free(line);
     }
+	return (0);
 }
 
