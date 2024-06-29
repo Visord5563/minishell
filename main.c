@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/06/13 19:26:29 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/06/29 15:38:33 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,35 +60,7 @@ void check_syntax(t_parse **parse)
 			printf("Minishell: syntax error near unexpected token `|'\n");
 			return ;
 		}
-		if (tmp->token == RIN && (!tmp->next || tmp->next->token == PIPE || tmp->next->token == ROUT
-			|| tmp->next->token == APP || tmp->next->token == RIN || tmp->next->token == HDOC))
-		{
-			if (!tmp->next)
-				printf("Minishell: syntax error near unexpected token `newline'\n");
-			else
-				printf("Minishell: syntax error near unexpected token `%s'\n", tmp->next->text);
-			return ;
-		}
-		if (tmp->token == ROUT && (!tmp->next || tmp->next->token == PIPE || tmp->next->token == ROUT
-			|| tmp->next->token == APP || tmp->next->token == RIN || tmp->next->token == HDOC))
-		{
-			if (!tmp->next)
-				printf("Minishell: syntax error near unexpected token `newline'\n");
-			else
-				printf("Minishell: syntax error near unexpected token `%s'\n", tmp->next->text);
-			return ;
-		}
-		if (tmp->token == APP && (!tmp->next || tmp->next->token == PIPE || tmp->next->token == ROUT
-			|| tmp->next->token == APP || tmp->next->token == RIN || tmp->next->token == HDOC))
-		{
-			if (!tmp->next)
-				printf("Minishell: syntax error near unexpected token `newline'\n");
-			else
-				printf("Minishell: syntax error near unexpected token `%s'\n", tmp->next->text);
-			return ;
-		}
-		if (tmp->token == HDOC && (!tmp->next || tmp->next->token == PIPE || tmp->next->token == ROUT
-			|| tmp->next->token == APP || tmp->next->token == HDOC || tmp->next->token == RIN))
+		else if ((tmp->token == RIN || tmp->token == ROUT || tmp->token == APP || tmp->token == HDOC) && (!tmp->next || tmp->next->token != WORD))
 		{
 			if (!tmp->next)
 				printf("Minishell: syntax error near unexpected token `newline'\n");
@@ -225,40 +197,6 @@ void check_quotes(t_parse **parse)
 	}
 }
 
-void ft_expend(t_parse **parse, t_env *envs) {
-    t_parse *tmp = *parse;
-    t_env *tmp_env = NULL;
-    
-    while (tmp) {
-        if (tmp->token == WORD || tmp->token == SQ || tmp->token == DQ) {
-            tmp_env = envs;
-            
-            while (tmp_env) {
-                if (tmp->text && strstr(tmp->text, "$") != NULL) {
-                    char *env_key = ft_strchr(tmp->text, '$');
-                    if (env_key != NULL && strcmp(env_key + 1, tmp_env->key) == 0) {
-                        char *new_text = ft_substr(tmp->text, 0, env_key - tmp->text);
-                        if (new_text != NULL) {
-                            size_t new_len = ft_strlen(new_text) + ft_strlen(tmp_env->value);
-                            char *expanded_text = (char *)malloc((new_len + 1) * sizeof(char));
-                            if (expanded_text != NULL) {
-                                strcpy(expanded_text, new_text);
-                                strcat(expanded_text, tmp_env->value);
-                                
-                                free(tmp->text);
-                                tmp->text = expanded_text;
-                            }
-                            free(new_text);
-                        }
-                    }
-					printf("text : %s\n", tmp->text);
-                }
-                tmp_env = tmp_env->next;
-            }
-        }
-        tmp = tmp->next;
-    }
-}
 
 int main(int ac, char **av, char **env)
 {
@@ -277,7 +215,7 @@ int main(int ac, char **av, char **env)
         parse_line(line, &parse);
 		ft_env(&envs, env);
 		check_quotes(&parse);
-		ft_expend(&parse, envs);
+		// ft_expend(&parse, envs);
         // char *str[8] = {"WORD", "SQ", "DQ", "HDOC", "RIN", "APP", "ROUT", "PIPE"};
         // print = parse;
         // while (print)
