@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/06/29 15:38:33 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/07/01 21:59:05 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,6 +197,105 @@ void check_quotes(t_parse **parse)
 	}
 }
 
+int	ft_strchrp(const char *s, char c)
+{
+	int i = 0;
+	while (s[i])
+	{
+		if (s[i] == c)
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
+int ft_val_key(t_env *tmp_env, char *key)
+{
+	t_env *new;
+	new = tmp_env;
+	while (new)
+	{
+		if (ft_strncmp(new->key, key, ft_strlen(key)) == 0)
+				return (1);
+		new = new->next;
+	}
+	return (0);
+}
+
+void ft_check_expend(char **str, t_env *tmp_env)
+{
+    int i = 0;
+    int j = 0;
+    char *new;
+    char *key;
+	while ((*str)[i] && (*str)[i] != '$')
+		i++;
+	if (!(*str)[i])
+		return;
+	j = i + 1;
+    while ((*str)[j] && (((*str)[j] >= 'a' && (*str)[j] <= 'z') || ((*str)[j] >= 'A' && (*str)[j] <= 'Z')))
+        j++;
+    key = ft_substr(*str, i + 1, j - i - 1);
+    while (tmp_env)
+    {
+        if (ft_strncmp(tmp_env->key, key, ft_strlen(key)) == 0)
+        {
+            new = malloc(sizeof(char) * (ft_strlen(*str) + ft_strlen(tmp_env->value) + 1));
+            if (!new)
+            {
+                free(key);
+                return;
+            }
+            ft_strlcpy(new, *str, i+1);
+            new[i] = '\0';
+            new = ft_strjoin(new, tmp_env->value);
+            new = ft_strjoin(new, *str + j);
+            free(*str); 
+            *str = new;
+            break;
+        }
+		else if (ft_val_key(tmp_env, key) == 0)
+		{
+			new = malloc(sizeof(char) * (ft_strlen(*str) + 1));
+			if (!new)
+			{
+				free(key);
+				return;
+			}
+			ft_strlcpy(new, *str, i+1);
+			new[i] = '\0';
+			new = ft_strjoin(new, *str + j);
+			free(*str);
+			*str = new;
+			break;
+		}
+        tmp_env = tmp_env->next;
+    }
+    free(key);
+    if (ft_strchr(*str, '$'))
+        ft_check_expend(str, tmp_env);
+    else
+        return;
+}
+
+void ft_expend(t_parse **parse, t_env *envs)
+{
+	t_parse *tmp = *parse;
+	t_env *tmp_env;
+	while (tmp)
+	{
+		if (tmp->token == WORD || tmp->token == SQ || tmp->token == DQ)
+		{
+			if (ft_strchr(tmp->text, '$'))
+			{
+				tmp_env = envs;
+				ft_check_expend(&tmp->text, tmp_env);
+				printf("%s\n", tmp->text);
+			}
+		}
+		tmp = tmp->next;
+	}
+}
 
 int main(int ac, char **av, char **env)
 {
@@ -215,18 +314,12 @@ int main(int ac, char **av, char **env)
         parse_line(line, &parse);
 		ft_env(&envs, env);
 		check_quotes(&parse);
-		// ft_expend(&parse, envs);
-        // char *str[8] = {"WORD", "SQ", "DQ", "HDOC", "RIN", "APP", "ROUT", "PIPE"};
-        // print = parse;
-        // while (print)
-        // {
-        //     printf("txt : %s %s\n", print->text, str[print->token]);
-        //     print = print->next;
-        // }
+		ft_expend(&parse, envs);
 		ft_lstclear(parse);
         // print = NULL;
         parse = NULL;
-        add_history(line);
+		if (line && *line)
+        	add_history(line);
         if (strcmp(line, "env") == 0)
         {
 			t_env *tmp = envs;
