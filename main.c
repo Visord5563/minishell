@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/06/13 16:57:21 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/06/13 16:59:01 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -258,13 +258,14 @@ int main(int ac, char **av, char **env)
             break;
         parse_line(line, &parse);
 		ft_env(&envs, env);
-        // char *str[8] = {"WORD", "SQ", "DQ", "HDOC", "RIN", "APP", "ROUT", "PIPE"};
-        // print = parse;
-        // while (print)
-        // {
-        //     printf("txt : %s %s\n", print->text, str[print->token]);
-        //     print = print->next;
-        // }
+		check_quotes(&parse);
+        char *str[8] = {"WORD", "SQ", "DQ", "HDOC", "RIN", "APP", "ROUT", "PIPE"};
+        print = parse;
+        while (print)
+        {
+            printf("txt : %s %s\n", print->text, str[print->token]);
+            print = print->next;
+        }
 		ft_lstclear(parse);
         print = NULL;
         parse = NULL;
