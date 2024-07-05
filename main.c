@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/01 21:59:05 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/07/06 00:12:25 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -222,77 +222,44 @@ int ft_val_key(t_env *tmp_env, char *key)
 	return (0);
 }
 
-void ft_check_expend(char **str, t_env *tmp_env)
+char *check_value(char *key, t_env *envs)
 {
-    int i = 0;
-    int j = 0;
-    char *new;
-    char *key;
-	while ((*str)[i] && (*str)[i] != '$')
-		i++;
-	if (!(*str)[i])
-		return;
-	j = i + 1;
-    while ((*str)[j] && (((*str)[j] >= 'a' && (*str)[j] <= 'z') || ((*str)[j] >= 'A' && (*str)[j] <= 'Z')))
-        j++;
-    key = ft_substr(*str, i + 1, j - i - 1);
-    while (tmp_env)
-    {
-        if (ft_strncmp(tmp_env->key, key, ft_strlen(key)) == 0)
-        {
-            new = malloc(sizeof(char) * (ft_strlen(*str) + ft_strlen(tmp_env->value) + 1));
-            if (!new)
-            {
-                free(key);
-                return;
-            }
-            ft_strlcpy(new, *str, i+1);
-            new[i] = '\0';
-            new = ft_strjoin(new, tmp_env->value);
-            new = ft_strjoin(new, *str + j);
-            free(*str); 
-            *str = new;
-            break;
-        }
-		else if (ft_val_key(tmp_env, key) == 0)
-		{
-			new = malloc(sizeof(char) * (ft_strlen(*str) + 1));
-			if (!new)
-			{
-				free(key);
-				return;
-			}
-			ft_strlcpy(new, *str, i+1);
-			new[i] = '\0';
-			new = ft_strjoin(new, *str + j);
-			free(*str);
-			*str = new;
-			break;
-		}
-        tmp_env = tmp_env->next;
-    }
-    free(key);
-    if (ft_strchr(*str, '$'))
-        ft_check_expend(str, tmp_env);
-    else
-        return;
+	t_env *tmp = envs;
+	while (tmp)
+	{
+		if (ft_strncmp(tmp->key, key, ft_strlen(key)) == 0)
+			return (tmp->value);
+		tmp = tmp->next;
+	}
+	return ("");
 }
-
 void ft_expend(t_parse **parse, t_env *envs)
 {
 	t_parse *tmp = *parse;
-	t_env *tmp_env;
 	while (tmp)
 	{
 		if (tmp->token == WORD || tmp->token == SQ || tmp->token == DQ)
 		{
-			if (ft_strchr(tmp->text, '$'))
+			int i = 0;
+			char *strtmp = ft_strdup("");
+			while(tmp->text[i])
 			{
-				tmp_env = envs;
-				ft_check_expend(&tmp->text, tmp_env);
-				printf("%s\n", tmp->text);
+				if (tmp->text[i] == '$' && tmp->text[i + 1] != '$' && tmp->text[i + 1] != '\0')
+				{
+					int j = i + 1;
+					char *new =	ft_substr(tmp->text, 0 , i);
+					while (tmp->text[j] && ((tmp->text[j] >= 'a' && tmp->text[j] <= 'z') || (tmp->text[j] >= 'A' && tmp->text[j] <= 'Z')))
+						j++;
+					strtmp = ft_strjoin(new, check_value(ft_substr(tmp->text, i + 1, j - i - 1), envs));
+					i = ft_strlen(strtmp) - 1;
+					strtmp = ft_strjoin(strtmp, ft_substr(tmp->text, j, ft_strlen(tmp->text) - j));
+					free(new);
+					tmp->text = strtmp;
+				}
+				i++;
 			}
 		}
+		printf("%s\n", tmp->text);
 		tmp = tmp->next;
 	}
 }
@@ -308,7 +275,7 @@ int main(int ac, char **av, char **env)
 
     while (1)
     {
-        line = readline("🤯\033[0;34mMinishell$ \033[0m");
+        line = readline("Minishell$ ");
         if (!line)
             break;
         parse_line(line, &parse);

@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-
 // Function to emulate heredoc behavior
 void heredoc(const char *delimiter) {
 
