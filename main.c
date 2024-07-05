@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/04 10:14:26 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/05 17:05:00 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,11 +72,22 @@ void check_syntax(t_parse **parse)
 	}
 }
 
+void handle_quotes(char *line, int *i, char *quote, int *token)
+{
+    if (*quote == '\0' && (line[*i] == '"' || line[*i] == '\''))
+    {
+        *quote = line[*i];
+        *token = (line[*i] == '"') ? 2 : 1;
+    }
+    else if (line[*i] == *quote)
+    {
+        *quote = '\0';
+    }
+}
+
 void parse_line(char *line, t_parse **parse)
 {
-    int i = 0;
-    int j = 0;
-    int index = 0;
+    int i = 0, j = 0, index = 0;
     char quote = '\0';
     int token = 0;
 
@@ -86,37 +97,28 @@ void parse_line(char *line, t_parse **parse)
             i++;
         if (line[i] == '\0')
             break;
-
         if (line[i] == '|' || line[i] == '<' || line[i] == '>')
-		{
-            if(!check_token(parse, line, &i, &index))
-				return ;
-		}
+        {
+            if (!check_token(parse, line, &i, &index))
+                return;
+        }
         else 
         {
             j = i;
             while (line[i])
             {
-                if (quote == '\0' && (line[i] == '"' || line[i] == '\''))
-				{
-					if (line[i] == '"')
-						token = 2;
-					else
-						token = 1;
-                    quote = line[i];
-				}
-                else if (line[i] == quote)
-                    quote = '\0';
-                else if (quote == '\0' && check(line[i]))
+                handle_quotes(line, &i, &quote, &token);
+                if (quote == '\0' && check(line[i]))
                     break;
                 i++;
             }
             ft_lstadd_back(parse, ft_lstnew(ft_substr(line, j, i - j), token, index++));
-			token = 0;
+            token = 0;
         }
     }
-	check_syntax(parse);
+    check_syntax(parse);
 }
+
 
 t_env *ft_envnew(char *key, char *value)
 {
@@ -320,6 +322,11 @@ int main(int ac, char **av, char **env)
         parse = NULL;
 		if (line && *line)
         	add_history(line);
+		while (parse)
+		{
+			printf("%s\n", parse->text);
+			parse = parse->next;
+		}
         if (strcmp(line, "env") == 0)
         {
             while (*env)
