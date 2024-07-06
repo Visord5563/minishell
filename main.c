@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/06 21:39:34 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/07/06 22:45:53 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,17 +111,13 @@ void parse_line(char *line, t_parse **parse)
 					i++;
 					break;
 				}
-                else if ((check(line[i]) || line[i+1] == '"' || line[i+1] == '\''))
+                else if (quote == '\0' && (check(line[i+1]) || line[i+1] == '"' || line[i+1] == '\''))
 				{
-					if (quote == '\0')
-					{
 						i++;
 						break;
-					}
 				}
                 i++;
             }
-			printf("j: %d i: %d\n", j, i);
             ft_lstadd_back(parse, ft_lstnew(ft_substr(line, j, i - j), token, index++));
 			token = 0;
         }
