@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/06 00:12:25 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/07/06 21:39:34 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int check(char c)
 {
-	if (c != ' ' && !(c >= 9 && c <= 13) && c != 39 && c != '<' && c != '>' && c != '|')
+	if (c != ' ' && !(c >= 9 && c <= 13) && c != 39 && c != '<' && c != '>' && c != '|' )
 		return (0);
 	return (1);
 }
@@ -106,11 +106,22 @@ void parse_line(char *line, t_parse **parse)
                     quote = line[i];
 				}
                 else if (line[i] == quote)
+				{
                     quote = '\0';
-                else if (quote == '\0' && check(line[i]))
-                    break;
+					i++;
+					break;
+				}
+                else if ((check(line[i]) || line[i+1] == '"' || line[i+1] == '\''))
+				{
+					if (quote == '\0')
+					{
+						i++;
+						break;
+					}
+				}
                 i++;
             }
+			printf("j: %d i: %d\n", j, i);
             ft_lstadd_back(parse, ft_lstnew(ft_substr(line, j, i - j), token, index++));
 			token = 0;
         }
@@ -268,7 +279,7 @@ int main(int ac, char **av, char **env)
 {
     char *line;
     t_parse *parse;
-    // t_parse *print;
+    t_parse *print;
 	t_env *envs = NULL;
     (void)ac;
     (void)av;
@@ -280,11 +291,19 @@ int main(int ac, char **av, char **env)
             break;
         parse_line(line, &parse);
 		ft_env(&envs, env);
-		check_quotes(&parse);
+		// check_quotes(&parse);
 		ft_expend(&parse, envs);
+        print = NULL;
+		print = parse;
+		while (print)
+		{
+			printf("text: %s\n", print->text);
+			printf("token: %d\n", print->token);
+			print = print->next;
+		}
 		ft_lstclear(parse);
-        // print = NULL;
         parse = NULL;
+
 		if (line && *line)
         	add_history(line);
         if (strcmp(line, "env") == 0)
