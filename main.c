@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/06 23:28:19 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/07/06 23:46:54 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -185,7 +185,7 @@ char *delete_quotes(char *str)
 			quote = str[i];
 			i++;
 			if(quote != str[i])
-				new[j++] = str[i];
+				new[j++] = str[i++];
 		}
 		else if (str[i] == quote)
 		{
