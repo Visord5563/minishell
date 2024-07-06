@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/06 22:45:53 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/07/06 23:28:19 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -174,17 +174,30 @@ char *delete_quotes(char *str)
 	char *new;
 	int i = 0;
 	int j = 0;
+	char quote = '\0';
 	new = malloc(sizeof(char) * (ft_strlen(str) + 1));
 	if (!new)
 		return (NULL);
 	while (str[i])
 	{
-		if (str[i] != '"' && str[i] != '\'')
+		if (quote == '\0' && (str[i] == '"' || str[i] == '\''))
+		{
+			quote = str[i];
+			i++;
+			if(quote != str[i])
+				new[j++] = str[i];
+		}
+		else if (str[i] == quote)
+		{
+			quote = '\0';
+			i++;
+		}
+		else
 		{
 			new[j] = str[i];
+			i++;
 			j++;
 		}
-		i++;
 	}
 	new[j] = '\0';
 	free(str);
@@ -287,7 +300,7 @@ int main(int ac, char **av, char **env)
             break;
         parse_line(line, &parse);
 		ft_env(&envs, env);
-		// check_quotes(&parse);
+		check_quotes(&parse);
 		ft_expend(&parse, envs);
         print = NULL;
 		print = parse;
