@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/06 23:46:54 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/07/07 06:35:15 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,8 @@ void parse_line(char *line, t_parse **parse)
 				}
                 i++;
             }
+			if (line[i] == ' ' || (line[i] >= 9 && line[i] <= 13))
+				i++;
             ft_lstadd_back(parse, ft_lstnew(ft_substr(line, j, i - j), token, index++));
 			token = 0;
         }
@@ -182,8 +184,7 @@ char *delete_quotes(char *str)
 	{
 		if (quote == '\0' && (str[i] == '"' || str[i] == '\''))
 		{
-			quote = str[i];
-			i++;
+			quote = str[i++];
 			if(quote != str[i])
 				new[j++] = str[i++];
 		}
@@ -193,11 +194,7 @@ char *delete_quotes(char *str)
 			i++;
 		}
 		else
-		{
-			new[j] = str[i];
-			i++;
-			j++;
-		}
+			new[j++] = str[i++];
 	}
 	new[j] = '\0';
 	free(str);
@@ -253,21 +250,41 @@ char *check_value(char *key, t_env *envs)
 	}
 	return ("");
 }
+int check_to(int token, int flag)
+{
+	if (flag == 0)
+	{
+		if (token == WORD || token == DQ)
+			return (1);
+		return (0);
+	}
+	else
+	{
+		if (token == WORD || token == DQ || token == SQ)
+			return (1);
+		return (0);
+	}
+}
 void ft_expend(t_parse **parse, t_env *envs)
 {
 	t_parse *tmp = *parse;
+	char *strtmp;
+	char *new;
+	int i;
+	int j;
+
 	while (tmp)
 	{
-		if (tmp->token == WORD || tmp->token == SQ || tmp->token == DQ)
+		if (check_to(tmp->token, 0))
 		{
-			int i = 0;
-			char *strtmp = ft_strdup("");
+			i = 0;
+			strtmp = ft_strdup("");
 			while(tmp->text[i])
 			{
 				if (tmp->text[i] == '$' && tmp->text[i + 1] != '$' && tmp->text[i + 1] != '\0')
 				{
-					int j = i + 1;
-					char *new =	ft_substr(tmp->text, 0 , i);
+					j = i + 1;
+					new =	ft_substr(tmp->text, 0 , i);
 					while (tmp->text[j] && ((tmp->text[j] >= 'a' && tmp->text[j] <= 'z') || (tmp->text[j] >= 'A' && tmp->text[j] <= 'Z')))
 						j++;
 					strtmp = ft_strjoin(new, check_value(ft_substr(tmp->text, i + 1, j - i - 1), envs));
@@ -279,7 +296,31 @@ void ft_expend(t_parse **parse, t_env *envs)
 				i++;
 			}
 		}
-		printf("%s\n", tmp->text);
+		tmp = tmp->next;
+	}
+}
+
+void join_cmd(t_parse **parse)
+{
+	t_parse *tmp = *parse;
+	t_parse *new;
+	char *text;
+	while (tmp)
+	{
+		if (check_to(tmp->token, 1))
+		{
+			text = ft_strdup(tmp->text);
+			while (tmp->next && check_to(tmp->next->token, 1))
+			{
+				text = ft_strjoin(text, tmp->next->text);
+				new = tmp->next;
+				tmp->next = tmp->next->next;
+				free(new);
+			}
+			tmp->text = text;
+		}
+		else if(tmp->token == ROUT || tmp->token == RIN || tmp->token == APP)
+				tmp = tmp->next;
 		tmp = tmp->next;
 	}
 }
@@ -300,8 +341,9 @@ int main(int ac, char **av, char **env)
             break;
         parse_line(line, &parse);
 		ft_env(&envs, env);
-		check_quotes(&parse);
 		ft_expend(&parse, envs);
+		check_quotes(&parse);
+		join_cmd(&parse);
         print = NULL;
 		print = parse;
 		while (print)
