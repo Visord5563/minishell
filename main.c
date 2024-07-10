@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/05 17:08:02 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/10 21:42:51 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int check(char c)
 {
-	if (c != ' ' && !(c >= 9 && c <= 13) && c != 39 && c != '<' && c != '>' && c != '|')
+	if (c != ' ' && !(c >= 9 && c <= 13) && c != 39 && c != '<' && c != '>' && c != '|' )
 		return (0);
 	return (1);
 }
@@ -107,11 +107,22 @@ void parse_line(char *line, t_parse **parse)
             j = i;
             while (line[i])
             {
-                handle_quotes(line, &i, &quote, &token);
-                if (quote == '\0' && check(line[i]))
+                if (quote == '\0' && (line[i] == '"' || line[i] == '\''))
+				{
+					if (line[i] == '"')
+						token = 2;
+					else
+						token = 1;
+                    quote = line[i];
+				}
+                else if (line[i] == quote)
+                    quote = '\0';
+                else if (quote == '\0' && check(line[i]))
                     break;
                 i++;
             }
+			if (line[i] == ' ' || (line[i] >= 9 && line[i] <= 13))
+				i++;
             ft_lstadd_back(parse, ft_lstnew(ft_substr(line, j, i - j), token, index++));
             token = 0;
         }
@@ -169,17 +180,25 @@ char *delete_quotes(char *str)
 	char *new;
 	int i = 0;
 	int j = 0;
+	char quote = '\0';
 	new = malloc(sizeof(char) * (ft_strlen(str) + 1));
 	if (!new)
 		return (NULL);
 	while (str[i])
 	{
-		if (str[i] != '"' && str[i] != '\'')
+		if (quote == '\0' && (str[i] == '"' || str[i] == '\''))
 		{
-			new[j] = str[i];
-			j++;
+			quote = str[i++];
+			if(quote != str[i])
+				new[j++] = str[i++];
 		}
-		i++;
+		else if (str[i] == quote)
+		{
+			quote = '\0';
+			i++;
+		}
+		else
+			new[j++] = str[i++];
 	}
 	new[j] = '\0';
 	free(str);
@@ -224,77 +243,88 @@ int ft_val_key(t_env *tmp_env, char *key)
 	return (0);
 }
 
-void ft_check_expend(char **str, t_env *tmp_env)
+char *check_value(char *key, t_env *envs)
 {
-    int i = 0;
-    int j = 0;
-    char *new;
-    char *key;
-	while ((*str)[i] && (*str)[i] != '$')
-		i++;
-	if (!(*str)[i])
-		return;
-	j = i + 1;
-    while ((*str)[j] && (((*str)[j] >= 'a' && (*str)[j] <= 'z') || ((*str)[j] >= 'A' && (*str)[j] <= 'Z')))
-        j++;
-    key = ft_substr(*str, i + 1, j - i - 1);
-    while (tmp_env)
-    {
-        if (ft_strncmp(tmp_env->key, key, ft_strlen(key)) == 0)
-        {
-            new = malloc(sizeof(char) * (ft_strlen(*str) + ft_strlen(tmp_env->value) + 1));
-            if (!new)
-            {
-                free(key);
-                return;
-            }
-            ft_strlcpy(new, *str, i+1);
-            new[i] = '\0';
-            new = ft_strjoin(new, tmp_env->value);
-            new = ft_strjoin(new, *str + j);
-            free(*str); 
-            *str = new;
-            break;
-        }
-		else if (ft_val_key(tmp_env, key) == 0)
-		{
-			new = malloc(sizeof(char) * (ft_strlen(*str) + 1));
-			if (!new)
-			{
-				free(key);
-				return;
-			}
-			ft_strlcpy(new, *str, i+1);
-			new[i] = '\0';
-			new = ft_strjoin(new, *str + j);
-			free(*str);
-			*str = new;
-			break;
-		}
-        tmp_env = tmp_env->next;
-    }
-    free(key);
-    if (ft_strchr(*str, '$'))
-        ft_check_expend(str, tmp_env);
-    else
-        return;
+	t_env *tmp = envs;
+	while (tmp)
+	{
+		if (ft_strncmp(tmp->key, key, ft_strlen(key)) == 0)
+			return (tmp->value);
+		tmp = tmp->next;
+	}
+	return ("");
 }
-
+int check_to(int token, int flag)
+{
+	if (flag == 0)
+	{
+		if (token == WORD || token == DQ)
+			return (1);
+		return (0);
+	}
+	else
+	{
+		if (token == WORD || token == DQ || token == SQ)
+			return (1);
+		return (0);
+	}
+}
 void ft_expend(t_parse **parse, t_env *envs)
 {
 	t_parse *tmp = *parse;
-	t_env *tmp_env;
+	char *strtmp;
+	char *new;
+	int i;
+	int j;
+
 	while (tmp)
 	{
-		if (tmp->token == WORD || tmp->token == SQ || tmp->token == DQ)
+		if (check_to(tmp->token, 0))
 		{
-			if (ft_strchr(tmp->text, '$'))
+			i = 0;
+			strtmp = ft_strdup("");
+			while(tmp->text[i])
 			{
-				tmp_env = envs;
-				ft_check_expend(&tmp->text, tmp_env);
-				printf("%s\n", tmp->text);
+				if (tmp->text[i] == '$' && tmp->text[i + 1] != '$' && tmp->text[i + 1] != '\0')
+				{
+					j = i + 1;
+					new =	ft_substr(tmp->text, 0 , i);
+					while (tmp->text[j] && ((tmp->text[j] >= 'a' && tmp->text[j] <= 'z') || (tmp->text[j] >= 'A' && tmp->text[j] <= 'Z')))
+						j++;
+					strtmp = ft_strjoin(new, check_value(ft_substr(tmp->text, i + 1, j - i - 1), envs));
+					i = ft_strlen(strtmp) - 1;
+					strtmp = ft_strjoin(strtmp, ft_substr(tmp->text, j, ft_strlen(tmp->text) - j));
+					free(new);
+					tmp->text = strtmp;
+				}
+				i++;
 			}
 		}
+		tmp = tmp->next;
+	}
+}
+
+void join_cmd(t_parse **parse)
+{
+	t_parse *tmp = *parse;
+	t_parse *new;
+	char *text;
+	while (tmp)
+	{
+		if (check_to(tmp->token, 1))
+		{
+			text = ft_strdup(tmp->text);
+			while (tmp->next && check_to(tmp->next->token, 1))
+			{
+				text = ft_strjoin(text, tmp->next->text);
+				new = tmp->next;
+				tmp->next = tmp->next->next;
+				free(new);
+			}
+			tmp->text = text;
+		}
+		else if(tmp->token == ROUT || tmp->token == RIN || tmp->token == APP)
+				tmp = tmp->next;
 		tmp = tmp->next;
 	}
 }
@@ -303,23 +333,32 @@ int main(int ac, char **av, char **env)
 {
     char *line;
     t_parse *parse;
-    // t_parse *print;
+    t_parse *print;
 	t_env *envs = NULL;
     (void)ac;
     (void)av;
 
     while (1)
     {
-        line = readline("🤯\033[0;34mMinishell$ \033[0m");
+        line = readline("Minishell$ ");
         if (!line)
             break;
         parse_line(line, &parse);
 		ft_env(&envs, env);
-		check_quotes(&parse);
 		ft_expend(&parse, envs);
+		check_quotes(&parse);
+		join_cmd(&parse);
+        print = NULL;
+		print = parse;
+		while (print)
+		{
+			printf("text: %s\n", print->text);
+			printf("token: %d\n", print->token);
+			print = print->next;
+		}
 		ft_lstclear(parse);
-        // print = NULL;
         parse = NULL;
+
 		if (line && *line)
         	add_history(line);
 		while (parse)
