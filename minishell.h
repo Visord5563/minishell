@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/06/12 19:20:43 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/07/11 08:22:25 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 #include <stdio.h>
 #include <string.h>
 #include "./libft/libft.h"
+#include <fcntl.h>
 
 typedef enum s_token
 {
@@ -32,21 +33,49 @@ typedef enum s_token
 	PIPE, // |
 }	t_token;
 
-typedef struct s_parse
+
+typedef struct s_op
 {
-	char *text; // cat
-	t_token token; // WORD
-	int		index; //
-	struct s_parse *next;//
-} t_parse;
+	int fd;
+	char *file;
+	int token;
+	struct s_op *next;
+} t_op;
+ typedef struct s_fd
+{
+	int fd_in;
+	int fd_out;
+} t_fd;
+typedef struct s_cmd
+{
+	char **args;
+	t_fd fd;
+	t_op *ops;
+	struct s_cmd *next;
+} t_cmd;
+
 
 typedef struct s_env
 {
 	char *key;
 	char *value;
-	t_parse *parse;
 	struct s_env *next;
 } t_env;
+
+typedef struct s_parse
+{
+	char *text; 
+	t_token token;
+	int		index; 
+	struct s_parse *next;
+} t_parse;
+
+typedef struct s_data
+{
+	char *line;
+	struct s_cmd *cmd;
+	struct s_env *env;
+} t_data;
 
 t_parse	*ft_lstnew(char *content, t_token token, int index);
 void	ft_lstadd_back(t_parse **lst, t_parse *new);

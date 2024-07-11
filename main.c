@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/07 06:35:15 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/07/11 09:44:28 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ void parse_line(char *line, t_parse **parse)
 		}
         else 
         {
-            j = i;
+			j = i;
             while (line[i])
             {
                 if (quote == '\0' && (line[i] == '"' || line[i] == '\''))
@@ -265,36 +265,47 @@ int check_to(int token, int flag)
 		return (0);
 	}
 }
+
+
+char *expend_str(char *str, t_env *envs)
+{
+	int i;
+	int j;
+	char *new;
+	char *strtmp;
+	
+	i = 0;
+	strtmp = ft_strdup("");
+	while(str[i])
+	{
+		if (str[i] == '$' && str[i + 1] != '$' && str[i + 1] != '\0')
+		{
+			j = i + 1;
+			new =	ft_substr(str, 0 , i);
+			while (str[j] && ((str[j] >= 'a' && str[j] <= 'z') || (str[j] >= 'A' && str[j] <= 'Z')))
+				j++;
+			strtmp = ft_strjoin(new, check_value(ft_substr(str, i + 1, j - i - 1), envs));
+			i = ft_strlen(strtmp) - 1;
+			strtmp = ft_strjoin(strtmp, ft_substr(str, j, ft_strlen(str) - j));
+			free(new);
+			str = strtmp;
+		}
+		i++;
+	}
+	return (str);
+}
+
 void ft_expend(t_parse **parse, t_env *envs)
 {
 	t_parse *tmp = *parse;
-	char *strtmp;
-	char *new;
-	int i;
-	int j;
 
 	while (tmp)
 	{
-		if (check_to(tmp->token, 0))
+		if (tmp->token == HDOC)
+			tmp = tmp->next;
+		else if (check_to(tmp->token, 0))
 		{
-			i = 0;
-			strtmp = ft_strdup("");
-			while(tmp->text[i])
-			{
-				if (tmp->text[i] == '$' && tmp->text[i + 1] != '$' && tmp->text[i + 1] != '\0')
-				{
-					j = i + 1;
-					new =	ft_substr(tmp->text, 0 , i);
-					while (tmp->text[j] && ((tmp->text[j] >= 'a' && tmp->text[j] <= 'z') || (tmp->text[j] >= 'A' && tmp->text[j] <= 'Z')))
-						j++;
-					strtmp = ft_strjoin(new, check_value(ft_substr(tmp->text, i + 1, j - i - 1), envs));
-					i = ft_strlen(strtmp) - 1;
-					strtmp = ft_strjoin(strtmp, ft_substr(tmp->text, j, ft_strlen(tmp->text) - j));
-					free(new);
-					tmp->text = strtmp;
-				}
-				i++;
-			}
+			tmp->text = expend_str(tmp->text, envs);
 		}
 		tmp = tmp->next;
 	}
@@ -312,6 +323,8 @@ void join_cmd(t_parse **parse)
 			text = ft_strdup(tmp->text);
 			while (tmp->next && check_to(tmp->next->token, 1))
 			{
+				if(text[ft_strlen(text) - 1] == ' ')
+					break;
 				text = ft_strjoin(text, tmp->next->text);
 				new = tmp->next;
 				tmp->next = tmp->next->next;
@@ -319,55 +332,223 @@ void join_cmd(t_parse **parse)
 			}
 			tmp->text = text;
 		}
-		else if(tmp->token == ROUT || tmp->token == RIN || tmp->token == APP)
+		else if(tmp->token == ROUT || tmp->token == RIN || tmp->token == APP || tmp->token == HDOC)
 				tmp = tmp->next;
 		tmp = tmp->next;
 	}
 }
 
+t_op	*ft_lstnewope(char *content, t_token token)
+{
+	t_op	*list;
+
+	list = malloc(sizeof(t_op));
+	if (!list)
+		return (NULL);
+	list->file = ft_strdup(content);
+	list->token = token;
+	list->next = NULL;
+	return (list);
+}
+
+void ft_add_back_red(t_op **red, char *text, int token)
+{
+	t_op *new;
+	t_op *tmp;
+	new = malloc(sizeof(t_op));
+	if (!new)
+		return ;
+	new->file = text;
+	new->token = token;
+	new->next = NULL;
+	if (!*red)
+	{
+		*red = new;
+		return ;
+	}
+	tmp = *red;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->next = new;
+	printf("file: %s\n", new->file);
+	printf("token: %d\n", new->token);
+	printf("file: %s\n", (*red)->file);
+	printf("token: %d\n", (*red)->token);
+	exit(0);
+}
+
+// void ft_strcmd(t_cmd **cmd, t_parse *parse)
+// {
+// 	*cmd = malloc(sizeof(t_cmd));
+// 	int i = 0;
+// 	(*cmd)->args = NULL;
+// 	(*cmd)->ops = NULL;
+// 	(*cmd)->fd.fd_in = 0;
+// 	(*cmd)->fd.fd_out = 1;
+// 	(*cmd)->next = NULL;
+// 	t_parse *tmp = parse;
+// 	int j;
+// 	while (tmp)
+// 	{
+// 		if (tmp->token == WORD || tmp->token == DQ || tmp->token == SQ)
+// 		{
+// 			i = 0;
+// 			t_parse *tmp1 = tmp;
+// 			while(tmp1)
+// 			{
+// 				if (tmp->token == PIPE)
+// 					break;
+// 				if (tmp1->token == WORD || tmp1->token == DQ || tmp1->token == SQ)
+// 				{
+					
+// 					i++;
+// 				}
+// 				if (tmp1->token == ROUT || tmp1->token == RIN || tmp1->token == APP || tmp1->token == HDOC)
+// 				{
+// 					tmp1 = tmp1->next;
+// 				}
+// 				tmp1 = tmp1->next;
+// 			}
+// 			(*cmd)->args = malloc(sizeof(char *) * (i + 1));
+// 			j = 0;
+// 			while (j < i)
+// 			{
+// 				if(tmp->token == HDOC || tmp->token == ROUT || tmp->token == RIN || tmp->token == APP)
+// 					tmp = tmp->next->next;
+// 				(*cmd)->args[j] = ft_strdup(tmp->text);
+// 				j++;
+// 				tmp = tmp->next;
+// 			}	
+// 			(*cmd)->args[j] = NULL;
+// 		}
+// 		if (tmp && tmp->token == ROUT ||tmp->token == RIN || tmp->token == APP || tmp->token == HDOC)
+// 		{
+// 			ft_add_back_red(&(*cmd)->ops, parse->text, parse->token);
+// 			tmp = tmp->next->next;
+// 		}
+// 		// else if (parse->token == PIPE)
+// 		// {
+
+// 		// 	printf("pipe: \n");
+// 		// 	(*cmd)->next = malloc(sizeof(t_cmd));
+// 		// 	(*cmd) = (*cmd)->next;
+// 		// 	(*cmd)->args = NULL;
+// 		// 	(*cmd)->red = NULL;
+// 		// 	(*cmd)->fd_in = 0;
+// 		// 	(*cmd)->fd_out = 1;
+// 		// 	(*cmd)->next = NULL;
+// 		// 	tmp = tmp->next;
+// 		// }
+// 		t_cmd *tmp2 = *cmd;
+// 		int k = 0;
+// 		while (tmp2->args[k])
+// 		{
+// 			printf("args: %s\n", tmp2->args[k]);
+// 			k++;
+// 		}
+// 		// printf("file: %s\n", (*cmd)->ops->file);
+// 		// printf("token: %d\n", tmp2->ops->token);
+// 		// if(k > 0)
+// 		// 	exit(0);
+// 	}
+// }
+
+int heredoc(const char *delimiter, int token, t_env *env) {
+
+    char *line;
+    int fd;
+    char *cd;
+
+    chdir("/tmp");
+    cd = getcwd(NULL, 0);
+    fd = open("herdoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    while (1) 
+	{
+        line = readline("> ");
+        if (line == NULL)
+            break;
+        if (strcmp(line, delimiter) == 0) 
+		{
+            free(line);
+            break;
+        }
+		if(token == WORD)
+			line = expend_str(line, env);
+        line = ft_strjoin(line, "\n");
+        write(fd, line, ft_strlen(line));
+        free(line);
+    }
+    chdir(cd);
+    return fd;
+}
+
+int check_heredoc(t_parse **parse, t_env *env)
+{
+	t_parse *tmp = *parse;
+	t_parse *new;
+	int fd;
+
+	fd = -1;
+	while (tmp)
+	{
+		if (tmp->token == HDOC)
+		{
+			fd = heredoc(tmp->next->text, tmp->next->token, env);
+			new = tmp;
+			tmp = tmp->next;
+			free(new);
+		}
+		else
+			tmp = tmp->next;
+	}
+	return (fd);
+}
+
 int main(int ac, char **av, char **env)
 {
     char *line;
+	t_data *data;
     t_parse *parse;
-    t_parse *print;
-	t_env *envs = NULL;
     (void)ac;
     (void)av;
-
+	
+	data = malloc(sizeof(t_data));
+	data->cmd = NULL;
+	data->env = NULL;
     while (1)
     {
-        line = readline("Minishell$ ");
+        line = readline("\033[0;34mMinishell$ \033[0;30m");
         if (!line)
             break;
         parse_line(line, &parse);
-		ft_env(&envs, env);
-		ft_expend(&parse, envs);
-		check_quotes(&parse);
+		ft_env(&data->env, env);
+		ft_expend(&parse, data->env);
 		join_cmd(&parse);
-        print = NULL;
-		print = parse;
-		while (print)
+		check_quotes(&parse);
+		check_heredoc(&parse, data->env);
+		t_parse *tmp = parse;
+		while (tmp)
 		{
-			printf("text: %s\n", print->text);
-			printf("token: %d\n", print->token);
-			print = print->next;
+			printf("text: %s token: %d\n", tmp->text, tmp->token);
+			tmp = tmp->next;
 		}
-		ft_lstclear(parse);
+		// ft_strcmd(&data->cmd, parse);
         parse = NULL;
-
+		
 		if (line && *line)
         	add_history(line);
         if (strcmp(line, "env") == 0)
         {
-			t_env *tmp = envs;
+			t_env *tmp = data->env;
             while (tmp)
 			{
 				printf("%s=%s\n", tmp->key, tmp->value);
 				tmp = tmp->next;
 			}
 		}
+		ft_lstclear(parse);
         free(line);
-    }
+	}
 	return (0);
 }
 
