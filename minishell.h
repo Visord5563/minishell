@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/10 16:50:45 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/11 10:05:32 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <errno.h>
 # include <signal.h>
 #include "./libft/libft.h"
+#include <fcntl.h>
 
 typedef enum s_token
 {
@@ -39,25 +40,34 @@ typedef enum s_token
 	PIPE, // |
 }	t_token;
 
-typedef struct s_parse
+
+typedef struct s_op
 {
-	char *text; // cat
-	t_token token; // WORD
-	int		index; //
-	struct s_parse *next;//
-} t_parse;
+	int fd;
+	char *file;
+	int token;
+	struct s_op *next;
+} t_op;
+ typedef struct s_fd
+{
+	int fd_in;
+	int fd_out;
+} t_fd;
+typedef struct s_cmd
+{
+	char **args;
+	t_fd fd;
+	t_op *ops;
+	struct s_cmd *next;
+} t_cmd;
+
 
 typedef struct s_env
 {
 	char *key;
 	char *value;
-	t_parse *parse;
 	struct s_env *next;
 } t_env;
-
-
-int echo(char **argv);
-int	ft_pwd();
 
 t_parse	*ft_lstnew(char *content, t_token token, int index);
 void	ft_lstadd_back(t_parse **lst, t_parse *new);

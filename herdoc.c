@@ -1,13 +1,14 @@
 #include "minishell.h"
 
-
 // Function to emulate heredoc behavior
 void heredoc(const char *delimiter) {
-    char *line;
-    FILE *tempFile = tmpfile();
 
+    char *line;
     printf("Delimiter = '%s'\n", delimiter);
 
+    chdir("/tmp");
+    cd = getcwd(NULL, 0);
+    fd = open("herdoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
     while (1) {
         line = readline("> ");
         if (line == NULL) {
@@ -17,15 +18,21 @@ void heredoc(const char *delimiter) {
             free(line);
             break;
         }
-        fputs(line, tempFile); 
-        fputs("\n", tempFile); 
         free(line);
     }
-    fclose(tempFile);
 }
 
+
+
 int main() {
-    heredoc("EOF");
+    int fd = heredoc("a");
+    close(fd);
+    fd = open("herdoc", O_RDONLY);
+    char *line;
+    while ((line = get_next_line(fd)) != NULL){
+        printf("%s", line);
+        free(line);
+    }
     return 0;
 }
 
