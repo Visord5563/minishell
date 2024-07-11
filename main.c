@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/11 10:04:53 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/11 10:17:31 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void check_syntax(t_parse **parse)
 			printf("Minishell: syntax error near unexpected token `|'\n");
 			return ;
 		}
-		else if ((tmp->token == RIN || tmp->token == ROUT || tmp->token == APP || tmp->token == HDOC) && (!tmp->next || tmp->next->token != WORD))
+		else if ((tmp->token == RIN || tmp->token == ROUT || tmp->token == APP || tmp->token == HDOC) && (!tmp->next || (tmp->next->token != WORD && tmp->next->token != SQ && tmp->next->token != DQ)))
 		{
 			if (!tmp->next)
 				printf("Minishell: syntax error near unexpected token `newline'\n");
@@ -463,8 +463,8 @@ int heredoc(const char *delimiter, int token, t_env *env) {
     int fd;
     char *cd;
 
-    chdir("/tmp");
     cd = getcwd(NULL, 0);
+    chdir("/tmp");
     fd = open("herdoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
     while (1) 
 	{
@@ -541,20 +541,16 @@ int main(int ac, char **av, char **env)
 		
 		if (line && *line)
         	add_history(line);
-		while (parse)
-		{
-			printf("%s\n", parse->text);
-			parse = parse->next;
-		}
         if (strcmp(line, "env") == 0)
         {
-			t_env *tmp = envs;
+			t_env *tmp = data->env;
             while (tmp)
 			{
 				printf("%s=%s\n", tmp->key, tmp->value);
 				tmp = tmp->next;
 			}
 		}
+		ft_lstclear(parse);
         free(line);
 	}
 	return (0);

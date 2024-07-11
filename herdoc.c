@@ -1,4 +1,29 @@
-#include "minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   herdoc.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/11 11:57:25 by ehafiane          #+#    #+#             */
+/*   Updated: 2024/07/11 11:57:26 by ehafiane         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include <readline/readline.h>
+#include <readline/history.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <string.h>
+# include <fcntl.h>
+# include <dirent.h>
+# include <sys/wait.h>
+# include <limits.h>
+# include <errno.h>
+# include <signal.h>
+#include "./libft/libft.h"
+#include <fcntl.h>
 
 // Function to emulate heredoc behavior
 void heredoc(const char *delimiter) {

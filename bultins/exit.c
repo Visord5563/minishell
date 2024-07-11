@@ -6,11 +6,11 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:52:23 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/10 21:22:20 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:04:15 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	not_digit(char *c)
 {

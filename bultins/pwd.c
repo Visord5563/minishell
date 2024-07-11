@@ -6,11 +6,11 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 10:15:38 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/10 16:51:13 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/11 12:04:17 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	ft_pwd()
 {
