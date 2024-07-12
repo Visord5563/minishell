@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/11 08:22:25 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/07/11 10:07:59 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,16 @@
 
 #include <readline/readline.h>
 #include <readline/history.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <stdio.h>
+# include <string.h>
+# include <fcntl.h>
+# include <dirent.h>
+# include <sys/wait.h>
+# include <limits.h>
+# include <errno.h>
+# include <signal.h>
 #include "./libft/libft.h"
 #include <fcntl.h>
 
