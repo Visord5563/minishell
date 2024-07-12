@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 17:36:12 by saharchi          #+#    #+#             */
-/*   Updated: 2024/06/11 10:50:38 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/07/10 19:14:53 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # include <stdio.h>
 # include <unistd.h>
 
+long long			ft_atoll(const char *str);
 int					ft_atoi(const char *str);
 void				ft_bzero(void *s, size_t n);
 void				*ft_calloc(size_t count, size_t size);
@@ -39,6 +40,7 @@ size_t				ft_strlcat(char *dst, const char *src, size_t dstsize);
 size_t				ft_strlcpy(char *dst, const char *src, size_t dstsize);
 size_t				ft_strlen(const char *s);
 int					ft_strncmp(const char *s1, const char *s2, size_t n);
+int					ft_strcmp(const char *s1, const char *s2);
 char				*ft_strnstr(const char *s, const char *f, size_t len);
 int					ft_tolower(int c);
 int					ft_toupper(int c);
