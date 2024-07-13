@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/12 11:17:52 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/13 14:37:17 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void check_syntax(t_parse **parse)
 			printf("Minishell: syntax error near unexpected token `|'\n");
 			return ;
 		}
-		else if ((tmp->token == RIN || tmp->token == ROUT || tmp->token == APP || tmp->token == HDOC) && (!tmp->next || tmp->next->token != WORD))
+		else if ((tmp->token == RIN || tmp->token == ROUT || tmp->token == APP || tmp->token == HDOC) && (!tmp->next || (tmp->next->token != WORD && tmp->next->token != SQ && tmp->next->token != DQ)))
 		{
 			if (!tmp->next)
 				printf("Minishell: syntax error near unexpected token `newline'\n");
@@ -127,7 +127,7 @@ void parse_line(char *line, t_parse **parse)
             token = 0;
         }
     }
-	check_syntax(parse);
+    check_syntax(parse);
 }
 
 
@@ -315,25 +315,6 @@ void ft_expend(t_parse **parse, t_env *envs)
 	}
 }
 
-char *delete_espace(char *str)
-{
-	int i = 0;
-	int j = 0;
-	char *new;
-	new = malloc(sizeof(char) * (ft_strlen(str) + 1));
-	if (!new)
-		return (NULL);
-	while (str[i])
-	{
-		if (str[i] == ' ' && str[i + 1] == '\0')
-			break;
-		new[j++] = str[i++];
-	}
-	new[j] = '\0';
-	free(str);
-	return (new);
-}
-
 void join_cmd(t_parse **parse)
 {
 	t_parse *tmp = *parse;
@@ -346,7 +327,7 @@ void join_cmd(t_parse **parse)
 			text = ft_strdup(tmp->text);
 			while (tmp->next && check_to(tmp->next->token, 1))
 			{
-				if(text[ft_strlen(text) - 1] == ' ' || (text[ft_strlen(text) - 1] >= 9 && text[ft_strlen(text) - 1] <= 13))
+				if(text[ft_strlen(text) - 1] == ' ')
 					break;
 				text = ft_strjoin(text, tmp->next->text);
 				new = tmp->next;
@@ -355,12 +336,8 @@ void join_cmd(t_parse **parse)
 			}
 			tmp->text = text;
 		}
-		else if((tmp->next && (tmp->token == ROUT || tmp->token == RIN || tmp->token == APP || tmp->token == HDOC)))
+		else if(tmp->token == ROUT || tmp->token == RIN || tmp->token == APP || tmp->token == HDOC)
 				tmp = tmp->next;
-		if(tmp->text[ft_strlen(tmp->text) - 1] == ' ' || (tmp->text[ft_strlen(tmp->text) - 1] >= 9 && tmp->text[ft_strlen(tmp->text) - 1] <= 13))
-		{
-			tmp->text = ft_strtrim(tmp->text, " \t\n\r\v\f");	
-		}
 		tmp = tmp->next;
 	}
 }
@@ -486,15 +463,14 @@ int heredoc(const char *delimiter, int token, t_env *env) {
     int fd;
     char *cd;
 
-    chdir("/tmp");
     cd = getcwd(NULL, 0);
+    chdir("/tmp");
     fd = open("herdoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
     while (1) 
 	{
         line = readline("> ");
         if (line == NULL)
             break;
-		write(fd, delimiter, ft_strlen(line));
         if (strcmp(line, delimiter) == 0) 
 		{
             free(line);
@@ -503,20 +479,20 @@ int heredoc(const char *delimiter, int token, t_env *env) {
 		if(token == WORD)
 			line = expend_str(line, env);
         line = ft_strjoin(line, "\n");
-        ft_putstr_fd(line, fd);
+        write(fd, line, ft_strlen(line));
         free(line);
     }
+    chdir(cd);
     return fd;
 }
 
 int check_heredoc(t_parse **parse, t_env *env)
 {
-	t_parse *tmp;
+	t_parse *tmp = *parse;
 	t_parse *new;
 	int fd;
 
 	fd = -1;
-	tmp = *parse;
 	while (tmp)
 	{
 		if (tmp->token == HDOC)
@@ -554,11 +530,10 @@ int main(int ac, char **av, char **env)
 		join_cmd(&parse);
 		check_quotes(&parse);
 		check_heredoc(&parse, data->env);
-		printf("heredoc: \n");
 		t_parse *tmp = parse;
 		while (tmp)
 		{
-			printf("text: [%s] token: %d\n", tmp->text, tmp->token);
+			printf("text: %s token: %d\n", tmp->text, tmp->token);
 			tmp = tmp->next;
 		}
 		// ft_strcmd(&data->cmd, parse);
@@ -580,4 +555,3 @@ int main(int ac, char **av, char **env)
 	}
 	return (0);
 }
-
