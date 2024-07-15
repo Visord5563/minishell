@@ -6,13 +6,13 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 18:34:16 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/14 10:05:04 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/07/15 03:28:32 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_parse	*ft_lstnew(char *content, t_token token, int index)
+t_parse	*ft_lstnew(char *content, t_token token)
 {
 	t_parse	*list;
 
@@ -21,7 +21,6 @@ t_parse	*ft_lstnew(char *content, t_token token, int index)
 		return (NULL);
 	list->text = ft_strdup(content);
 	list->token = token;
-	list->index = index;
 	list->next = NULL;
 	return (list);
 }

@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/15 01:40:16 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/07/15 03:45:17 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,33 +19,33 @@ int check(char c)
 	return (1);
 }
 
-int check_token(t_parse **parse, char *line, int *i, int *index)
+int check_token(t_parse **parse, char *line, int *i)
 {
         if (line[*i] == '|')
 		{
-			if ((*index) == 0)
+			if ((*i) == 0)
 			{
 				printf("Minishell: syntax error near unexpected token `|'\n"); 
 				return (0);
 			}
 			if (line[*i + 1] == '|')
 				(*i)++;
-            ft_lstadd_back(parse, ft_lstnew("|", PIPE, (*index)++));
+            ft_lstadd_back(parse, ft_lstnew("|", PIPE));
 		}
         else if (line[*i] == '<' && line[*i + 1] == '<')
         {
-            ft_lstadd_back(parse, ft_lstnew("<<", HDOC, (*index)++));
+            ft_lstadd_back(parse, ft_lstnew("<<", HDOC));
             (*i)++;
         }
         else if (line[*i] == '<')
-            ft_lstadd_back(parse, ft_lstnew("<", RIN, (*index)++));
+            ft_lstadd_back(parse, ft_lstnew("<", RIN));
         else if (line[*i] == '>' && line[*i + 1] == '>')
         {
-            ft_lstadd_back(parse, ft_lstnew(">>", APP, (*index)++));
+            ft_lstadd_back(parse, ft_lstnew(">>", APP));
             (*i)++;
         }
         else
-            ft_lstadd_back(parse, ft_lstnew(">", ROUT, (*index)++));
+            ft_lstadd_back(parse, ft_lstnew(">", ROUT));
         (*i)++;
 		return (1);
 }
@@ -76,7 +76,6 @@ void parse_line(char *line, t_parse **parse)
 {
     int i = 0;
     int j = 0;
-    int index = 0;
     char quote = '\0';
     int token = 0;
 
@@ -89,7 +88,7 @@ void parse_line(char *line, t_parse **parse)
 
         if (line[i] == '|' || line[i] == '<' || line[i] == '>')
 		{
-            if(!check_token(parse, line, &i, &index))
+            if(!check_token(parse, line, &i))
 				return ;
 		}
         else 
@@ -110,7 +109,7 @@ void parse_line(char *line, t_parse **parse)
             }
 			if (line[i] == ' ' || (line[i] >= 9 && line[i] <= 13))
 				i++;
-            ft_lstadd_back(parse, ft_lstnew(ft_substr(line, j, i - j), token, index++));
+            ft_lstadd_back(parse, ft_lstnew(ft_substr(line, j, i - j), token));
         }
     }
 	if(quote != '\0')
@@ -356,18 +355,7 @@ void join_cmd(t_parse **parse)
 	}
 }
 
-t_op	*ft_lstnewope(char *content, t_token token)
-{
-	t_op	*list;
 
-	list = malloc(sizeof(t_op));
-	if (!list)
-		return (NULL);
-	list->file = ft_strdup(content);
-	list->token = token;
-	list->next = NULL;
-	return (list);
-}
 
 
 // void ft_strcmd(t_cmd **cmd, t_parse *parse)
@@ -449,7 +437,7 @@ int main(int ac, char **av, char **env)
         parse_line(line, &parse);
 		ft_env(&data->env, env);
 		ft_expend(&parse, data->env);
-		join_cmd(&parse);
+		// join_cmd(&parse);
 		check_heredoc(parse, data->env);
 		check_quotes(&parse);
 		t_parse *tmp = parse;
