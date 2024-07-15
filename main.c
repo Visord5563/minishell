@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/15 05:26:09 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/07/15 06:58:03 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int check_token(t_parse **parse, char *line, int *i)
 		return (1);
 }
 
-void check_syntax(t_parse **parse)
+int check_syntax(t_parse **parse)
 {
 	t_parse *tmp = *parse;
 	while (tmp)
@@ -56,7 +56,7 @@ void check_syntax(t_parse **parse)
 		if (tmp->token == PIPE && (!tmp->next || tmp->next->token == PIPE))
 		{
 			printf("Minishell: syntax error near unexpected token `|'\n");
-			return ;
+			return 1;
 		}
 		else if ((tmp->token == RIN || tmp->token == ROUT || tmp->token == APP || tmp->token == HDOC) && (!tmp->next || (tmp->next->token != WORD)))
 		{
@@ -64,10 +64,11 @@ void check_syntax(t_parse **parse)
 				printf("Minishell: syntax error near unexpected token `newline'\n");
 			else
 				printf("Minishell: syntax error near unexpected token `%s'\n", tmp->next->text);
-			return ;
+			return 1;
 		}
 		tmp = tmp->next;
 	}
+	return 0;
 }
 
 void parse_line(char *line, t_parse **parse)
@@ -102,9 +103,8 @@ void parse_line(char *line, t_parse **parse)
 						break;
                 i++;
             }
-			printf("++++line[%d]: [%c]\n", i, line[i]);
-			if (line[i] == ' ' || (line[i] >= 9 && line[i] <= 13))
-				i++;
+			// if (line[i] == ' ' || (line[i] >= 9 && line[i] <= 13)) //hna tchikih
+			// 	i++;
             ft_lstadd_back(parse, ft_lstnew(ft_substr(line, j, i - j), token));
         }
     }
@@ -115,7 +115,12 @@ void parse_line(char *line, t_parse **parse)
 		*parse = NULL;
 		return ;
 	}
-	check_syntax(parse);
+	if(check_syntax(parse) == 1)
+	{
+		ft_lstclear(*parse);
+		*parse = NULL;
+		return ;
+	}
 }
 
 t_env *ft_envnew(char *key, char *value)
@@ -320,36 +325,33 @@ char *delete_espace(char *str)
 	return (new);
 }
 
-void join_cmd(t_parse **parse)
-{
-	t_parse *tmp = *parse;
-	t_parse *new;
-	char *text;
-	while (tmp)
-	{
-		if (tmp->token == WORD)
-		{
-			text = ft_strdup(tmp->text);
-			while (tmp->next)
-			{
-				if(text[ft_strlen(text) - 1] == ' ' || (text[ft_strlen(text) - 1] >= 9 && text[ft_strlen(text) - 1] <= 13))
-					break;
-				text = ft_strjoin(text, tmp->next->text);
-				new = tmp->next;
-				tmp->next = tmp->next->next;
-				free(new);
-			}
-			tmp->text = text;
-		}
-		else if((tmp->next && (tmp->token == ROUT || tmp->token == RIN || tmp->token == APP || tmp->token == HDOC)))
-				tmp = tmp->next;
-		if(tmp->text[ft_strlen(tmp->text) - 1] == ' ' || (tmp->text[ft_strlen(tmp->text) - 1] >= 9 && tmp->text[ft_strlen(tmp->text) - 1] <= 13))
-		{
-			tmp->text = ft_strtrim(tmp->text, " \t\n\r\v\f");	
-		}
-		tmp = tmp->next;
-	}
-}
+// void join_cmd(t_parse **parse)
+// {
+// 	t_parse *tmp = *parse;
+// 	t_parse *new;
+// 	char *text;
+// 	while (tmp)
+// 	{
+// 		if (tmp->token == WORD)
+// 		{
+// 			text = ft_strdup(tmp->text);
+// 			while (tmp->next)
+// 			{
+// 				if(text[ft_strlen(text) - 1] == ' ' || (text[ft_strlen(text) - 1] >= 9 && text[ft_strlen(text) - 1] <= 13))
+// 					break;
+// 				text = ft_strjoin(text, tmp->next->text);
+// 				new = tmp->next;
+// 				tmp->next = tmp->next->next;
+// 				free(new);
+// 			}
+// 			tmp->text = text;
+// 		}
+// 		else if((tmp->next && (tmp->token == ROUT || tmp->token == RIN || tmp->token == APP || tmp->token == HDOC)))
+// 				tmp = tmp->next;
+		
+// 		tmp = tmp->next;
+// 	}
+// }
 
 
 
