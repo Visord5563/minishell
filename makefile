@@ -6,7 +6,7 @@
 #    By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/03 17:08:07 by saharchi          #+#    #+#              #
-#    Updated: 2024/07/15 00:37:36 by saharchi         ###   ########.fr        #
+#    Updated: 2024/07/15 04:49:04 by saharchi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 
 LIBFT = ./libft/libft.a
 
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g 
 RM = rm -f
 
 SRC = main.c parse_list.c

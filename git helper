@@ -30,3 +30,11 @@ Minishell$ sskldfld"$USER''"
 line: 
 text: [sskldfld$USER''] token: 0
 
+-------------------------------------------
+Minishell$ ">>">> ll
+text: [>>>] token: 0
+text: [>] token: 4
+text: [ll] token: 0
+Minishell$ ">>"> ll
+text: [>>> ] token: 0
+text: [ll] token: 0

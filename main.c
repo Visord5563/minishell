@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/15 03:45:17 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/07/15 05:26:09 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,6 @@ int check_token(t_parse **parse, char *line, int *i)
 				printf("Minishell: syntax error near unexpected token `|'\n"); 
 				return (0);
 			}
-			if (line[*i + 1] == '|')
-				(*i)++;
             ft_lstadd_back(parse, ft_lstnew("|", PIPE));
 		}
         else if (line[*i] == '<' && line[*i + 1] == '<')
@@ -100,13 +98,11 @@ void parse_line(char *line, t_parse **parse)
                     quote = line[i];
                 else if (line[i] == quote)
                     quote = '\0';
-                else if (quote == '\0' && (check(line[i+1])))
-				{
-						i++;
+                else if (quote == '\0' && (check(line[i])))
 						break;
-				}
                 i++;
             }
+			printf("++++line[%d]: [%c]\n", i, line[i]);
 			if (line[i] == ' ' || (line[i] >= 9 && line[i] <= 13))
 				i++;
             ft_lstadd_back(parse, ft_lstnew(ft_substr(line, j, i - j), token));
