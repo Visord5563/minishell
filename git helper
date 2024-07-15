@@ -1,0 +1,32 @@
+create branch => git branch "name"
+switch to branch => git checkout "name"
+pull master into my branch => git pull origin master
+
+
+// ga gc -m gp in my branch then 
+git checkout master
+git pull // in case my friend pushed something
+git merge "name"
+ga gc -m gp 
+--------------------------------------------
+<< 'a'a // handle this delimeter issue
+$"HOME"
+"$"HOME
+echo $_
+--------------------------------------------
+Minishell$ "'''"'$HOME'"'''"
+Minishell: syntax error near unexpected token `''
+
+-------------------------------------------
+Minishell$ $HOME2345678
+key: HOME, /Users/saharchi
+text: [/Users/saharchi2345678] token: 0 (numbers in expanding)
+-------------------------------------------
+Minishell$ << 
+Minishell: syntax error near unexpected token `newline'
+[1]    6671 segmentation fault  ./minishell
+-------------------------------------------
+Minishell$ sskldfld"$USER''"
+line: 
+text: [sskldfld$USER''] token: 0
+

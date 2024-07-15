@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   mini.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/15 01:40:16 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/07/14 09:18:07 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,6 +193,7 @@ char *delete_quotes(char *str)
 			new[j++] = str[i++];
 	}
 	new[j] = '\0';
+	printf("str: \n");
 	return (new);
 }
 
@@ -201,10 +202,11 @@ void check_quotes(t_parse **parse)
 	t_parse *tmp = *parse;
 	while (tmp)
 	{
-		if (tmp->text)
+		if (tmp->token == WORD)
 		{
-			if (ft_strchr(tmp->text, '\'') || ft_strchr(tmp->text, '"'))
-				tmp->text = delete_quotes(tmp->text);
+			printf("text: %s\n", tmp->text);
+			tmp->text = delete_quotes(tmp->text);
+			printf("text: %s\n", tmp->text);
 		}
 		tmp = tmp->next;
 	}
@@ -271,9 +273,9 @@ char *expend_str(char *str, t_env *envs)
 	{
 		if(quote == '\0' && (str[i] == '\'' || str[i] == '"'))
 			quote = str[i];
-		else if(quote == str[i] && (str[i] == '\'' || str[i] == '"'))
+		else if(quote != '\0' && (str[i] == '\'' || str[i] == '"'))
 			quote = '\0';
-		if ((str[i] == '$' && str[i + 1] != '$' && str[i+1] != ' ' && str[i + 1] != '\0' && quote != '\'' && str[i + 1] != '"' && str[i + 1] != '\'') || (str[i] == '$' && quote == '\0' && str[i + 1] != '$' && str[i + 1] != '\0'))
+		if (str[i] == '$' && str[i + 1] != '$' && str[i + 1] != '\0' && quote != '\'')
 		{
 			j = i + 1;
 			new =	ft_substr(str, 0 , i);
@@ -381,7 +383,6 @@ int heredoc(char *delimiter, t_env *env)
     int fd;
 	char *s;
 	
-	printf("delimiter: %s\n", delimiter);
 	s = ft_strjoin("/tmp/.", ft_itoa((int)delimiter));
     fd = open(s, O_WRONLY | O_CREAT | O_TRUNC, 0644);
     unlink(s);
@@ -393,7 +394,6 @@ int heredoc(char *delimiter, t_env *env)
         if (line == NULL)
             break;
 		write(fd, delimiter, ft_strlen(line));
-		
         if (strcmp(line, delete_quotes(delimiter)) == 0) 
 		{
             free(line);
@@ -403,29 +403,34 @@ int heredoc(char *delimiter, t_env *env)
 		{		
 			line = expend_str(line, env);
 		}
-		printf("line: %s\n", line);
         line = ft_strjoin(line, "\n");
         ft_putstr_fd(line, fd);
+		printf("line: %s\n", line);
         free(line);
     }
     return fd;
 }
 
-int check_heredoc(t_parse *parse, t_env *env)
+int check_heredoc(t_parse **parse, t_env *env)
 {
-    t_parse *tmp = parse;
-    int fd = -1;
+	t_parse *tmp;
+	t_parse *new;
+	int fd;
 
-    while (tmp)
-    {
-        if (tmp->token == HDOC)
-        {
-            fd = heredoc(tmp->next->text, env);
-            tmp = tmp->next->next;
-        }
-        else
-            tmp = tmp->next;
-    }
+	fd = -1;
+	tmp = *parse;
+	while (tmp)
+	{
+		if (tmp->token == HDOC)
+		{
+			fd = heredoc(tmp->next->text, env);
+			new = tmp;
+			tmp = tmp->next;
+			free(new);
+		}
+		else
+			tmp = tmp->next;
+	}
 	return (fd);
 }
 
@@ -438,7 +443,6 @@ int main(int ac, char **av, char **env)
     (void)av;
 	
 	data = malloc(sizeof(t_data));
-	parse = NULL;
 	data->cmd = NULL;
 	data->env = NULL;
     while (1)
@@ -450,14 +454,16 @@ int main(int ac, char **av, char **env)
 		ft_env(&data->env, env);
 		ft_expend(&parse, data->env);
 		join_cmd(&parse);
-		check_heredoc(parse, data->env);
+		check_heredoc(&parse, data->env);
 		check_quotes(&parse);
-		t_parse *tmp = parse;
-		while (tmp)
-		{
-			printf("text: [%s] token: %d\n", tmp->text, tmp->token);
-			tmp = tmp->next;
-		}
+		printf("line: \n");
+		// ft_strcmd(&data->cmd, parse);
+		// t_parse *tmp = parse;
+		// while (tmp)
+		// {
+		// 	printf("text: [%s] token: %d\n", tmp->text, tmp->token);
+		// 	tmp = tmp->next;
+		// }
         parse = NULL;
 		
 		if (line && *line)

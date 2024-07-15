@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 18:34:16 by saharchi          #+#    #+#             */
-/*   Updated: 2024/06/12 11:46:09 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/07/14 10:05:04 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,7 @@ t_parse	*ft_lstlast(t_parse *lst)
 	if (!lst)
 		return (NULL);
 	while (lst->next)
-	{
 		lst = lst->next;
-	}
 	return (lst);
 }
 

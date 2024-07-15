@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/11 10:07:59 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/14 23:44:54 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@
 typedef enum s_token
 {
 	WORD, // simple word
-	SQ, // single quote ''
-	DQ, // "" double quotes
 	HDOC, // << heredoc
 	RIN, // < rediction in
 	APP, // append >> 
