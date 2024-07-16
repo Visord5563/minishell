@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/15 03:29:13 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/07/16 06:32:15 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef enum s_token
 typedef struct s_cmd
 {
 	char **args;
-	t_fd fd;
+	t_fd *fd;
 	struct s_cmd *next;
 } t_cmd;
 

@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/16 01:50:24 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/07/16 06:51:21 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -353,12 +353,42 @@ char *delete_espace(char *str)
 // 	}
 // }
 
+t_cmd	*ft_lstnewcmd(char **content, t_fd *fd)
+{
+	t_cmd	*list;
 
+	list = malloc(sizeof(t_cmd));
+	if (!list)
+		return (NULL);
+	list->args = content;
+	list->fd = fd;
+	list->next = NULL;
+	return (list);
+}
 
+t_cmd	*ft_lstlastcmd(t_cmd *lst)
+{
+	if (!lst)
+		return (NULL);
+	while (lst->next)
+		lst = lst->next;
+	return (lst);
+}
 
-// void ft_strcmd(t_cmd **cmd, t_parse *parse)
-// {
-// }
+void ft_add_backcmd(t_cmd **cmd, t_cmd *new)
+{
+	t_cmd	*node;
+
+	if (!*cmd)
+	{
+		*cmd = new;
+		return ;
+	}
+	node = *cmd;
+	node = ft_lstlastcmd(*cmd);
+	node->next = new;
+	
+}
 
 int heredoc(char *delimiter, t_env *env) 
 {
@@ -391,6 +421,79 @@ int heredoc(char *delimiter, t_env *env)
     }
     return fd;
 }
+
+void ft_lstcmd(t_data **data, t_parse *parse)
+{
+	t_cmd *tmp;
+	t_parse *tmpsize;
+	char **args;
+	int i;
+	int j;
+	tmp = (*data)->cmd;
+	while(parse)
+	{
+		tmp->fd = malloc(sizeof(t_fd));
+        if (!tmp->fd)
+        {
+            free(tmp);
+            return; // Handle malloc failure
+        }
+		printf("kkk\n");
+        tmp->fd->fd_in = 0;
+        tmp->fd->fd_out = 1;
+		i = 0;
+		tmpsize = parse;
+		while(tmpsize)
+		{
+			if(tmpsize->token == PIPE)
+				break ;
+			if(tmpsize->token == WORD)
+				i++;
+			tmpsize = tmpsize->next;
+		}
+		args = malloc(sizeof(char *) * (i + 1));
+		j = 0;
+		while(parse)
+		{
+			if (parse->token == WORD)
+			{
+				args[j] = ft_strdup(parse->text);
+				j++;
+			}
+			else if(parse->token == HDOC || parse->token == RIN || parse->token == ROUT || parse->token == APP)
+			{
+				if(parse->token == HDOC)
+				{
+					tmp->fd->fd_in = heredoc(parse->next->text, (*data)->env);
+				}
+				else if (parse->token == RIN)
+				{
+					tmp->fd->fd_in = open(parse->next->text, O_RDONLY);
+				}
+				else if (parse->token == ROUT)
+				{
+					tmp->fd->fd_out = open(parse->next->text, O_CREAT | O_RDWR | O_TRUNC | 0777);	
+				}
+				else if (parse->token == APP)
+				{
+					tmp->fd->fd_out = open(parse->next->text, O_CREAT | O_RDWR | O_APPEND | 0777);
+				}
+			}
+			if(parse->token == PIPE)
+			{
+				args[j+1] = NULL;
+				parse = parse->next;
+				ft_add_backcmd(&(*data)->cmd, ft_lstnewcmd(args, tmp->fd));
+				tmp->fd->fd_in = 0;
+				tmp->fd->fd_out = 1;
+				break ;
+			}
+			parse = parse->next;
+		}
+	}
+}
+
+
 
 int check_heredoc(t_parse *parse, t_env *env)
 {
@@ -430,17 +533,24 @@ int main(int ac, char **av, char **env)
         parse_line(line, &parse);
 		ft_env(&data->env, env);
 		ft_expend(&parse, data->env);
-		t_parse *tmp = parse;
+		// join_cmd(&parse);
+		check_quotes(&parse);
+		// check_heredoc(parse, data->env);
+		ft_lstcmd(&data, parse);
+		t_cmd *tmp = data->cmd;
+		int i = 0;
 		while (tmp)
 		{
-			printf("text: [%s] token: %d\n", tmp->text, tmp->token);
+			i = 0;
+			while(tmp->args[i])
+			{
+				printf("---%s\n", tmp->args[i]);
+				i++;
+			}
+			printf("++%d\n", tmp->fd->fd_in);
+			printf("++%d\n", tmp->fd->fd_out);
 			tmp = tmp->next;
 		}
-		// join_cmd(&parse);
-		check_heredoc(parse, data->env);
-		check_quotes(&parse);
-        parse = NULL;
-		
 		if (line && *line)
         	add_history(line);
         if (strcmp(line, "env") == 0)
@@ -453,6 +563,7 @@ int main(int ac, char **av, char **env)
 			}
 		}
 		ft_lstclear(parse);
+        parse = NULL;
         free(line);
 	}
 	return (0);
