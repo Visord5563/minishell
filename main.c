@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/15 06:58:03 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/07/16 01:50:24 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,7 +273,7 @@ char *expend_str(char *str, t_env *envs)
 			quote = str[i];
 		else if(quote == str[i] && (str[i] == '\'' || str[i] == '"'))
 			quote = '\0';
-		if ((str[i] == '$' && str[i + 1] != '$' && str[i+1] != ' ' && str[i + 1] != '\0' && quote != '\'' && str[i + 1] != '"' && str[i + 1] != '\'') || (str[i] == '$' && quote == '\0' && str[i + 1] != '$' && str[i + 1] != '\0'))
+		if (str[i] == '$' && ((quote != '\'' && (ft_isdigit(str[i+1]) || ft_isalpha(str[i+1]) || str[i+1] == '_')) || (quote == '\0' && (ft_isdigit(str[i+1]) || ft_isalpha(str[i+1]) || str[i+1] == '_' || str[i + 1] == '"'|| str[i + 1] == '\''))))
 		{
 			j = i + 1;
 			new =	ft_substr(str, 0 , i);
@@ -367,19 +367,15 @@ int heredoc(char *delimiter, t_env *env)
     int fd;
 	char *s;
 	
-	printf("delimiter: %s\n", delimiter);
 	s = ft_strjoin("/tmp/.", ft_itoa((int)delimiter));
     fd = open(s, O_WRONLY | O_CREAT | O_TRUNC, 0644);
     unlink(s);
 	free(s);
-    fd = open(delimiter, O_WRONLY | O_CREAT | O_TRUNC, 0644);
     while (1) 
 	{
         line = readline("> ");
         if (line == NULL)
             break;
-		write(fd, delimiter, ft_strlen(line));
-		
         if (strcmp(line, delete_quotes(delimiter)) == 0) 
 		{
             free(line);
@@ -389,7 +385,6 @@ int heredoc(char *delimiter, t_env *env)
 		{		
 			line = expend_str(line, env);
 		}
-		printf("line: %s\n", line);
         line = ft_strjoin(line, "\n");
         ft_putstr_fd(line, fd);
         free(line);
@@ -435,15 +430,15 @@ int main(int ac, char **av, char **env)
         parse_line(line, &parse);
 		ft_env(&data->env, env);
 		ft_expend(&parse, data->env);
-		// join_cmd(&parse);
-		check_heredoc(parse, data->env);
-		check_quotes(&parse);
 		t_parse *tmp = parse;
 		while (tmp)
 		{
 			printf("text: [%s] token: %d\n", tmp->text, tmp->token);
 			tmp = tmp->next;
 		}
+		// join_cmd(&parse);
+		check_heredoc(parse, data->env);
+		check_quotes(&parse);
         parse = NULL;
 		
 		if (line && *line)

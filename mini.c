@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/14 09:18:07 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/07/16 01:39:55 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -275,7 +275,7 @@ char *expend_str(char *str, t_env *envs)
 			quote = str[i];
 		else if(quote != '\0' && (str[i] == '\'' || str[i] == '"'))
 			quote = '\0';
-		if (str[i] == '$' && str[i + 1] != '$' && str[i + 1] != '\0' && quote != '\'')
+		if ((str[i] == '$' && str[i + 1] != '$' && str[i+1] != ' ' && str[i + 1] != '\0' && quote != '\'' && str[i + 1] != '"' && str[i + 1] != '\'' && (ft_isdigit(str[i+1]) || ft_isalpha(str[i+1]) || str[i+1] == '_')) || (str[i] == '$' && quote == '\0' && str[i + 1] != '$' && str[i + 1] != '\0' && (ft_isdigit(str[i+1]) || ft_isalpha(str[i+1]) || str[i+1] == '_' || str[i + 1] == '"'|| str[i + 1] == '\'')))
 		{
 			j = i + 1;
 			new =	ft_substr(str, 0 , i);
@@ -358,18 +358,7 @@ void join_cmd(t_parse **parse)
 	}
 }
 
-t_op	*ft_lstnewope(char *content, t_token token)
-{
-	t_op	*list;
 
-	list = malloc(sizeof(t_op));
-	if (!list)
-		return (NULL);
-	list->file = ft_strdup(content);
-	list->token = token;
-	list->next = NULL;
-	return (list);
-}
 
 
 // void ft_strcmd(t_cmd **cmd, t_parse *parse)

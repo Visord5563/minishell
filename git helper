@@ -38,3 +38,6 @@ text: [ll] token: 0
 Minishell$ ">>"> ll
 text: [>>> ] token: 0
 text: [ll] token: 0
+-------------------------------------------
+Minishell$  "$USER$$HOME----$=aaaaa"
+text: [saharchi$/Users/saharchi----=aaaaa] token: 0
