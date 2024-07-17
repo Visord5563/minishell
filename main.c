@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/17 02:02:38 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/07/17 06:05:35 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,6 @@ void parse_line(char *line, t_parse **parse)
 						break;
                 i++;
             }
-			// if (line[i] == ' ' || (line[i] >= 9 && line[i] <= 13)) //hna tchikih
-			// 	i++;
             ft_lstadd_back(parse, ft_lstnew(ft_substr(line, j, i - j), token));
         }
     }
@@ -249,14 +247,6 @@ char *check_value(char *key, t_env *envs)
 	return ("");
 }
 
-// int check_to(int token)
-// {
-// 		if (token == WORD)
-// 			return (1);
-// 		return (0);
-// }
-
-
 char *expend_str(char *str, t_env *envs)
 {
 	int i;
@@ -324,34 +314,6 @@ char *delete_espace(char *str)
 	free(str);
 	return (new);
 }
-
-// void join_cmd(t_parse **parse)
-// {
-// 	t_parse *tmp = *parse;
-// 	t_parse *new;
-// 	char *text;
-// 	while (tmp)
-// 	{
-// 		if (tmp->token == WORD)
-// 		{
-// 			text = ft_strdup(tmp->text);
-// 			while (tmp->next)
-// 			{
-// 				if(text[ft_strlen(text) - 1] == ' ' || (text[ft_strlen(text) - 1] >= 9 && text[ft_strlen(text) - 1] <= 13))
-// 					break;
-// 				text = ft_strjoin(text, tmp->next->text);
-// 				new = tmp->next;
-// 				tmp->next = tmp->next->next;
-// 				free(new);
-// 			}
-// 			tmp->text = text;
-// 		}
-// 		else if((tmp->next && (tmp->token == ROUT || tmp->token == RIN || tmp->token == APP || tmp->token == HDOC)))
-// 				tmp = tmp->next;
-		
-// 		tmp = tmp->next;
-// 	}
-// }
 
 t_cmd *ft_lstnewcmd(char **content, int fd_in, int fd_out)
 {
@@ -482,6 +444,7 @@ void ft_lstcmd(t_data **data, t_parse *parse)
                 {
                     fd_out = open(parse->next->text, O_CREAT | O_RDWR | O_APPEND, 0777);
                 }
+				parse = parse->next;
             }
             parse = parse->next;
         }
@@ -547,7 +510,6 @@ int main(int ac, char **av, char **env)
         parse_line(line, &parse);
 		ft_env(&data->env, env);
 		ft_expend(&parse, data->env);
-		// join_cmd(&parse);
 		check_quotes(&parse);
 		ft_lstcmd(&data, parse);
 		t_cmd *tmp = data->cmd;
