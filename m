@@ -1,4 +1,0 @@
-awr
-wr
-we
-er

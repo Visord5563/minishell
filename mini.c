@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/16 01:39:55 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/07/17 01:28:12 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -472,3 +472,136 @@ int main(int ac, char **av, char **env)
 	return (0);
 }
 
+// void ft_lstcmd(t_data **data, t_parse *parse)
+// {
+// 	t_parse *tmpsize;
+// 	char **args;
+// 	int i;
+// 	int j;
+// 	int fd_in = 0;
+// 	int fd_out = 1;
+// 	while(parse)
+// 	{
+// 		i = 0;
+// 		tmpsize = parse;
+// 		while(tmpsize)
+// 		{
+// 			if(tmpsize->token == PIPE)
+// 				break ;
+// 			if(tmpsize->token == WORD)
+// 				i++;
+// 			tmpsize = tmpsize->next;
+// 		}
+// 		args = malloc(sizeof(char *) * (i + 1));
+// 		j = 0;
+// 		while(parse && parse->token != PIPE)
+// 		{
+// 			if (parse->token == WORD)
+// 			{
+// 				args[j] = ft_strdup(parse->text);
+// 				j++;
+// 			}
+// 			else if(parse->token == HDOC || parse->token == RIN || parse->token == ROUT || parse->token == APP)
+// 			{
+// 				if(parse->token == HDOC)
+// 				{
+// 					fd_in = heredoc(parse->next->text, (*data)->env);
+// 				}
+// 				else if (parse->token == RIN)
+// 				{
+// 					fd_in = open(parse->next->text, O_RDONLY);
+// 				}
+// 				else if (parse->token == ROUT)
+// 				{
+// 					fd_out = open(parse->next->text, O_CREAT | O_RDWR | O_TRUNC | 0777);	
+// 				}
+// 				else if (parse->token == APP)
+// 				{
+// 					fd_out = open(parse->next->text, O_CREAT | O_RDWR | O_APPEND | 0777);
+// 				}
+// 			}
+// 			parse = parse->next;
+// 		}
+// 		args[j] = NULL;
+// 		parse = parse->next;
+// 		ft_add_backcmd(&(*data)->cmd, ft_lstnewcmd(args, fd_in, fd_out));
+// 		fd_in = 0;
+// 		fd_out = 1;
+// 		if(parse && parse->next)
+// 			parse = parse->next;			
+// 	}
+// }
+
+// void ft_lstcmd(t_data **data, t_parse *parse)
+// {
+//     t_cmd *tmp;
+//     t_parse *tmpsize;
+//     char **args;
+//     int i;
+//     int j;
+
+//     while (parse)
+//     {
+//         tmp = malloc(sizeof(t_cmd));
+//         if (!tmp)
+//             return; // Handle malloc failure
+//         tmp->fd = malloc(sizeof(t_fd));
+//         if (!tmp->fd)
+//         {
+//             free(tmp);
+//             return; // Handle malloc failure
+//         }
+//         tmp->fd->fd_in = 0;
+//         tmp->fd->fd_out = 1;
+//         tmp->next = NULL;
+//         i = 0;
+//         tmpsize = parse;
+//         while (tmpsize && tmpsize->token != PIPE)
+//         {
+//             if (tmpsize->token == WORD)
+//                 i++;
+//             tmpsize = tmpsize->next;
+//         }
+//         args = malloc(sizeof(char *) * (i + 1));
+//         if (!args)
+//         {
+//             free(tmp->fd);
+//             free(tmp);
+//             return; // Handle malloc failure
+//         }
+//         j = 0;
+//         while (parse && parse->token != PIPE)
+//         {
+//             if (parse->token == WORD)
+//             {
+//                 args[j] = ft_strdup(parse->text);
+//                 j++;
+//             }
+//             else if (parse->token == HDOC || parse->token == RIN || parse->token == ROUT || parse->token == APP)
+//             {
+//                 if (parse->token == HDOC)
+//                 {
+//                     tmp->fd->fd_in = heredoc(parse->next->text, (*data)->env);
+//                 }
+//                 else if (parse->token == RIN)
+//                 {
+//                     tmp->fd->fd_in = open(parse->next->text, O_RDONLY);
+//                 }
+//                 else if (parse->token == ROUT)
+//                 {
+//                     tmp->fd->fd_out = open(parse->next->text, O_CREAT | O_RDWR | O_TRUNC, 0777);
+//                 }
+//                 else if (parse->token == APP)
+//                 {
+//                     tmp->fd->fd_out = open(parse->next->text, O_CREAT | O_RDWR | O_APPEND, 0777);
+//                 }
+//             }
+//             parse = parse->next;
+//         }
+//         args[j] = NULL; // Null-terminate the args array
+//         tmp->args = args;
+//         ft_add_backcmd(&(*data)->cmd, tmp);
+//         if (parse && parse->token == PIPE)
+//             parse = parse->next;
+//     }
+// }
