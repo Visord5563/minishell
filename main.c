@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/12 06:44:13 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/07/18 03:24:51 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -407,81 +407,6 @@ void ft_add_back_red(t_op **red, char *text, int token)
 	exit(0);
 }
 
-// void ft_strcmd(t_cmd **cmd, t_parse *parse)
-// {
-// 	*cmd = malloc(sizeof(t_cmd));
-// 	int i = 0;
-// 	(*cmd)->args = NULL;
-// 	(*cmd)->ops = NULL;
-// 	(*cmd)->fd.fd_in = 0;
-// 	(*cmd)->fd.fd_out = 1;
-// 	(*cmd)->next = NULL;
-// 	t_parse *tmp = parse;
-// 	int j;
-// 	while (tmp)
-// 	{
-// 		if (tmp->token == WORD || tmp->token == DQ || tmp->token == SQ)
-// 		{
-// 			i = 0;
-// 			t_parse *tmp1 = tmp;
-// 			while(tmp1)
-// 			{
-// 				if (tmp->token == PIPE)
-// 					break;
-// 				if (tmp1->token == WORD || tmp1->token == DQ || tmp1->token == SQ)
-// 				{
-					
-// 					i++;
-// 				}
-// 				if (tmp1->token == ROUT || tmp1->token == RIN || tmp1->token == APP || tmp1->token == HDOC)
-// 				{
-// 					tmp1 = tmp1->next;
-// 				}
-// 				tmp1 = tmp1->next;
-// 			}
-// 			(*cmd)->args = malloc(sizeof(char *) * (i + 1));
-// 			j = 0;
-// 			while (j < i)
-// 			{
-// 				if(tmp->token == HDOC || tmp->token == ROUT || tmp->token == RIN || tmp->token == APP)
-// 					tmp = tmp->next->next;
-// 				(*cmd)->args[j] = ft_strdup(tmp->text);
-// 				j++;
-// 				tmp = tmp->next;
-// 			}	
-// 			(*cmd)->args[j] = NULL;
-// 		}
-// 		if (tmp && tmp->token == ROUT ||tmp->token == RIN || tmp->token == APP || tmp->token == HDOC)
-// 		{
-// 			ft_add_back_red(&(*cmd)->ops, parse->text, parse->token);
-// 			tmp = tmp->next->next;
-// 		}
-// 		// else if (parse->token == PIPE)
-// 		// {
-
-// 		// 	printf("pipe: \n");
-// 		// 	(*cmd)->next = malloc(sizeof(t_cmd));
-// 		// 	(*cmd) = (*cmd)->next;
-// 		// 	(*cmd)->args = NULL;
-// 		// 	(*cmd)->red = NULL;
-// 		// 	(*cmd)->fd_in = 0;
-// 		// 	(*cmd)->fd_out = 1;
-// 		// 	(*cmd)->next = NULL;
-// 		// 	tmp = tmp->next;
-// 		// }
-// 		t_cmd *tmp2 = *cmd;
-// 		int k = 0;
-// 		while (tmp2->args[k])
-// 		{
-// 			printf("args: %s\n", tmp2->args[k]);
-// 			k++;
-// 		}
-// 		// printf("file: %s\n", (*cmd)->ops->file);
-// 		// printf("token: %d\n", tmp2->ops->token);
-// 		// if(k > 0)
-// 		// 	exit(0);
-// 	}
-// }
 
 int heredoc(const char *delimiter, int token, t_env *env) {
 
