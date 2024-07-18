@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/11 10:07:59 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/18 03:57:16 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@
 typedef enum s_token
 {
 	WORD, // simple word
-	SQ, // single quote ''
-	DQ, // "" double quotes
 	HDOC, // << heredoc
 	RIN, // < rediction in
 	APP, // append >> 
@@ -41,13 +39,6 @@ typedef enum s_token
 }	t_token;
 
 
-typedef struct s_op
-{
-	int fd;
-	char *file;
-	int token;
-	struct s_op *next;
-} t_op;
  typedef struct s_fd
 {
 	int fd_in;
@@ -56,8 +47,7 @@ typedef struct s_op
 typedef struct s_cmd
 {
 	char **args;
-	t_fd fd;
-	t_op *ops;
+	t_fd *fd;
 	struct s_cmd *next;
 } t_cmd;
 
@@ -73,7 +63,6 @@ typedef struct s_parse
 {
 	char *text; 
 	t_token token;
-	int		index; 
 	struct s_parse *next;
 } t_parse;
 
@@ -84,7 +73,7 @@ typedef struct s_data
 	struct s_env *env;
 } t_data;
 
-t_parse	*ft_lstnew(char *content, t_token token, int index);
+t_parse	*ft_lstnew(char *content, t_token token);
 void	ft_lstadd_back(t_parse **lst, t_parse *new);
 t_parse	*ft_lstlast(t_parse *lst);
 int	ft_lstsize(t_parse *lst);
