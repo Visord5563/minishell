@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/18 03:24:51 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/07/18 03:37:22 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void check_syntax(t_parse **parse)
 			printf("Minishell: syntax error near unexpected token `|'\n");
 			return ;
 		}
-		else if ((tmp->token == RIN || tmp->token == ROUT || tmp->token == APP || tmp->token == HDOC) && (!tmp->next || (tmp->next->token != WORD && tmp->next->token != DQ && tmp->next->token != SQ)))
+		else if ((tmp->token == RIN || tmp->token == ROUT || tmp->token == APP || tmp->token == HDOC) && (!tmp->next || (tmp->next->token != WORD && tmp->next->token != SQ && tmp->next->token != DQ)))
 		{
 			if (!tmp->next)
 				printf("Minishell: syntax error near unexpected token `newline'\n");
@@ -72,11 +72,22 @@ void check_syntax(t_parse **parse)
 	}
 }
 
+void handle_quotes(char *line, int *i, char *quote, int *token)
+{
+    if (*quote == '\0' && (line[*i] == '"' || line[*i] == '\''))
+    {
+        *quote = line[*i];
+        *token = (line[*i] == '"') ? 2 : 1;
+    }
+    else if (line[*i] == *quote)
+    {
+        *quote = '\0';
+    }
+}
+
 void parse_line(char *line, t_parse **parse)
 {
-    int i = 0;
-    int j = 0;
-    int index = 0;
+    int i = 0, j = 0, index = 0;
     char quote = '\0';
     int token = 0;
 
@@ -86,12 +97,11 @@ void parse_line(char *line, t_parse **parse)
             i++;
         if (line[i] == '\0')
             break;
-
         if (line[i] == '|' || line[i] == '<' || line[i] == '>')
-		{
-            if(!check_token(parse, line, &i, &index))
-				return ;
-		}
+        {
+            if (!check_token(parse, line, &i, &index))
+                return;
+        }
         else 
         {
 			j = i;
@@ -106,33 +116,20 @@ void parse_line(char *line, t_parse **parse)
                     quote = line[i];
 				}
                 else if (line[i] == quote)
-				{
                     quote = '\0';
-					i++;
-					break;
-				}
-                else if (quote == '\0' && (check(line[i+1]) || line[i+1] == '"' || line[i+1] == '\''))
-				{
-						i++;
-						break;
-				}
+                else if (quote == '\0' && check(line[i]))
+                    break;
                 i++;
             }
 			if (line[i] == ' ' || (line[i] >= 9 && line[i] <= 13))
 				i++;
             ft_lstadd_back(parse, ft_lstnew(ft_substr(line, j, i - j), token, index++));
-			token = 0;
+            token = 0;
         }
     }
-	if(quote != '\0')
-	{
-		printf("Minishell: syntax error near unexpected token `%c'\n", quote);
-		ft_lstclear(*parse);
-		*parse = NULL;
-		return ;
-	}
-	check_syntax(parse);
+    check_syntax(parse);
 }
+
 
 t_env *ft_envnew(char *key, char *value)
 {
@@ -318,25 +315,6 @@ void ft_expend(t_parse **parse, t_env *envs)
 	}
 }
 
-char *delete_espace(char *str)
-{
-	int i = 0;
-	int j = 0;
-	char *new;
-	new = malloc(sizeof(char) * (ft_strlen(str) + 1));
-	if (!new)
-		return (NULL);
-	while (str[i])
-	{
-		if (str[i] == ' ' && str[i + 1] == '\0')
-			break;
-		new[j++] = str[i++];
-	}
-	new[j] = '\0';
-	free(str);
-	return (new);
-}
-
 void join_cmd(t_parse **parse)
 {
 	t_parse *tmp = *parse;
@@ -349,7 +327,7 @@ void join_cmd(t_parse **parse)
 			text = ft_strdup(tmp->text);
 			while (tmp->next && check_to(tmp->next->token, 1))
 			{
-				if(text[ft_strlen(text) - 1] == ' ' || (text[ft_strlen(text) - 1] >= 9 && text[ft_strlen(text) - 1] <= 13))
+				if(text[ft_strlen(text) - 1] == ' ')
 					break;
 				text = ft_strjoin(text, tmp->next->text);
 				new = tmp->next;
@@ -358,12 +336,8 @@ void join_cmd(t_parse **parse)
 			}
 			tmp->text = text;
 		}
-		else if((tmp->next && (tmp->token == ROUT || tmp->token == RIN || tmp->token == APP || tmp->token == HDOC)))
+		else if(tmp->token == ROUT || tmp->token == RIN || tmp->token == APP || tmp->token == HDOC)
 				tmp = tmp->next;
-		if(tmp->text[ft_strlen(tmp->text) - 1] == ' ' || (tmp->text[ft_strlen(tmp->text) - 1] >= 9 && tmp->text[ft_strlen(tmp->text) - 1] <= 13))
-		{
-			tmp->text = ft_strtrim(tmp->text, " \t\n\r\v\f");	
-		}
 		tmp = tmp->next;
 	}
 }
@@ -412,18 +386,16 @@ int heredoc(const char *delimiter, int token, t_env *env) {
 
     char *line;
     int fd;
-	char *s;
-	
-	s = ft_strjoin("/tmp/.", ft_itoa((int)delimiter));
-    fd = open(s, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    unlink(s);
-    fd = open(delimiter, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+    char *cd;
+
+    cd = getcwd(NULL, 0);
+    chdir("/tmp");
+    fd = open("herdoc", O_WRONLY | O_CREAT | O_TRUNC, 0644);
     while (1) 
 	{
         line = readline("> ");
         if (line == NULL)
             break;
-		write(fd, delimiter, ft_strlen(line));
         if (strcmp(line, delimiter) == 0) 
 		{
             free(line);
@@ -432,20 +404,20 @@ int heredoc(const char *delimiter, int token, t_env *env) {
 		if(token == WORD)
 			line = expend_str(line, env);
         line = ft_strjoin(line, "\n");
-        ft_putstr_fd(line, fd);
+        write(fd, line, ft_strlen(line));
         free(line);
     }
+    chdir(cd);
     return fd;
 }
 
 int check_heredoc(t_parse **parse, t_env *env)
 {
-	t_parse *tmp;
+	t_parse *tmp = *parse;
 	t_parse *new;
 	int fd;
 
 	fd = -1;
-	tmp = *parse;
 	while (tmp)
 	{
 		if (tmp->token == HDOC)
@@ -483,11 +455,10 @@ int main(int ac, char **av, char **env)
 		join_cmd(&parse);
 		check_quotes(&parse);
 		check_heredoc(&parse, data->env);
-		printf("heredoc: \n");
 		t_parse *tmp = parse;
 		while (tmp)
 		{
-			printf("text: [%s] token: %d\n", tmp->text, tmp->token);
+			printf("text: %s token: %d\n", tmp->text, tmp->token);
 			tmp = tmp->next;
 		}
 		// ft_strcmd(&data->cmd, parse);
@@ -509,4 +480,3 @@ int main(int ac, char **av, char **env)
 	}
 	return (0);
 }
-
