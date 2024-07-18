@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:44:59 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/13 16:28:08 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/18 16:56:28 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char *get_path(char *cmd, t_env *env)
 	return NULL;
 }
 
-void excute_this(t_cmd *cmd)
+void execute_this(t_data *data)
 {
 	pid_t pid;
 	int status;
@@ -63,9 +63,9 @@ void excute_this(t_cmd *cmd)
 	int fd[2];
 	int fd_in = 0;
 	char *path;
-	t_env *env;	
+	t_env *env;
 
-	while (cmd->args[i])
+	while (data->cmd->args[i])
 	{
 		if (pipe(fd) == -1)
 		{
@@ -81,12 +81,12 @@ void excute_this(t_cmd *cmd)
 		if (pid == 0)
 		{
 			dup2(fd_in, 0);
-			if (cmd->args[i + 1])
+			if (data->cmd->args[i + 1])
 				dup2(fd[1], 1);
 			close(fd[0]);
-			handle_redirection(cmd);
-			path = get_path(cmd->args[i], env); ///make get_pTH
-			execve(path, cmd->args, NULL);
+			handle_redirection(data->cmd);
+			path = get_path(data->cmd->args[i], env);
+			execve(path, data->cmd->args, NULL);
 			perror("execve");
 			exit(EXIT_FAILURE);
 		}
@@ -101,36 +101,25 @@ void excute_this(t_cmd *cmd)
 }
 
 
-// int main()
-// {
-// 	t_cmd *cmd = NULL;
-// 	t_env *env = NULL;
-// 	char *args[] = {"ls", "-l", NULL};
-// 	t_fd fd = {0, 1};
-// 	t_op *ops = NULL;
-// 	t_cmd *cmd2 = NULL;
-// 	char *args2[] = {"wc", "-l", NULL};
-// 	t_fd fd2 = {0, 1};
-// 	t_op *ops2 = NULL;
+int main()
+{
+	t_data data;
+	t_cmd cmd;
+	t_env env;
+	t_fd fd;
+	char *args[] = {"ls", "-l", NULL};
+	char *envp[] = {"PATH=/bin:/usr/bin", NULL};
 
-// 	cmd = malloc(sizeof(t_cmd));
-// 	cmd->args = args;
-// 	cmd->fd = fd;
-// 	cmd->ops = ops;
-// 	cmd->next = NULL;
+	cmd.args = args;
+	cmd.fd = &fd;
+	cmd.next = NULL;
+	data.cmd = &cmd;
+	data.env = &env;
+	env.key = "PATH";
+	env.value = "/bin:/usr/bin";
+	env.next = NULL;
+	// printf("PATH = %s\n", get_path("ls", &env));
+	execute_this(&data);
 
-// 	cmd2 = malloc(sizeof(t_cmd));
-// 	cmd2->args = args2;
-// 	cmd2->fd = fd2;
-// 	cmd2->ops = ops2;
-// 	cmd2->next = NULL;
-
-// 	env = malloc(sizeof(t_env));
-// 	env->key = "PATH";
-// 	env->value = "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin";
-// 	env->next = NULL;
-
-// 	excute_this(cmd);
-// 	excute_this(cmd2);
-// 	return 0;
-// }
+	return 0;
+}
