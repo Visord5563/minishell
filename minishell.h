@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/11 10:07:59 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/13 16:22:49 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,11 @@ typedef struct s_data
 	struct s_cmd *cmd;
 	struct s_env *env;
 } t_data;
+
+
+
+void handle_redirection(t_cmd *cmd);
+void excute_this(t_cmd *cmd);
 
 t_parse	*ft_lstnew(char *content, t_token token, int index);
 void	ft_lstadd_back(t_parse **lst, t_parse *new);

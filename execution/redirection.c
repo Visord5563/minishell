@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   redirection_in.c                                   :+:      :+:    :+:   */
+/*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 11:57:21 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/11 12:08:34 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/13 16:23:47 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
 
 void redirect_output_to_file(const char *filename)
  {
@@ -62,12 +63,36 @@ void append_output_to_file(const char *filename)
     }
     close(file_fd);
 }
-// int main() {
-//     
-//     redirect_output_to_file("output.txt");
 
-//    
-//     printf("This will be written to the file 'output.txt'\n");
 
-//     return 0;
-// }
+void handle_redirection(t_cmd *cmd)
+{
+	int i = 0;
+	int fd;
+	
+	while (cmd->args[i])
+	{
+			if (strcmp(cmd->args[i], ">") == 0)
+			{
+				redirect_output_to_file(cmd->args[i + 1]);
+				for (int j = i + 2; cmd->args[j]; j++)
+					cmd->args[j - 2] = cmd->args[j];
+				i--;
+			}
+			else if(strcmp(cmd->args[i], ">>") == 0)
+			{
+				append_output_to_file(cmd->args[i + 1]);
+				for (int j = i + 2; cmd->args[j]; j++)
+					cmd->args[j - 2] = cmd->args[j];
+				i--;
+			}
+			else if(strcmp(cmd->args[i], "<") == 0)
+			{
+				redirect_input_from_file(cmd->args[i + 1]);
+				for (int j = i + 2; cmd->args[j]; j++)
+					cmd->args[j - 2] = cmd->args[j];
+				i--;
+			}
+		i++;
+	}
+}
