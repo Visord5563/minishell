@@ -6,11 +6,11 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 11:57:21 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/13 16:23:47 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/19 10:50:57 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "minishell.h"
 
 
 void redirect_output_to_file(const char *filename)
@@ -71,7 +71,7 @@ void handle_redirection(t_cmd *cmd)
 	int fd;
 	
 	while (cmd->args[i])
-	{
+	{	
 			if (strcmp(cmd->args[i], ">") == 0)
 			{
 				redirect_output_to_file(cmd->args[i + 1]);

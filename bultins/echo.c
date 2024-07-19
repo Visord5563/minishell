@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 10:15:41 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/13 12:07:05 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/19 10:23:53 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,8 +47,8 @@ int echo(char **argv)
 	}
 
 
-int main(int argc, char **argv)
-{
-	echo(argv);
-	return 0;
-}
+// int main(int argc, char **argv)
+// {
+// 	echo(argv);
+// 	return 0;
+// }

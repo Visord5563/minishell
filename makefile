@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    makefile                                           :+:      :+:    :+:    #
+#    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+         #
+#    By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/03 17:08:07 by saharchi          #+#    #+#              #
-#    Updated: 2024/06/11 10:58:46 by saharchi         ###   ########.fr        #
+#    Updated: 2024/07/19 09:58:54 by ehafiane         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,10 +14,10 @@ NAME = minishell
 
 LIBFT = ./libft/libft.a
 
-CFLAGS = -Wall -Wextra -Werror 
+CFLAGS = #-Wall -Wextra -Werror 
 RM = rm -f
 
-SRC = main.c parse_list.c
+SRC = main.c parse_list.c pipe.c redirection.c
 
 OBJDIR = obj
 OBJ = $(SRC:%.c=$(OBJDIR)/%.o)
