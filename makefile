@@ -6,7 +6,7 @@
 #    By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/03 17:08:07 by saharchi          #+#    #+#              #
-#    Updated: 2024/07/19 09:58:54 by ehafiane         ###   ########.fr        #
+#    Updated: 2024/07/19 11:14:28 by ehafiane         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ LIBFT = ./libft/libft.a
 CFLAGS = #-Wall -Wextra -Werror 
 RM = rm -f
 
-SRC = main.c parse_list.c pipe.c redirection.c
+SRC = main.c parse_list.c execution.c redirection.c
 
 OBJDIR = obj
 OBJ = $(SRC:%.c=$(OBJDIR)/%.o)
