@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/17 06:05:35 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/07/19 06:46:31 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -199,11 +199,13 @@ void check_quotes(t_parse **parse)
 	t_parse *tmp = *parse;
 	while (tmp)
 	{
-		if (tmp->text)
+		if(tmp->token == HDOC)
+			tmp = tmp->next;
+		else if (tmp->text)
 		{
 			if (ft_strchr(tmp->text, '\'') || ft_strchr(tmp->text, '"'))
 				tmp->text = delete_quotes(tmp->text);
-		}
+		}	
 		tmp = tmp->next;
 	}
 }
@@ -427,22 +429,30 @@ void ft_lstcmd(t_data **data, t_parse *parse)
                 j++;
             }
             else if (parse->token == HDOC || parse->token == RIN || parse->token == ROUT || parse->token == APP)
-            {
+            {				  
                 if (parse->token == HDOC)
                 {
+					if (fd_in != 0)
+						close(fd_in);
                     fd_in = heredoc(parse->next->text, (*data)->env);
                 }
                 else if (parse->token == RIN)
                 {
-                    fd_in = open(parse->next->text, O_RDONLY);
+					if (fd_in != 0)
+						close(fd_in);
+                    fd_in = open(parse->next->text, O_RDONLY, 0644);
                 }
                 else if (parse->token == ROUT)
                 {
-                    fd_out = open(parse->next->text, O_CREAT | O_RDWR | O_TRUNC, 0777);
+					if(fd_out != 1)
+						close(fd_out);
+                    fd_out = open(parse->next->text, O_CREAT | O_RDWR | O_TRUNC, 0764);
                 }
                 else if (parse->token == APP)
                 {
-                    fd_out = open(parse->next->text, O_CREAT | O_RDWR | O_APPEND, 0777);
+					if(fd_out != 1)
+						close(fd_out);
+                    fd_out = open(parse->next->text, O_CREAT | O_RDWR | O_APPEND, 0764);
                 }
 				parse = parse->next;
             }
@@ -511,19 +521,28 @@ int main(int ac, char **av, char **env)
 		ft_env(&data->env, env);
 		ft_expend(&parse, data->env);
 		check_quotes(&parse);
+		// t_parse *tmp1 = parse;
+		// while (tmp1)
+		// {
+		// 	printf("text = %s\n", tmp1->text);
+		// 	printf("token = %d\n", tmp1->token);
+		// 	tmp1 = tmp1->next;
+		// }
+		// exit(0);
 		ft_lstcmd(&data, parse);
 		t_cmd *tmp = data->cmd;
 		int i = 0;
 		while (tmp)
 		{
-			i = 0;
-			while(tmp->args[i])
+			printf("----------------cmd--------------------\n");
+			printf("fd_in = %d\n", tmp->fd->fd_in);
+			printf("fd_out = %d\n", tmp->fd->fd_out);
+			while (tmp->args[i])
 			{
-				printf("---%s\n", tmp->args[i]);
+				printf("args[%d] = %s\n", i, tmp->args[i]);
 				i++;
 			}
-			printf("++%d\n", tmp->fd->fd_in);
-			printf("++%d\n", tmp->fd->fd_out);
+			i = 0;
 			tmp = tmp->next;
 		}
 		if (line && *line)
