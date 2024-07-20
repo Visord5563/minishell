@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/20 15:55:16 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/20 16:50:09 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -441,12 +441,6 @@ void ft_lstcmd(t_data **data, t_parse *parse)
             }
             else if (parse->token == HDOC || parse->token == RIN || parse->token == ROUT || parse->token == APP)
             {
-				if (access(parse->next->text, F_OK) == -1 || access(parse->next->text, R_OK) == -1)
-				{
-					perror(parse->next->text);
-					ft_lstclearcmd((*data)->cmd);
-					return ;
-				}			  
                 if (parse->token == HDOC)
                 {
 					if (fd_in != 0)
@@ -471,7 +465,13 @@ void ft_lstcmd(t_data **data, t_parse *parse)
 						close(fd_out);
                     fd_out = open(parse->next->text, O_CREAT | O_RDWR | O_APPEND, 0764);
                 }
-				parse = parse->next;
+				if (fd_in == -1 || fd_out == -1)
+				{
+					perror(parse->next->text);
+					ft_lstclearcmd((*data)->cmd);
+					return ;
+				}
+				parse = parse->next;			  
             }
             parse = parse->next;
         }
@@ -534,26 +534,23 @@ int main(int ac, char **av, char **env)
 		// }
 		// exit(0);
 		ft_lstcmd(&data, parse);
-		t_cmd *tmp = data->cmd;
-		int i = 0;
-		while (tmp)
-		{
-			printf("----------------cmd--------------------\n");
-			printf("fd_in = %d\n", tmp->fd->fd_in);
-			printf("fd_out = %d\n", tmp->fd->fd_out);
-			while (tmp->args[i])
-			{
-				printf("args[%d] = %s\n", i, tmp->args[i]);
-				i++;
-			}
-			i = 0;
-			tmp = tmp->next;
-		}
+		// t_cmd *tmp = data->cmd;
+		// int i = 0;
+		// while (tmp)
+		// {
+		// 	printf("----------------cmd--------------------\n");
+		// 	printf("fd_in = %d\n", tmp->fd->fd_in);
+		// 	printf("fd_out = %d\n", tmp->fd->fd_out);
+		// 	while (tmp->args[i])
+		// 	{
+		// 		printf("args[%d] = %s\n", i, tmp->args[i]);
+		// 		i++;
+		// 	}
+		// 	i = 0;
+		// 	tmp = tmp->next;
+		// }
 		if (line && *line)
-		{
         	add_history(line);
-			execute_this(data);
-		}
         if (strcmp(line, "env") == 0)
         {
 			t_env *tmp = data->env;
@@ -563,7 +560,8 @@ int main(int ac, char **av, char **env)
 				tmp = tmp->next;
 			}
 		}
-		// execute_this(data);
+		if(data->cmd)
+			execute_this(data);
 		ft_lstclearcmd(data->cmd);
 		data->cmd = NULL;
 		ft_lstclear(parse);
