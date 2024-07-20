@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipe.c                                             :+:      :+:    :+:   */
+/*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:44:59 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/19 10:35:20 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/20 13:28:39 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char *get_path(char *cmd, t_env *env)
 {
-    char *path = NULL;
+    // char *path = NULL;
     char *full_path = NULL;
     char *temp = NULL;
     char *value = NULL;
@@ -65,26 +65,29 @@ void execute_this(t_data *data)
     char *path = NULL;
     t_env *env = data->env;
 
-    while (data->cmd->args[i])
+    while (data->cmd)
     {
         if (pipe(fd) == -1)
         {
             perror("pipe");
             exit(EXIT_FAILURE);
-        }
+        }   
         pid = fork();
         if (pid < 0)
         {
             perror("fork");
             exit(EXIT_FAILURE);
+            close(fd[0]);
+            close(fd[1]);
         }
         if (pid == 0)
         {
             dup2(fd_in, 0);
-            if (data->cmd->args[i + 1])
+            if (data->cmd->next)
                 dup2(fd[1], 1);
             close(fd[0]);
-            handle_redirection(data->cmd);
+            close(fd[1]);
+            handle_redirection(data);
             path = get_path(data->cmd->args[0], env);
             execve(path, data->cmd->args, NULL);
             perror("execve");
@@ -97,5 +100,7 @@ void execute_this(t_data *data)
             fd_in = fd[0];
             i++;
         }
+        data->cmd = data->cmd->next;
     }
+    close(fd_in); 
 }
