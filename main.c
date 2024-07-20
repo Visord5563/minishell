@@ -6,7 +6,11 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/07/19 11:10:16 by ehafiane         ###   ########.fr       */
+=======
+/*   Updated: 2024/07/20 14:53:07 by saharchi         ###   ########.fr       */
+>>>>>>> salah
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -388,12 +392,17 @@ int heredoc(char *delimiter, t_env *env)
 		{		
 			line = expend_str(line, env);
 		}
+<<<<<<< HEAD
         line = ft_strjoin(line, "\n");
         ft_putstr_fd(line, fd);
+=======
+		ft_putendl_fd(line, fd);
+>>>>>>> salah
         free(line);
     }
     return fd;
 }
+<<<<<<< HEAD
 
 void ft_lstcmd(t_data **data, t_parse *parse)
 {
@@ -490,6 +499,12 @@ void ft_lstclearcmd(t_cmd *cmd)
 {
 	t_cmd	*tmp;
 
+=======
+void ft_lstclearcmd(t_cmd *cmd)
+{
+	t_cmd	*tmp;
+
+>>>>>>> salah
 	while (cmd)
 	{
 		tmp = cmd->next;
@@ -498,7 +513,107 @@ void ft_lstclearcmd(t_cmd *cmd)
 		free(cmd);
 		cmd = tmp;
 	}
+<<<<<<< HEAD
+=======
 }
+
+void ft_lstcmd(t_data **data, t_parse *parse)
+{
+    t_parse *tmpsize;
+    char **args;
+    int i;
+    int j;
+    int fd_in;
+    int fd_out;
+
+    while (parse)
+    {
+        i = 0;
+        tmpsize = parse;
+        while (tmpsize && tmpsize->token != PIPE)
+        {
+            if (tmpsize->token == WORD)
+                i++;
+            tmpsize = tmpsize->next;
+        }
+        args = malloc(sizeof(char *) * (i + 1));
+        if (!args)
+            return;
+        j = 0;
+        fd_in = 0;
+        fd_out = 1;
+        while (parse && parse->token != PIPE)
+        {
+            if (parse->token == WORD)
+            {
+                args[j] = ft_strdup(parse->text);
+                j++;
+            }
+            else if (parse->token == HDOC || parse->token == RIN || parse->token == ROUT || parse->token == APP)
+            {
+				if (access(parse->next->text, F_OK) == -1 || access(parse->next->text, R_OK) == -1)
+				{
+					perror(parse->next->text);
+					ft_lstclearcmd((*data)->cmd);
+					return ;
+				}			  
+                if (parse->token == HDOC)
+                {
+					if (fd_in != 0)
+						close(fd_in);
+                    fd_in = heredoc(parse->next->text, (*data)->env);
+                }
+                else if (parse->token == RIN)
+                {
+					if (fd_in != 0)
+						close(fd_in);
+                    fd_in = open(parse->next->text, O_RDONLY, 0644);
+                }
+                else if (parse->token == ROUT)
+                {
+					if(fd_out != 1)
+						close(fd_out);
+                    fd_out = open(parse->next->text, O_CREAT | O_RDWR | O_TRUNC, 0764);
+                }
+                else if (parse->token == APP)
+                {
+					if(fd_out != 1)
+						close(fd_out);
+                    fd_out = open(parse->next->text, O_CREAT | O_RDWR | O_APPEND, 0764);
+                }
+				parse = parse->next;
+            }
+            parse = parse->next;
+        }
+        args[j] = NULL;
+        ft_add_backcmd(&(*data)->cmd, ft_lstnewcmd(args, fd_in, fd_out));
+        if (parse)
+            parse = parse->next;
+    }
+}
+
+
+
+int check_heredoc(t_parse *parse, t_env *env)
+{
+    t_parse *tmp = parse;
+    int fd = -1;
+
+    while (tmp)
+    {
+        if (tmp->token == HDOC)
+        {
+            fd = heredoc(tmp->next->text, env);
+            tmp = tmp->next->next;
+        }
+        else
+            tmp = tmp->next;
+    }
+	return (fd);
+>>>>>>> salah
+}
+
+
 
 int main(int ac, char **av, char **env)
 {
@@ -534,14 +649,23 @@ int main(int ac, char **av, char **env)
 		int i = 0;
 		while (tmp)
 		{
+<<<<<<< HEAD
 			printf("----------------cmd--------------------\n");
 			printf("fd_in = %d\n", tmp->fd->fd_in);
 			printf("fd_out = %d\n", tmp->fd->fd_out);
+=======
+>>>>>>> salah
 			while (tmp->args[i])
 			{
 				printf("args[%d] = %s\n", i, tmp->args[i]);
 				i++;
 			}
+<<<<<<< HEAD
+=======
+			printf("fd_in = %d\n", tmp->fd->fd_in);
+			printf("fd_out = %d\n", tmp->fd->fd_out);
+			printf("----------------cmd--------------------\n");
+>>>>>>> salah
 			i = 0;
 			tmp = tmp->next;
 		}
@@ -556,7 +680,10 @@ int main(int ac, char **av, char **env)
 				tmp = tmp->next;
 			}
 		}
+<<<<<<< HEAD
 		// execute_this(data);
+=======
+>>>>>>> salah
 		ft_lstclearcmd(data->cmd);
 		data->cmd = NULL;
 		ft_lstclear(parse);

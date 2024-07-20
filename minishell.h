@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/07/19 10:00:24 by ehafiane         ###   ########.fr       */
+=======
+/*   Updated: 2024/07/20 12:25:56 by saharchi         ###   ########.fr       */
+>>>>>>> salah
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +48,7 @@ typedef enum s_token
 	int fd_in;
 	int fd_out;
 } t_fd;
+
 typedef struct s_cmd
 {
 	char **args;
@@ -73,11 +78,14 @@ typedef struct s_data
 	struct s_env *env;
 } t_data;
 
+<<<<<<< HEAD
 
 
 void handle_redirection(t_cmd *cmd);
 void execute_this(t_data *data);
 
+=======
+>>>>>>> salah
 t_parse	*ft_lstnew(char *content, t_token token);
 void	ft_lstadd_back(t_parse **lst, t_parse *new);
 t_parse	*ft_lstlast(t_parse *lst);
