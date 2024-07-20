@@ -6,7 +6,7 @@
 #    By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/03 17:08:07 by saharchi          #+#    #+#              #
-#    Updated: 2024/07/16 23:04:32 by saharchi         ###   ########.fr        #
+#    Updated: 2024/07/20 15:39:57 by saharchi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ LIBFT = ./libft/libft.a
 CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 RM = rm -f
 
-SRC = main.c parse_list.c
+SRC = main.c parse_list.c execution.c 
 
 OBJDIR = obj
 OBJ = $(SRC:%.c=$(OBJDIR)/%.o)
