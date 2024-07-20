@@ -1,8 +1,14 @@
 {
+<<<<<<< HEAD
 	"files.associations": {
 		"readline.h": "c",
 		"minishell.h": "c",
 		"history.h": "c",
 		"libft.h": "c"
 	}
+=======
+    "files.associations": {
+        "history.h": "c"
+    }
+>>>>>>> salah
 }

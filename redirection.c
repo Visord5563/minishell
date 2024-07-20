@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 11:57:21 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/20 13:14:39 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/20 15:58:19 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void redirect_input_from_file(t_data *data)
 
 void handle_redirection(t_data *data)
 {
+
 	if (data->cmd->fd->fd_in > 0)
 		redirect_input_from_file(data);
 	if (data->cmd->fd->fd_out > 1)
