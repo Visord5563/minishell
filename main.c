@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/19 06:46:31 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/07/20 14:53:07 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -388,11 +388,23 @@ int heredoc(char *delimiter, t_env *env)
 		{		
 			line = expend_str(line, env);
 		}
-        line = ft_strjoin(line, "\n");
-        ft_putstr_fd(line, fd);
+		ft_putendl_fd(line, fd);
         free(line);
     }
     return fd;
+}
+void ft_lstclearcmd(t_cmd *cmd)
+{
+	t_cmd	*tmp;
+
+	while (cmd)
+	{
+		tmp = cmd->next;
+		free(cmd->args);
+		free(cmd->fd);
+		free(cmd);
+		cmd = tmp;
+	}
 }
 
 void ft_lstcmd(t_data **data, t_parse *parse)
@@ -414,7 +426,6 @@ void ft_lstcmd(t_data **data, t_parse *parse)
                 i++;
             tmpsize = tmpsize->next;
         }
-
         args = malloc(sizeof(char *) * (i + 1));
         if (!args)
             return;
@@ -429,7 +440,13 @@ void ft_lstcmd(t_data **data, t_parse *parse)
                 j++;
             }
             else if (parse->token == HDOC || parse->token == RIN || parse->token == ROUT || parse->token == APP)
-            {				  
+            {
+				if (access(parse->next->text, F_OK) == -1 || access(parse->next->text, R_OK) == -1)
+				{
+					perror(parse->next->text);
+					ft_lstclearcmd((*data)->cmd);
+					return ;
+				}			  
                 if (parse->token == HDOC)
                 {
 					if (fd_in != 0)
@@ -486,19 +503,6 @@ int check_heredoc(t_parse *parse, t_env *env)
 }
 
 
-void ft_lstclearcmd(t_cmd *cmd)
-{
-	t_cmd	*tmp;
-
-	while (cmd)
-	{
-		tmp = cmd->next;
-		free(cmd->args);
-		free(cmd->fd);
-		free(cmd);
-		cmd = tmp;
-	}
-}
 
 int main(int ac, char **av, char **env)
 {
@@ -534,14 +538,14 @@ int main(int ac, char **av, char **env)
 		int i = 0;
 		while (tmp)
 		{
-			printf("----------------cmd--------------------\n");
-			printf("fd_in = %d\n", tmp->fd->fd_in);
-			printf("fd_out = %d\n", tmp->fd->fd_out);
 			while (tmp->args[i])
 			{
 				printf("args[%d] = %s\n", i, tmp->args[i]);
 				i++;
 			}
+			printf("fd_in = %d\n", tmp->fd->fd_in);
+			printf("fd_out = %d\n", tmp->fd->fd_out);
+			printf("----------------cmd--------------------\n");
 			i = 0;
 			tmp = tmp->next;
 		}
