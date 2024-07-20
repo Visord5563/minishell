@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:44:59 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/20 16:01:05 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/20 16:09:13 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,30 @@ char *get_path(char *cmd, t_env *env)
 }
 
 
+char **join_lst(t_env *env)
+{
+    char **envp = NULL;
+    int i = 0;
+    t_env *tmp = env;
+
+    while (tmp != NULL)
+    {
+        i++;
+        tmp = tmp->next;
+    }
+    envp = malloc(sizeof(char *) * (i + 1));
+    i = 0;
+    while (env != NULL)
+    {
+        envp[i] = ft_strjoin(env->key, "=");
+        envp[i] = ft_strjoin(envp[i], env->value);
+        env = env->next;
+        i++;
+    }
+    envp[i] = NULL;
+    return envp;
+}
+
 void execute_this(t_data *data)
 {
     pid_t pid;
@@ -63,8 +87,8 @@ void execute_this(t_data *data)
     int fd[2];
     int fd_in = 0;
     char *path = NULL;
-    t_env *env = data->env;
 
+    char **env = join_lst(data->env);
     while (data->cmd)
     {
         if (pipe(fd) == -1)
@@ -88,8 +112,8 @@ void execute_this(t_data *data)
             close(fd[0]);
             close(fd[1]);
             handle_redirection(data);
-            path = get_path(data->cmd->args[0], env);
-            execve(path, data->cmd->args, NULL);
+            path = get_path(data->cmd->args[0], data->env);
+            execve(path, data->cmd->args, env);
             perror("execve");
             exit(EXIT_FAILURE);
         }
