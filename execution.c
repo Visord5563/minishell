@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:44:59 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/20 17:05:44 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/20 18:01:13 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,12 +119,13 @@ void execute_this(t_data *data)
         }
         else
         {
-            wait(NULL);
+            wait(NULL); 
             close(fd[1]);
             fd_in = fd[0];
             i++;
         }
         data->cmd = data->cmd->next;
+        
     }
     close(fd_in); 
 }
