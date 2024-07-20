@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/20 17:06:03 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/20 18:20:27 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -393,6 +393,7 @@ int heredoc(char *delimiter, t_env *env)
     }
     return fd;
 }
+
 void ft_lstclearcmd(t_cmd *cmd)
 {
 	t_cmd	*tmp;
@@ -469,7 +470,8 @@ void ft_lstcmd(t_data **data, t_parse *parse)
 				{
 					perror(parse->next->text);
 					ft_lstclearcmd((*data)->cmd);
-					return ;
+					(*data)->cmd = NULL;
+					return;
 				}
 				parse = parse->next;			  
             }
