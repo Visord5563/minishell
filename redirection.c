@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 11:57:21 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/19 10:50:57 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/20 15:23:50 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ void append_output_to_file(const char *filename)
 void handle_redirection(t_cmd *cmd)
 {
 	int i = 0;
-	int fd;
 	
 	while (cmd->args[i])
 	{	

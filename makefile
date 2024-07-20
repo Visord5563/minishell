@@ -1,16 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
 #                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
+#    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+         #
+#    By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/03 17:08:07 by saharchi          #+#    #+#              #
-<<<<<<< HEAD
-#    Updated: 2024/07/19 11:14:28 by ehafiane         ###   ########.fr        #
-=======
-#    Updated: 2024/07/16 23:04:32 by saharchi         ###   ########.fr        #
->>>>>>> salah
+#    Updated: 2024/07/20 15:12:49 by saharchi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,11 +14,7 @@ NAME = minishell
 
 LIBFT = ./libft/libft.a
 
-<<<<<<< HEAD
-CFLAGS = #-Wall -Wextra -Werror 
-=======
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
->>>>>>> salah
+CFLAGS = -Wall -Wextra -Werror 
 RM = rm -f
 
 SRC = main.c parse_list.c execution.c redirection.c
