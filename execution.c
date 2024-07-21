@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:44:59 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/21 12:24:33 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/21 15:33:38 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,52 +83,66 @@ char **join_lst(t_env *env)
 void execute_this(t_data *data)
 {
     pid_t pid;
-    int i = 0;
     int fd[2];
     int fd_in = 0;
     char *path = NULL;
+    int status;
+    int num_cmds = 0;
 
     char **env = join_lst(data->env);
-    while (data->cmd)
+    t_cmd *cmd_list = data->cmd;
+    t_cmd *tmp_cmd_list = cmd_list;
+
+    while (tmp_cmd_list)
+    {
+        num_cmds++;
+        tmp_cmd_list = tmp_cmd_list->next;
+    }
+
+    int pids[num_cmds];
+    int i = 0;
+
+    while (cmd_list)
     {
         if (pipe(fd) == -1)
         {
             perror("pipe");
             exit(EXIT_FAILURE);
-        }   
+        }
         pid = fork();
         if (pid < 0)
         {
             perror("fork");
             exit(EXIT_FAILURE);
-            close(fd[0]);
-            close(fd[1]);
         }
         if (pid == 0)
         {
             dup2(fd_in, 0);
-            if (data->cmd->next)
+            if (cmd_list->next)
                 dup2(fd[1], 1);
             close(fd[0]);
             close(fd[1]);
+
             handle_redirection(data);
-            path = get_path(data->cmd->args[0], data->env);
-            execve(data->cmd->args[0], data->cmd->args, env);
-            if (path != NULL)
-                execve(path, data->cmd->args , env);
-            printf("minishell: %s: command not found\n", data->cmd->args[0]);
-            exit(EXIT_FAILURE);
+            path = get_path(cmd_list->args[0], data->env);
+
+            if (execve(cmd_list->args[0], cmd_list->args, env) == -1)
+            {
+                if (path != NULL)
+                    execve(path, cmd_list->args, env);
+                fprintf(stderr, "minishell: %s: command not found\n", cmd_list->args[0]);
+                exit(EXIT_FAILURE);
+            }
         }
         else
         {
-            wait(NULL); 
+            pids[i++] = pid;
             close(fd[1]);
             fd_in = fd[0];
-            i++;
+            cmd_list = cmd_list->next;
         }
-
-        data->cmd = data->cmd->next;
-        
     }
-    close(fd_in); 
+    for (int j = 0; j < num_cmds; j++)
+        waitpid(pids[j], &status, 0);
+    close(fd_in);
 }
