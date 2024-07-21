@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:44:59 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/21 06:43:39 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/07/21 15:13:50 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ void execute_this(t_data *data)
             fd_in = fd[0];
             i++;
         }
+
         data->cmd = data->cmd->next;
         
     }

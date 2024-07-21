@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/21 15:07:43 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/07/21 15:10:39 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -487,6 +487,7 @@ void ft_lstcmd(t_data **data, t_parse *parse)
 
 int main(int ac, char **av, char **env)
 {
+	printf("check shell level\n");
     char *line;
 	t_data *data;
     t_parse *parse;
