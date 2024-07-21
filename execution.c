@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:44:59 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/20 18:01:13 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/21 12:24:33 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,10 @@ void execute_this(t_data *data)
             close(fd[1]);
             handle_redirection(data);
             path = get_path(data->cmd->args[0], data->env);
-            execve(path, data->cmd->args, env);
-            perror("execve");
+            execve(data->cmd->args[0], data->cmd->args, env);
+            if (path != NULL)
+                execve(path, data->cmd->args , env);
+            printf("minishell: %s: command not found\n", data->cmd->args[0]);
             exit(EXIT_FAILURE);
         }
         else
@@ -124,6 +126,7 @@ void execute_this(t_data *data)
             fd_in = fd[0];
             i++;
         }
+
         data->cmd = data->cmd->next;
         
     }

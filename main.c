@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/20 18:20:27 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/21 12:25:44 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -508,6 +508,7 @@ int check_heredoc(t_parse *parse, t_env *env)
 
 int main(int ac, char **av, char **env)
 {
+	printf("check shell level\n");
     char *line;
 	t_data *data;
     t_parse *parse;
