@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:44:59 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/20 18:01:13 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/21 06:43:39 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 char *get_path(char *cmd, t_env *env)
 {
-    // char *path = NULL;
     char *full_path = NULL;
     char *temp = NULL;
     char *value = NULL;
@@ -114,12 +113,12 @@ void execute_this(t_data *data)
             handle_redirection(data);
             path = get_path(data->cmd->args[0], data->env);
             execve(path, data->cmd->args, env);
-            perror("execve");
+            perror(path);
             exit(EXIT_FAILURE);
         }
         else
         {
-            wait(NULL); 
+            wait(NULL);
             close(fd[1]);
             fd_in = fd[0];
             i++;

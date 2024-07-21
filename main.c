@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/20 17:06:03 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/21 15:07:43 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,10 @@ int check(char c)
 	return (1);
 }
 
-int check_token(t_parse **parse, char *line, int *i)
+void check_token(t_parse **parse, char *line, int *i)
 {
-        if (line[*i] == '|')
-		{
-			if ((*i) == 0)
-			{
-				printf("Minishell: syntax error near unexpected token `|'\n"); 
-				return (0);
-			}
+		if (line[*i] == '|')
             ft_lstadd_back(parse, ft_lstnew("|", PIPE));
-		}
         else if (line[*i] == '<' && line[*i + 1] == '<')
         {
             ft_lstadd_back(parse, ft_lstnew("<<", HDOC));
@@ -45,12 +38,17 @@ int check_token(t_parse **parse, char *line, int *i)
         else
             ft_lstadd_back(parse, ft_lstnew(">", ROUT));
         (*i)++;
-		return (1);
 }
 
 int check_syntax(t_parse **parse)
 {
 	t_parse *tmp = *parse;
+	
+	if (tmp && tmp->token == PIPE)
+	{
+		printf("Minishell: syntax error near unexpected token `|'\n");
+		return 1;
+	}
 	while (tmp)
 	{
 		if (tmp->token == PIPE && (!tmp->next || tmp->next->token == PIPE))
@@ -71,52 +69,47 @@ int check_syntax(t_parse **parse)
 	return 0;
 }
 
+int str_len(char *line, int i, char *quote)
+{
+	int j = i;
+	while (line[j])
+	{
+		if (*quote == '\0' && (line[j] == '"' || line[j] == '\''))
+			*quote = line[j];
+		else if (line[j] == *quote)
+			*quote = '\0';
+		else if (*quote == '\0' && (check(line[j])))
+				break;
+		j++;
+	}
+	return (j);
+}
+
 void parse_line(char *line, t_parse **parse)
 {
-    int i = 0;
-    int j = 0;
-    char quote = '\0';
-    int token = 0;
+    int i;
+    int j;
+    char quote;
 
+	i = 0;
+	quote = '\0';
     while (line[i])
     {
         while (line[i] == ' ' || (line[i] >= 9 && line[i] <= 13))
             i++;
-        if (line[i] == '\0')
-            break;
-
         if (line[i] == '|' || line[i] == '<' || line[i] == '>')
-		{
-            if(!check_token(parse, line, &i))
-				return ;
-		}
-        else 
+            check_token(parse, line, &i);
+        else if (line[i] != '\0')
         {
-			j = i;
-            while (line[i])
-            {
-                if (quote == '\0' && (line[i] == '"' || line[i] == '\''))
-                    quote = line[i];
-                else if (line[i] == quote)
-                    quote = '\0';
-                else if (quote == '\0' && (check(line[i])))
-						break;
-                i++;
-            }
-            ft_lstadd_back(parse, ft_lstnew(ft_substr(line, j, i - j), token));
+			(1) && (j = i, i = str_len(line, i, &quote));
+            ft_lstadd_back(parse, ft_lstnew(ft_substr(line, j, i - j), 0));
         }
-    }
-	if(quote != '\0')
-	{
-		printf("Minishell: syntax error near unexpected token `%c'\n", quote);
-		ft_lstclear(*parse);
-		*parse = NULL;
-		return ;
 	}
-	if(check_syntax(parse) == 1)
+	if(quote != '\0' || check_syntax(parse) == 1)
 	{
-		ft_lstclear(*parse);
-		*parse = NULL;
+		if (quote != '\0')
+			printf("Minishell: syntax error near unexpected token `%c'\n", quote);
+		(1) && (ft_lstclear(*parse), *parse = NULL);
 		return ;
 	}
 }
@@ -168,12 +161,16 @@ void ft_env(t_env **envs, char **env)
 char *delete_quotes(char *str)
 {
 	char *new;
-	int i = 0;
-	int j = 0;
-	char quote = '\0';
+	int i;
+	int j;
+	char quote;
+	
 	new = malloc(sizeof(char) * (ft_strlen(str) + 1));
 	if (!new)
 		return (NULL);
+	i = 0;
+	j = 0;
+	quote = '\0';
 	while (str[i])
 	{
 		if (quote == '\0' && (str[i] == '"' || str[i] == '\''))
@@ -183,15 +180,11 @@ char *delete_quotes(char *str)
 				new[j++] = str[i++];
 		}
 		else if (str[i] == quote)
-		{
-			quote = '\0';
-			i++;
-		}
+			(1) && (quote = '\0', i++);
 		else
 			new[j++] = str[i++];
 	}
-	new[j] = '\0';
-	return (new);
+	return (new[j] = '\0', new);
 }
 
 void check_quotes(t_parse **parse)
@@ -249,16 +242,31 @@ char *check_value(char *key, t_env *envs)
 	return ("");
 }
 
-char *expend_str(char *str, t_env *envs)
+char *return_value(char *str, int i, t_env *envs)
 {
-	int i;
 	int j;
 	char *new;
 	char *strtmp;
-	char quote = '\0';
+	
+	j = i + 1;
+	// strtmp = ft_strdup("");
+	new =	ft_substr(str, 0 , i);
+	while (str[j] && (ft_isdigit(str[j]) || ft_isalpha(str[j]) || str[j] == '_'))
+		j++;		
+	strtmp = ft_strjoin(new, check_value(ft_substr(str, i + 1, j - i - 1), envs));
+	i = ft_strlen(strtmp) - 1;
+	strtmp = ft_strjoin(strtmp, ft_substr(str, j, ft_strlen(str) - j));
+	free(new);
+	return (strtmp);
+}
+
+char *expend_str(char *str, t_env *envs)
+{
+	int i;
+	char quote;
 	
 	i = 0;
-	strtmp = ft_strdup("");
+	quote = '\0';
 	while(str[i])
 	{
 		if(quote == '\0' && (str[i] == '\'' || str[i] == '"'))
@@ -266,17 +274,7 @@ char *expend_str(char *str, t_env *envs)
 		else if(quote == str[i] && (str[i] == '\'' || str[i] == '"'))
 			quote = '\0';
 		if (str[i] == '$' && ((quote != '\'' && (ft_isdigit(str[i+1]) || ft_isalpha(str[i+1]) || str[i+1] == '_')) || (quote == '\0' && (ft_isdigit(str[i+1]) || ft_isalpha(str[i+1]) || str[i+1] == '_' || str[i + 1] == '"'|| str[i + 1] == '\''))))
-		{
-			j = i + 1;
-			new =	ft_substr(str, 0 , i);
-			while (str[j] && (ft_isdigit(str[j]) || ft_isalpha(str[j]) || str[j] == '_'))
-				j++;		
-			strtmp = ft_strjoin(new, check_value(ft_substr(str, i + 1, j - i - 1), envs));
-			i = ft_strlen(strtmp) - 1;
-			strtmp = ft_strjoin(strtmp, ft_substr(str, j, ft_strlen(str) - j));
-			free(new);
-			str = strtmp;
-		}
+			str =return_value(str, i, envs);
 		i++;
 	}
 	return (str);
@@ -300,12 +298,15 @@ void ft_expend(t_parse **parse, t_env *envs)
 
 char *delete_espace(char *str)
 {
-	int i = 0;
-	int j = 0;
+	int i;
+	int j;
 	char *new;
+	
 	new = malloc(sizeof(char) * (ft_strlen(str) + 1));
 	if (!new)
 		return (NULL);
+	i = 0;
+	j = 0;
 	while (str[i])
 	{
 		if (str[i] == ' ' && str[i + 1] == '\0')
@@ -317,22 +318,13 @@ char *delete_espace(char *str)
 	return (new);
 }
 
-t_cmd *ft_lstnewcmd(char **content, int fd_in, int fd_out)
+t_cmd *ft_lstnewcmd(char **content, t_fd *fd)
 {
     t_cmd *list;
-    t_fd *fd;
 
-    fd = malloc(sizeof(t_fd));
-    if (!fd)
-        return (NULL);
-    fd->fd_in = fd_in;
-    fd->fd_out = fd_out;
     list = malloc(sizeof(t_cmd));
     if (!list)
-    {
-        free(fd);
-        return (NULL);
-    }
+        return (free(fd), NULL);
     list->args = content;
     list->fd = fd;
     list->next = NULL;
@@ -365,8 +357,7 @@ void ft_add_backcmd(t_cmd **cmd, t_cmd *new)
 
 int heredoc(char *delimiter, t_env *env) 
 {
-
-    char *line;
+	char *line;
     int fd;
 	char *s;
 	
@@ -384,15 +375,14 @@ int heredoc(char *delimiter, t_env *env)
             free(line);
             break;
         }
-		if(ft_strchr(delimiter, '\'') == 0  && ft_strchr(delimiter, '"') == 0)
-		{		
+		if(ft_strchr(delimiter, '\'') == 0  && ft_strchr(delimiter, '"') == 0)		
 			line = expend_str(line, env);
-		}
 		ft_putendl_fd(line, fd);
         free(line);
     }
     return fd;
 }
+
 void ft_lstclearcmd(t_cmd *cmd)
 {
 	t_cmd	*tmp;
@@ -407,102 +397,93 @@ void ft_lstclearcmd(t_cmd *cmd)
 	}
 }
 
-void ft_lstcmd(t_data **data, t_parse *parse)
+
+int count_args(t_parse *parse) 
 {
-    t_parse *tmpsize;
-    char **args;
-    int i;
+    int count = 0;
+    while (parse && parse->token != PIPE) {
+        if (parse->token == WORD)
+            count++;
+        parse = parse->next;
+    }
+    return count;
+}
+
+int handle_token(t_parse **parse, int *fd_in, int *fd_out, t_data *data) 
+{
+    if ((*parse)->token == HDOC || (*parse)->token == RIN)
+	{
+        if (*fd_in != 0)
+            close(*fd_in);
+		if((*parse)->token == HDOC)
+        	*fd_in = heredoc((*parse)->next->text, data->env);
+		else
+        	*fd_in = open((*parse)->next->text, O_RDONLY, 0644);
+    } 
+	else if ((*parse)->token == ROUT || (*parse)->token == APP)
+	{
+        if (*fd_out != 1)
+            close(*fd_out);
+		if ((*parse)->token == ROUT)
+        	*fd_out = open((*parse)->next->text, O_CREAT | O_RDWR | O_TRUNC, 0764);
+		else
+        	*fd_out = open((*parse)->next->text, O_CREAT | O_RDWR | O_APPEND, 0764);
+    }  
+    if (*fd_in == -1 || *fd_out == -1) 
+	{
+        perror((*parse)->next->text);
+		ft_lstclearcmd(data->cmd);
+        return(data->cmd = NULL, -1);
+    }
+    return(*parse = (*parse)->next, 0);
+}
+
+void add_args(t_parse **parse, char ***args, t_data *data, t_fd *fd) 
+{
     int j;
-    int fd_in;
-    int fd_out;
+    int i;
 
-    while (parse)
-    {
-        i = 0;
-        tmpsize = parse;
-        while (tmpsize && tmpsize->token != PIPE)
-        {
-            if (tmpsize->token == WORD)
-                i++;
-            tmpsize = tmpsize->next;
-        }
-        args = malloc(sizeof(char *) * (i + 1));
-        if (!args)
-            return;
-        j = 0;
-        fd_in = 0;
-        fd_out = 1;
-        while (parse && parse->token != PIPE)
-        {
-            if (parse->token == WORD)
-            {
-                args[j] = ft_strdup(parse->text);
-                j++;
-            }
-            else if (parse->token == HDOC || parse->token == RIN || parse->token == ROUT || parse->token == APP)
-            {
-                if (parse->token == HDOC)
-                {
-					if (fd_in != 0)
-						close(fd_in);
-                    fd_in = heredoc(parse->next->text, (*data)->env);
-                }
-                else if (parse->token == RIN)
-                {
-					if (fd_in != 0)
-						close(fd_in);
-                    fd_in = open(parse->next->text, O_RDONLY, 0644);
-                }
-                else if (parse->token == ROUT)
-                {
-					if(fd_out != 1)
-						close(fd_out);
-                    fd_out = open(parse->next->text, O_CREAT | O_RDWR | O_TRUNC, 0764);
-                }
-                else if (parse->token == APP)
-                {
-					if(fd_out != 1)
-						close(fd_out);
-                    fd_out = open(parse->next->text, O_CREAT | O_RDWR | O_APPEND, 0764);
-                }
-				if (fd_in == -1 || fd_out == -1)
-				{
-					perror(parse->next->text);
-					ft_lstclearcmd((*data)->cmd);
-					return ;
-				}
-				parse = parse->next;			  
-            }
-            parse = parse->next;
-        }
-        args[j] = NULL;
-        ft_add_backcmd(&(*data)->cmd, ft_lstnewcmd(args, fd_in, fd_out));
-        if (parse)
-            parse = parse->next;
+    i = count_args(*parse);
+    *args = malloc(sizeof(char *) * (i + 1));
+    if (!*args)
+        return;
+    j = 0;
+    fd->fd_in = 0;
+    fd->fd_out = 1;
+    while (*parse && (*parse)->token != PIPE) 
+	{
+        if ((*parse)->token == WORD) 
+		{
+            if (ft_strcmp((*parse)->text, ""))
+                (*args)[j++] = ft_strdup((*parse)->text);
+        } 
+		else if ((*parse)->token == HDOC || (*parse)->token == RIN || (*parse)->token == ROUT || (*parse)->token == APP)
+            if (handle_token(parse, &fd->fd_in, &fd->fd_out, data) == -1)
+                return;
+        *parse = (*parse)->next;
     }
+    (*args)[j] = NULL;
 }
 
-
-
-int check_heredoc(t_parse *parse, t_env *env)
+void ft_lstcmd(t_data **data, t_parse *parse) 
 {
-    t_parse *tmp = parse;
-    int fd = -1;
+    t_fd *fd;
+    char **args;
 
-    while (tmp)
-    {
-        if (tmp->token == HDOC)
-        {
-            fd = heredoc(tmp->next->text, env);
-            tmp = tmp->next->next;
+    while (parse) {
+        fd = malloc(sizeof(t_fd));
+        if (!fd)
+            return;
+        add_args(&parse, &args, *data, fd);
+        if (!args) {
+            free(fd);
+            return;
         }
-        else
-            tmp = tmp->next;
+        ft_add_backcmd(&(*data)->cmd, ft_lstnewcmd(args, fd));
+        if (parse)
+			parse = parse->next;
     }
-	return (fd);
 }
-
-
 
 int main(int ac, char **av, char **env)
 {
@@ -525,6 +506,8 @@ int main(int ac, char **av, char **env)
 		ft_env(&data->env, env);
 		ft_expend(&parse, data->env);
 		check_quotes(&parse);
+		// exit(0);
+		ft_lstcmd(&data, parse);
 		// t_parse *tmp1 = parse;
 		// while (tmp1)
 		// {
@@ -532,23 +515,21 @@ int main(int ac, char **av, char **env)
 		// 	printf("token = %d\n", tmp1->token);
 		// 	tmp1 = tmp1->next;
 		// }
-		// exit(0);
-		ft_lstcmd(&data, parse);
-		// t_cmd *tmp = data->cmd;
-		// int i = 0;
-		// while (tmp)
-		// {
-		// 	printf("----------------cmd--------------------\n");
-		// 	printf("fd_in = %d\n", tmp->fd->fd_in);
-		// 	printf("fd_out = %d\n", tmp->fd->fd_out);
-		// 	while (tmp->args[i])
-		// 	{
-		// 		printf("args[%d] = %s\n", i, tmp->args[i]);
-		// 		i++;
-		// 	}
-		// 	i = 0;
-		// 	tmp = tmp->next;
-		// }
+		t_cmd *tmp = data->cmd;
+		int i = 0;
+		while (tmp)
+		{
+			printf("----------------cmd--------------------\n");
+			printf("fd_in = %d\n", tmp->fd->fd_in);
+			printf("fd_out = %d\n", tmp->fd->fd_out);
+			while (tmp->args[i])
+			{
+				printf("args[%d] = %s\n", i, tmp->args[i]);
+				i++;
+			}
+			i = 0;
+			tmp = tmp->next;
+		}
 		if (line && *line)
         	add_history(line);
         if (strcmp(line, "env") == 0)
@@ -560,7 +541,7 @@ int main(int ac, char **av, char **env)
 				tmp = tmp->next;
 			}
 		}
-		if(data->cmd)
+		if (data->cmd)
 			execute_this(data);
 		ft_lstclearcmd(data->cmd);
 		data->cmd = NULL;
