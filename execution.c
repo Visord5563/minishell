@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:44:59 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/21 15:33:38 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/21 15:34:16 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 char *get_path(char *cmd, t_env *env)
 {
-    // char *path = NULL;
     char *full_path = NULL;
     char *temp = NULL;
     char *value = NULL;
@@ -124,19 +123,16 @@ void execute_this(t_data *data)
             close(fd[1]);
 
             handle_redirection(data);
-            path = get_path(cmd_list->args[0], data->env);
-
-            if (execve(cmd_list->args[0], cmd_list->args, env) == -1)
-            {
-                if (path != NULL)
-                    execve(path, cmd_list->args, env);
-                fprintf(stderr, "minishell: %s: command not found\n", cmd_list->args[0]);
-                exit(EXIT_FAILURE);
-            }
+            path = get_path(data->cmd->args[0], data->env);
+            execve(data->cmd->args[0], data->cmd->args, env);
+            if (path != NULL)
+                execve(path, data->cmd->args , env);
+            printf("minishell: %s: command not found\n", data->cmd->args[0]);
+            exit(EXIT_FAILURE);
         }
         else
         {
-            pids[i++] = pid;
+            wait(NULL); 
             close(fd[1]);
             fd_in = fd[0];
             cmd_list = cmd_list->next;
