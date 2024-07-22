@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:44:59 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/21 15:34:16 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/22 20:03:19 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,60 +85,81 @@ void execute_this(t_data *data)
     int fd[2];
     int fd_in = 0;
     char *path = NULL;
-    int status;
-    int num_cmds = 0;
+    int childpids[256]; // Modified line
 
     char **env = join_lst(data->env);
-    t_cmd *cmd_list = data->cmd;
-    t_cmd *tmp_cmd_list = cmd_list;
 
-    while (tmp_cmd_list)
+    t_cmd *temp_cmd = data->cmd;
+    int num_cmds = 0; // Added line
+    while (temp_cmd)
     {
         num_cmds++;
-        tmp_cmd_list = tmp_cmd_list->next;
+        temp_cmd = temp_cmd->next;
     }
 
-    int pids[num_cmds];
-    int i = 0;
+    int cmd_index = 0;
 
-    while (cmd_list)
+    while (data->cmd)
     {
-        if (pipe(fd) == -1)
+        if (data->cmd->next != NULL && pipe(fd) == -1)
         {
             perror("pipe");
             exit(EXIT_FAILURE);
         }
+
         pid = fork();
         if (pid < 0)
         {
             perror("fork");
             exit(EXIT_FAILURE);
         }
+
         if (pid == 0)
         {
-            dup2(fd_in, 0);
-            if (cmd_list->next)
-                dup2(fd[1], 1);
-            close(fd[0]);
-            close(fd[1]);
+            dup2(fd_in, STDIN_FILENO);
 
+            if (data->cmd->next != NULL)
+                dup2(fd[1], STDOUT_FILENO);
+
+            close(fd[0]);
             handle_redirection(data);
+
             path = get_path(data->cmd->args[0], data->env);
-            execve(data->cmd->args[0], data->cmd->args, env);
             if (path != NULL)
-                execve(path, data->cmd->args , env);
-            printf("minishell: %s: command not found\n", data->cmd->args[0]);
-            exit(EXIT_FAILURE);
+            {
+                execve(path, data->cmd->args, env);
+                free(path);
+            }
+            else
+            {
+                execve(data->cmd->args[0], data->cmd->args, env);
+            }
+            if(execve(data->cmd->args[0], data->cmd->args, env) == -1)
+            {
+                printf("minishell: %s: command not found\n", data->cmd->args[0]);
+                exit(EXIT_FAILURE);
+            }
         }
         else
         {
-            wait(NULL); 
+            childpids[cmd_index++] = pid; // Modified line
+            if(fd_in != 0)
+                close(fd_in);
             close(fd[1]);
             fd_in = fd[0];
-            cmd_list = cmd_list->next;
         }
+
+        data->cmd = data->cmd->next;
     }
-    for (int j = 0; j < num_cmds; j++)
-        waitpid(pids[j], &status, 0);
-    close(fd_in);
+
+    for (int i = 0; i < num_cmds; i++)
+    {
+        wait(NULL);
+    }
+
+    // close(fd_in);
+    // for (int i = 0; env[i] != NULL; i++)
+    //     free(env[i]);
+    // free(env);
 }
+
