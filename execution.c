@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:44:59 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/22 20:03:19 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/23 17:30:15 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,19 +85,18 @@ void execute_this(t_data *data)
     int fd[2];
     int fd_in = 0;
     char *path = NULL;
-    int childpids[256]; // Modified line
-
+    int childpids[256];
+    int cmd_index = 0;
+    int num_cmds = 0;
     char **env = join_lst(data->env);
 
+    // Count the number of commands
     t_cmd *temp_cmd = data->cmd;
-    int num_cmds = 0; // Added line
     while (temp_cmd)
     {
         num_cmds++;
         temp_cmd = temp_cmd->next;
     }
-
-    int cmd_index = 0;
 
     while (data->cmd)
     {
@@ -116,12 +115,14 @@ void execute_this(t_data *data)
 
         if (pid == 0)
         {
+            // Child process
             dup2(fd_in, STDIN_FILENO);
-
             if (data->cmd->next != NULL)
                 dup2(fd[1], STDOUT_FILENO);
 
             close(fd[0]);
+            close(fd[1]);
+
             handle_redirection(data);
 
             path = get_path(data->cmd->args[0], data->env);
@@ -131,35 +132,37 @@ void execute_this(t_data *data)
                 free(path);
             }
             else
-            {
                 execve(data->cmd->args[0], data->cmd->args, env);
-            }
-            if(execve(data->cmd->args[0], data->cmd->args, env) == -1)
-            {
-                printf("minishell: %s: command not found\n", data->cmd->args[0]);
-                exit(EXIT_FAILURE);
-            }
+            fprintf(stderr, "minishell: %s: command not found\n", data->cmd->args[0]);
+            exit(EXIT_FAILURE);
         }
         else
         {
-            childpids[cmd_index++] = pid; // Modified line
-            if(fd_in != 0)
+            // parrent process
+            childpids[cmd_index++] = pid;
+            if (fd_in != 0)
                 close(fd_in);
             close(fd[1]);
             fd_in = fd[0];
         }
-
         data->cmd = data->cmd->next;
     }
 
+    if (fd_in != 0)
+        close(fd_in);
+
     for (int i = 0; i < num_cmds; i++)
     {
-        wait(NULL);
+        int status;
+        if (waitpid(childpids[i], &status, 0) == -1)
+        {
+            perror("waitpid");
+        }
     }
 
-    // close(fd_in);
-    // for (int i = 0; env[i] != NULL; i++)
-    //     free(env[i]);
-    // free(env);
+    // Free environment strings
+    for (int i = 0; env[i] != NULL; i++)
+        free(env[i]);
+    free(env);
 }
 
