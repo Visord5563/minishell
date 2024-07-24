@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 09:13:33 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/15 09:21:11 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/24 09:50:18 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,12 @@ int export(const char *name, const char *value) {
     return 0;
 }
 
-int main() {
-    if (export("VAR", "Hello World") == 0) {
-        printf("VAR=%s\n", getenv("VAR"));
-    } else {
-        printf("Failed to set environment variable\n");
-    }
+// int main() {
+//     if (export("VAR", "Hello World") == 0) {
+//         printf("VAR=%s\n", getenv("VAR"));
+//     } else {
+//         printf("Failed to set environment variable\n");
+//     }
 
-    return 0;
-}
+//     return 0;
+// }

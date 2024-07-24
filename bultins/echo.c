@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 10:15:41 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/20 18:06:09 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/24 09:46:37 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,33 +34,25 @@ int is_n_flag(char *arg)
 	return 0;
 }
 
-int echo(char **argv)
+int ft_echo(char **argv)
 {
-	int i = 1;
-	int flag = 0;
+    int i = 1;
+    int flag = 0;
 
-	if (count_argc(argv) > 1)
-	{
-		while (argv[i] && is_n_flag(argv[i]))
-		{
-			flag = 1;
-			i++;
-		}
-		while (argv[i] != NULL)
-		{
-			printf("%s", argv[i]);
-			if (argv[i+1] != NULL)
-				printf(" ");
-			i++;
-		}
-	}
-	if (flag == 0)
-		printf("\n");
-	return 1;
-}
+    while (argv[i] && is_n_flag(argv[i]))
+    {
+        flag = 1;
+        i++;
+    }
+    while (argv[i])
+    {
+        printf("%s", argv[i]);
+        if (argv[i + 1])
+            printf(" ");
+        i++;
+    }
+    if (!flag)
+        printf("\n");
 
-int main(int argc, char **argv)
-{
-	echo(argv);
-	return 0;
+    return 1;
 }

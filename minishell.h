@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/20 15:55:37 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/24 09:52:36 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,14 +74,20 @@ typedef struct s_data
 } t_data;
 
 
+int		ft_echo(char **argv);
+void	ft_exit(char **str);
+int		ft_pwd();
+int		ft_cd(char *path);
 
-void handle_redirection(t_data *data);
-void execute_this(t_data *data);
+void	handle_redirection(t_data *data);
+void	execute_this(t_data *data);
+void	check_bultins(char **cmd, t_env *env);
+int if_bultins(char **cmd);
 
 t_parse	*ft_lstnew(char *content, t_token token);
 void	ft_lstadd_back(t_parse **lst, t_parse *new);
 t_parse	*ft_lstlast(t_parse *lst);
-int	ft_lstsize(t_parse *lst);
+int		ft_lstsize(t_parse *lst);
 void	ft_lstclear(t_parse *lst);
 
 #endif

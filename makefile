@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+         #
+#    By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/03 17:08:07 by saharchi          #+#    #+#              #
-#    Updated: 2024/07/21 15:13:06 by saharchi         ###   ########.fr        #
+#    Updated: 2024/07/24 09:32:21 by ehafiane         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,9 @@ LIBFT = ./libft/libft.a
 CFLAGS = -Wall -Wextra -Werror -fsanitize=address -g
 RM = rm -f
 
-SRC = main.c parse_list.c execution.c redirection.c
+SRC = main.c parse_list.c execution.c redirection.c bultins/cd.c bultins/echo.c \
+	bultins/env.c bultins/export.c bultins/pwd.c bultins/unset.c \
+	bultins/exit.c bultins/check_bultins.c \
 
 OBJDIR = obj
 OBJ = $(SRC:%.c=$(OBJDIR)/%.o)

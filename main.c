@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/21 15:55:14 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/24 09:53:47 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -487,7 +487,7 @@ void ft_lstcmd(t_data **data, t_parse *parse)
 
 int main(int ac, char **av, char **env)
 {
-	printf("check shell level\n");
+	// printf("check shell level\n");
     char *line;
 	t_data *data;
     t_parse *parse;
@@ -542,7 +542,9 @@ int main(int ac, char **av, char **env)
 				tmp = tmp->next;
 			}
 		}
-		if (data->cmd)
+		if(if_bultins(data->cmd->args))
+			check_bultins(data->cmd->args, data->env);
+		if (data->cmd && !if_bultins(data->cmd->args))
 			execute_this(data);
 		ft_lstclearcmd(data->cmd);
 		data->cmd = NULL;
