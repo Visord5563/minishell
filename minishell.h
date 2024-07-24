@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/24 09:52:36 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/24 13:11:10 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,15 +73,20 @@ typedef struct s_data
 	struct s_env *env;
 } t_data;
 
+typedef struct s_flags {
+    int exit_stat;
+} t_flags;
+t_flags g_flags;
 
 int		ft_echo(char **argv);
 void	ft_exit(char **str);
 int		ft_pwd();
-int		ft_cd(char *path);
+void ft_cd(char *arg, t_env **env);
+void	real_env(t_env *a, int i, char **cmd);
 
 void	handle_redirection(t_data *data);
 void	execute_this(t_data *data);
-void	check_bultins(char **cmd, t_env *env);
+void	check_bultins(char **cmd, t_env **env);
 int if_bultins(char **cmd);
 
 t_parse	*ft_lstnew(char *content, t_token token);
