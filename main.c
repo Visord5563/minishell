@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/24 09:53:47 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/24 11:16:46 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -542,9 +542,9 @@ int main(int ac, char **av, char **env)
 				tmp = tmp->next;
 			}
 		}
-		if(if_bultins(data->cmd->args))
+		if((data->cmd) && if_bultins(data->cmd->args))
 			check_bultins(data->cmd->args, data->env);
-		if (data->cmd && !if_bultins(data->cmd->args))
+		else if (data->cmd)
 			execute_this(data);
 		ft_lstclearcmd(data->cmd);
 		data->cmd = NULL;
