@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 11:06:06 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/26 16:58:41 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/26 15:06:48 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,3 +133,4 @@ char	**my_split(char *str, char *set)
 	strings[i] = 0;
 	return (strings);
 }
+

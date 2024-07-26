@@ -1,29 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/10 10:15:38 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/24 09:46:07 by ehafiane         ###   ########.fr       */
+/*   Created: 2024/07/24 12:59:44 by ehafiane          #+#    #+#             */
+/*   Updated: 2024/07/24 13:10:12 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "../minishell.h"
 
-int ft_pwd()
+void	real_env(t_env *a, int i, char **cmd)
 {
-    char pwd[PATH_MAX];
-
-    if (getcwd(pwd, PATH_MAX))
-    {
-        ft_putendl_fd(pwd, 1);
-        return (0);
-    }
-    else
-    {
-        perror("pwd");
-        return (1);
-    }
+	(void)cmd;
+	while (a != NULL)
+	{
+		if (i == 1)
+		{
+			printf("%s=%s\n", a->key, a->value);
+		}
+		else
+		{
+			printf("%s=%s", a->key, a->value);
+			if (a->next != NULL)
+				printf("\n");
+		}
+		a = a->next;
+	}
 }

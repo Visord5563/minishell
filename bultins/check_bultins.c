@@ -3,24 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   check_bultins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:21:42 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/24 12:26:03 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/07/24 13:10:50 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void check_bultins(char **cmd, t_env *env)
+void check_bultins(char **cmd, t_env **env)
 {
 	(void)env;
     if (strcmp(cmd[0], "echo") == 0)
         ft_echo(cmd);
     else if (strcmp(cmd[0], "cd") == 0)
-        ft_cd(cmd[1]);
+        ft_cd(cmd[1], env);
     else if (strcmp(cmd[0], "pwd") == 0)
         ft_pwd();
+	else if (strcmp(cmd[0], "env") == 0)
+		real_env(*env, 0, cmd);
     else if (strcmp(cmd[0], "exit") == 0)
         ft_exit(cmd);
     else
