@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 18:34:16 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/20 15:12:09 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/07/24 19:55:32 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,9 @@ t_parse	*ft_lstnew(char *content, t_token token)
 	list = malloc(sizeof(t_parse));
 	if (!list)
 		return (NULL);
-	list->text = ft_strdup(content);
+	list->text = content;
+	list->flag = 0;
+	list->fd_hdoc = -1;
 	list->token = token;
 	list->next = NULL;
 	return (list);
