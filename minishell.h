@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
 /*   Updated: 2024/07/26 16:59:31 by ehafiane         ###   ########.fr       */
@@ -38,15 +38,15 @@ t_signle g_sigl;
 
 typedef enum s_token
 {
-	WORD, // simple word
-	HDOC, // << heredoc
-	RIN, // < rediction in
-	APP, // append >> 
-	ROUT, // redirection out >
-	PIPE, // |
+	WORD,
+	HDOC,
+	RIN,
+	APP,
+	ROUT,
+	PIPE,
 }	t_token;
 
- typedef struct s_fd
+typedef struct s_fd
 {
 	int fd_in;
 	int fd_out;
@@ -71,6 +71,8 @@ typedef struct s_parse
 {
 	char *text; 
 	t_token token;
+	int flag;
+	int fd_hdoc;
 	struct s_parse *next;
 } t_parse;
 
@@ -81,11 +83,8 @@ typedef struct s_data
 	struct s_env *env;
 } t_data;
 
-typedef struct s_flags {
-    int exit_stat;
-} t_flags;
-t_flags g_flags;
 
+// // -----------------------
 int		ft_echo(char **argv);
 void	ft_exit(char **str);
 int		ft_pwd();
@@ -99,10 +98,21 @@ int		if_bultins(char **cmd);
 
 int		count_str(char *str, char *set);
 char	**my_split(char *str, char *set);
+
+int		ft_cd(char *path);
+// // -----------------------
+void	handle_redirection(t_data *data);
+void	execute_this(t_data *data);
+void	check_bultins(char **cmd, t_env *env);
+int if_bultins(char **cmd);
+// // -----------------------
+
+int	count_str(char *str, char *set);
+char  **my_split(char *str, char *set);
 t_parse	*ft_lstnew(char *content, t_token token);
 void	ft_lstadd_back(t_parse **lst, t_parse *new);
 t_parse	*ft_lstlast(t_parse *lst);
-int		ft_lstsize(t_parse *lst);
+int	ft_lstsize(t_parse *lst);
 void	ft_lstclear(t_parse *lst);
 void	sighandel(int sig);
 

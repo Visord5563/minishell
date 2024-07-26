@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/06 23:10:05 by saharchi          #+#    #+#             */
-/*   Updated: 2024/06/11 10:55:22 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/07/26 15:22:46 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*nstr;
 	size_t	len;
-
 	if (!s1 && !s2)
 		return (NULL);
 	if (!s1 || !s2)
@@ -32,5 +31,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (NULL);
 	ft_strlcpy(nstr, s1, ft_strlen(s1) + 1);
 	ft_strlcat(nstr, s2, len);
+	free((void*)s1);
 	return (nstr);
 }
