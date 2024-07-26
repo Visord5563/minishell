@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/24 12:26:14 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/07/26 16:59:31 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,17 @@ typedef struct s_data
 int		ft_echo(char **argv);
 void	ft_exit(char **str);
 int		ft_pwd();
+void	ft_cd(char *arg, t_env **env);
+void	real_env(t_env *a, int i, char **cmd);
+
+void	handle_redirection(t_data *data);
+void	execute_this(t_data *data);
+void	check_bultins(char **cmd, t_env **env);
+int		if_bultins(char **cmd);
+
+int		count_str(char *str, char *set);
+char	**my_split(char *str, char *set);
+
 int		ft_cd(char *path);
 // // -----------------------
 void	handle_redirection(t_data *data);
@@ -103,6 +114,6 @@ void	ft_lstadd_back(t_parse **lst, t_parse *new);
 t_parse	*ft_lstlast(t_parse *lst);
 int	ft_lstsize(t_parse *lst);
 void	ft_lstclear(t_parse *lst);
-void sighandel(int sig);
+void	sighandel(int sig);
 
 #endif
