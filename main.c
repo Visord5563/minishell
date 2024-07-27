@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/27 19:04:04 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/27 23:43:52 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -493,6 +493,7 @@ int heredoc(char *delimiter, t_env *env)
 	char *s;
 	
 	char *runm = ft_itoa((int)delimiter);
+	printf("runm = %s\n", runm);
 	s = ft_strjoin(ft_strdup("/tmp/."), runm);
     fd = open(s,  O_CREAT | O_WRONLY | O_TRUNC, 0777);
     unlink(s);
@@ -521,7 +522,7 @@ int heredoc(char *delimiter, t_env *env)
         free(line);
     }
 	// g_sigl.sig_herdoc = 0;
-    return fd;
+    return (fd);
 }
 
 void check_heredoc(t_parse **parse, t_env *env)
@@ -739,7 +740,6 @@ void sighandel(int sig)
 		{
 			g_sigl.sig_herdoc = 0;
 			close(0);
-			
 		}
 		else
 		{
@@ -755,7 +755,7 @@ int main(int ac, char **av, char **env)
 {
     char *line;
 	t_data *data;
-    t_parse *parse;
+    t_parse *parse;   //termios
     (void)ac;
     (void)av;
 	
@@ -805,14 +805,14 @@ int main(int ac, char **av, char **env)
 		if((data->cmd) && if_bultins(data->cmd->args))
 		{
 			check_bultins(data->cmd->args, &data->env);
-			printf("bultins\n");
+			// printf("bultins\n");
 		}
 		else if (data->cmd )
 		{
 			printf("execute\n");
+			// printf("execute\n");
 			execute_this(data);
 		}
-		
 		ft_lstclearcmd(data->cmd);
 		data->cmd = NULL;
 		ft_lstclear(parse);

@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 11:57:21 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/20 15:58:19 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/27 23:38:18 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void redirect_input_from_file(t_data *data)
 {
 	int file_fd;
 
+	printf("data->cmd->fd->fd_in = %d\n", data->cmd->fd->fd_in);
 	file_fd = data->cmd->fd->fd_in;
 	if (file_fd < 0) {
 		perror("open");

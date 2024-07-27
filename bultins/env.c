@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 12:59:44 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/24 13:10:12 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/27 22:23:14 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,4 +30,5 @@ void	real_env(t_env *a, int i, char **cmd)
 		}
 		a = a->next;
 	}
+	printf("\n");
 }
