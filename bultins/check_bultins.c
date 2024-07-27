@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:21:42 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/27 15:54:26 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/27 18:54:53 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ int if_bultins(char **cmd)
 	else if (strcmp(cmd[0], "cd") == 0)
 		return 1;
 	else if (strcmp(cmd[0], "pwd") == 0)
+		return 1;
+	else if (strcmp(cmd[0], "env") == 0)
 		return 1;
 	else if (strcmp(cmd[0], "exit") == 0)
 		return 1;

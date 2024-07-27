@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:44:59 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/27 16:56:17 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/27 19:24:11 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,6 @@ char *get_path(char *cmd, t_env *env)
     char *temp = NULL;
     char *value = NULL;
     char **paths = NULL;
-
-    
 
     while (env != NULL)
     {
@@ -40,30 +38,19 @@ char *get_path(char *cmd, t_env *env)
     {
         temp = ft_strjoin(paths[i], "/");
         full_path = ft_strjoin(temp, cmd);
-        free(temp);
-
         if (access(full_path, F_OK) != -1)
-        {
-            for (int j = 0; paths[j] != NULL; j++)
-                free(paths[j]);
-            printf("full_path: %s\n", full_path);
             return full_path;
-        }
         free(full_path);
     }
-    for (int j = 0; paths[j] != NULL; j++)
-        free(paths[j]);
     free(paths);
     return NULL;
 }
-
 
 char **join_lst(t_env *env)
 {
     char **envp = NULL;
     int i = 0;
     t_env *tmp = env;
-    t_env *tmp2 = env;
 
     while (tmp != NULL)
     {
@@ -72,11 +59,11 @@ char **join_lst(t_env *env)
     }
     envp = malloc(sizeof(char *) * (i + 1));
     i = 0;
-    while (tmp2 != NULL)
-    {
-        envp[i] = ft_strjoin(tmp2->key, "=");
-        envp[i] = ft_strjoin(envp[i], tmp2->value);
-        tmp2 = tmp2->next;
+    while (env != NULL)
+    {   
+        envp[i] = ft_strjoin(ft_strdup(env->key), "=");
+        envp[i] = ft_strjoin(envp[i], env->value);
+        env = env->next;
         i++;
     }
     envp[i] = NULL;
@@ -89,28 +76,22 @@ void execute_this(t_data *data)
     int fd[2];
     int fd_in = 0;
     char *path = NULL;
-    int childpids[256];
+    int status;
     int cmd_index = 0;
     int num_cmds = 0;
-    // while(data->env)
-	// 		printf("--------1:|| %s:::%s\n ", data->env->key, data->env->value), data->env = data->env->next;
-    // printf("------------------------------------\n");
-    char **env = join_lst(data->env);
-    // while(data->env)
-	// 		printf("--------2:|| %s:::%s\n ", data->env->key, data->env->value), data->env = data->env->next;
-    // printf("------------------------------------\n");
+    int childpids[256];
 
-    // Count the number of commands
-    t_cmd *temp_cmd = data->cmd;
-    while (temp_cmd)
+    char **env = join_lst(data->env);
+    t_cmd *cmd_list = data->cmd;
+    t_cmd *tmp_cmd_list = cmd_list;
+    while (tmp_cmd_list)
     {
         num_cmds++;
-        temp_cmd = temp_cmd->next;
+        tmp_cmd_list = tmp_cmd_list->next;
     }
-
-    while (data->cmd)
+    while (cmd_list)
     {
-        if (data->cmd->next != NULL && pipe(fd) == -1)
+        if (pipe(fd) == -1)
         {
             perror("pipe");
             exit(EXIT_FAILURE);
@@ -122,44 +103,37 @@ void execute_this(t_data *data)
             perror("fork");
             exit(EXIT_FAILURE);
         }
-
         if (pid == 0)
         {
-            // Child process
-            dup2(fd_in, STDIN_FILENO);
-            if (data->cmd->next != NULL)
-                dup2(fd[1], STDOUT_FILENO);
+            dup2(fd_in, 0);
+            if (cmd_list->next)
+                dup2(fd[1], 1);
 
             close(fd[0]);
             close(fd[1]);
 
             handle_redirection(data);
-            
-            path = get_path(data->cmd->args[0], data->env);
-            printf("path: %s\n", path);
+            path = get_path(cmd_list->args[0], data->env);
+
             if (path != NULL)
             {
-                execve(path, data->cmd->args, env);
+                execve(path, cmd_list->args, env);
                 free(path);
             }
             else
-            {
-                execve(data->cmd->args[0], data->cmd->args, env);
-            }
-                
-            fprintf(stderr, "minishell: %s: command not found\n", data->cmd->args[0]);
+                execve(cmd_list->args[0], cmd_list->args, env);
+            fprintf(stderr, "minishell: %s: command not found\n", cmd_list->args[0]);
             exit(EXIT_FAILURE);
         }
         else
         {
-            // parrent process
             childpids[cmd_index++] = pid;
             if (fd_in != 0)
                 close(fd_in);
             close(fd[1]);
             fd_in = fd[0];
         }
-        data->cmd = data->cmd->next;
+        cmd_list = cmd_list->next;
     }
 
     if (fd_in != 0)
@@ -167,16 +141,9 @@ void execute_this(t_data *data)
 
     for (int i = 0; i < num_cmds; i++)
     {
-        int status;
         if (waitpid(childpids[i], &status, 0) == -1)
         {
             perror("waitpid");
         }
     }
-
-    // Free environment strings
-    for (int i = 0; env[i] != NULL; i++)
-        free(env[i]);
-    free(env);
 }
-

@@ -6,7 +6,7 @@
 #    By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/03 17:08:07 by saharchi          #+#    #+#              #
-#    Updated: 2024/07/27 15:59:49 by ehafiane         ###   ########.fr        #
+#    Updated: 2024/07/27 19:01:22 by ehafiane         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 
 LIBFT = ./libft/libft.a
 
-CFLAGS = -Wall -Wextra -Werror
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 RM = rm -f
 
 SRC = main.c parse_list.c execution.c redirection.c bultins/cd.c bultins/echo.c \
@@ -37,6 +37,7 @@ $(OBJDIR)/%.o: %.c minishell.h | $(OBJDIR)
 
 $(OBJDIR):
 	mkdir -p $(OBJDIR)
+	mkdir -p $(OBJDIR)/bultins
 
 clean:
 	$(RM) $(OBJ)

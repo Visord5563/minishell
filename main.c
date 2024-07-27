@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/27 16:19:49 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/27 19:04:04 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,7 @@ void ft_env(t_env **envs, char **env)
 		key = ft_substr(env[i], 0, ft_strchr(env[i], '=') - env[i]);
 		value = ft_strdup(ft_strchr(env[i], '=') + 1);
 		add_env(envs, key, value);
+
 		i++;
 	}
 }
@@ -801,11 +802,17 @@ int main(int ac, char **av, char **env)
 		// 	i = 0;
 		// 	tmp = tmp->next;
 		// }
-		
 		if((data->cmd) && if_bultins(data->cmd->args))
+		{
 			check_bultins(data->cmd->args, &data->env);
-		else if (data->cmd)
+			printf("bultins\n");
+		}
+		else if (data->cmd )
+		{
+			printf("execute\n");
 			execute_this(data);
+		}
+		
 		ft_lstclearcmd(data->cmd);
 		data->cmd = NULL;
 		ft_lstclear(parse);
