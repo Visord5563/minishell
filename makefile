@@ -6,7 +6,7 @@
 #    By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/03 17:08:07 by saharchi          #+#    #+#              #
-#    Updated: 2024/07/26 17:22:13 by ehafiane         ###   ########.fr        #
+#    Updated: 2024/07/27 15:59:49 by ehafiane         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,12 +14,12 @@ NAME = minishell
 
 LIBFT = ./libft/libft.a
 
-CFLAGS = -Wall -Wextra -Werror -g
+CFLAGS = -Wall -Wextra -Werror
 RM = rm -f
 
 SRC = main.c parse_list.c execution.c redirection.c bultins/cd.c bultins/echo.c \
 	bultins/env.c bultins/export.c bultins/pwd.c bultins/unset.c \
-	bultins/exit.c bultins/check_bultins.c \
+	bultins/exit.c bultins/check_bultins.c split.c \
 
 OBJDIR = obj
 OBJ = $(SRC:%.c=$(OBJDIR)/%.o)
@@ -30,10 +30,10 @@ $(LIBFT): ./libft/*.c ./libft/libft.h
 	make -C ./libft/
 
 $(NAME): $(OBJ) $(LIBFT)
-	cc $(CFLAGS) $(OBJ) $(LIBFT) -lreadline -o $(NAME)
+	cc $(CFLAGS) $(OBJ) $(LIBFT) -L $(shell brew --prefix readline)/lib -lreadline -o $(NAME)
 
 $(OBJDIR)/%.o: %.c minishell.h | $(OBJDIR)
-	cc $(CFLAGS) -c $< -o $@
+	cc $(CFLAGS) -I $(shell brew --prefix readline)/include -c $< -o $@
 
 $(OBJDIR):
 	mkdir -p $(OBJDIR)

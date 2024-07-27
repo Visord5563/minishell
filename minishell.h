@@ -6,18 +6,16 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/26 17:20:45 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/27 15:58:04 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 #define MINISHELL_H
 
-#include <readline/readline.h>
-#include <readline/history.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <stdio.h>
 # include <string.h>
 # include <fcntl.h>
 # include <dirent.h>
@@ -25,8 +23,16 @@
 # include <limits.h>
 # include <errno.h>
 # include <signal.h>
+#include <readline/readline.h>
+#include <readline/history.h>
 #include "./libft/libft.h"
 #include <fcntl.h>
+
+
+typedef struct s_flags {
+    int exit_stat;
+} t_flags;
+t_flags g_flags;
 
 typedef struct g_signle
 {
@@ -93,17 +99,17 @@ void	real_env(t_env *a, int i, char **cmd);
 // // -----------------------
 void	handle_redirection(t_data *data);
 void	execute_this(t_data *data);
-void	check_bultins(char **cmd, t_env *env);
+void	check_bultins(char **cmd, t_env **env);
 int if_bultins(char **cmd);
 // // -----------------------
 
-int	count_str(char *str, char *set);
-char  **my_split(char *str, char *set);
+int		count_str(char *str, char *set);
+char 	**my_split(char *str, char *set);
 t_parse	*ft_lstnew(char *content, t_token token);
 void	ft_lstadd_back(t_parse **lst, t_parse *new);
 t_parse	*ft_lstlast(t_parse *lst);
-int	ft_lstsize(t_parse *lst);
+int		ft_lstsize(t_parse *lst);
 void	ft_lstclear(t_parse *lst);
-void sighandel(int sig);
+void	sighandel(int sig);
 
 #endif

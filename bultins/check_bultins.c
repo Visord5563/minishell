@@ -6,13 +6,13 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:21:42 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/24 13:10:50 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/27 15:54:26 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void check_bultins(char **cmd, t_env **env)
+void	check_bultins(char **cmd, t_env **env)
 {
 	(void)env;
     if (strcmp(cmd[0], "echo") == 0)

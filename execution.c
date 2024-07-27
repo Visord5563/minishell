@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:44:59 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/26 17:22:41 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/27 16:56:17 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char *get_path(char *cmd, t_env *env)
     char *temp = NULL;
     char *value = NULL;
     char **paths = NULL;
+
+    
 
     while (env != NULL)
     {
@@ -44,6 +46,7 @@ char *get_path(char *cmd, t_env *env)
         {
             for (int j = 0; paths[j] != NULL; j++)
                 free(paths[j]);
+            printf("full_path: %s\n", full_path);
             return full_path;
         }
         free(full_path);
@@ -60,6 +63,7 @@ char **join_lst(t_env *env)
     char **envp = NULL;
     int i = 0;
     t_env *tmp = env;
+    t_env *tmp2 = env;
 
     while (tmp != NULL)
     {
@@ -68,11 +72,11 @@ char **join_lst(t_env *env)
     }
     envp = malloc(sizeof(char *) * (i + 1));
     i = 0;
-    while (env != NULL)
+    while (tmp2 != NULL)
     {
-        envp[i] = ft_strjoin(env->key, "=");
-        envp[i] = ft_strjoin(envp[i], env->value);
-        env = env->next;
+        envp[i] = ft_strjoin(tmp2->key, "=");
+        envp[i] = ft_strjoin(envp[i], tmp2->value);
+        tmp2 = tmp2->next;
         i++;
     }
     envp[i] = NULL;
@@ -88,7 +92,13 @@ void execute_this(t_data *data)
     int childpids[256];
     int cmd_index = 0;
     int num_cmds = 0;
+    // while(data->env)
+	// 		printf("--------1:|| %s:::%s\n ", data->env->key, data->env->value), data->env = data->env->next;
+    // printf("------------------------------------\n");
     char **env = join_lst(data->env);
+    // while(data->env)
+	// 		printf("--------2:|| %s:::%s\n ", data->env->key, data->env->value), data->env = data->env->next;
+    // printf("------------------------------------\n");
 
     // Count the number of commands
     t_cmd *temp_cmd = data->cmd;
@@ -124,15 +134,19 @@ void execute_this(t_data *data)
             close(fd[1]);
 
             handle_redirection(data);
-
+            
             path = get_path(data->cmd->args[0], data->env);
+            printf("path: %s\n", path);
             if (path != NULL)
             {
                 execve(path, data->cmd->args, env);
                 free(path);
             }
             else
+            {
                 execve(data->cmd->args[0], data->cmd->args, env);
+            }
+                
             fprintf(stderr, "minishell: %s: command not found\n", data->cmd->args[0]);
             exit(EXIT_FAILURE);
         }
