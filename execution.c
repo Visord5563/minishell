@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ehafiane <ehafiane@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:44:59 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/27 19:24:11 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/29 16:10:35 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,15 +115,22 @@ void execute_this(t_data *data)
             handle_redirection(data);
             path = get_path(cmd_list->args[0], data->env);
 
-            if (path != NULL)
+           if(data->cmd->args[0])
             {
-                execve(path, cmd_list->args, env);
-                free(path);
+                if (path != NULL)
+                {
+                    execve(path, cmd_list->args, env);
+                    free(path);
+                }
+                else
+                    execve(cmd_list->args[0], cmd_list->args, env);
+                fprintf(stderr, "minishell: %s: command not found\n", cmd_list->args[0]);
+                exit(EXIT_FAILURE);
             }
-            else
-                execve(cmd_list->args[0], cmd_list->args, env);
-            fprintf(stderr, "minishell: %s: command not found\n", cmd_list->args[0]);
-            exit(EXIT_FAILURE);
+            else 
+            {
+                exit(EXIT_FAILURE);
+            }
         }
         else
         {
