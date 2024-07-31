@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:58:37 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/24 13:14:31 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/31 17:51:28 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void set_env(t_env **env, const char *name, const char *value)
 {
     t_env *tmp = *env;
     t_env *prev = NULL;
+    t_env *new_var = malloc(sizeof(t_env));
 
     while (tmp)
     {
@@ -28,8 +29,6 @@ void set_env(t_env **env, const char *name, const char *value)
         prev = tmp;
         tmp = tmp->next;
     }
-
-    t_env *new_var = malloc(sizeof(t_env));
     new_var->key = strdup(name);
     new_var->value = strdup(value);
     new_var->next = NULL;

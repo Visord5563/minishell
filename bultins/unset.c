@@ -6,20 +6,37 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:11:28 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/30 16:27:31 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/31 17:50:32 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int ft_unset(char **cmd, char *str,t_env **env)
+void ft_unset(t_env **env, const char *name) 
 {
-	(void)str;
-	(void)cmd;
-	(void)env;
-	
-	return 0;
+    if (env == NULL || *env == NULL || name == NULL) {
+        return;
+    }
+
+    t_env *current = *env;
+    t_env *previous = NULL;
+
+    while (current != NULL) 
+    {
+        if (strcmp(current->key, name) == 0) 
+        {
+            if (previous == NULL) { 
+                *env = current->next;
+            } else {
+                previous->next = current->next;
+            }
+            free(current->key);
+            free(current->value);
+            free(current);
+            return;
+        }
+        previous = current;
+        current = current->next;
+    }
 }
 
-
-//-----------------------------------------------------------------------
