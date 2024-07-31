@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_bultins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:21:42 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/28 14:55:39 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/31 13:41:26 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@ void	check_bultins(char **cmd, t_env **env)
 		real_env(*env, 0, cmd);
     else if (ft_strcmp(cmd[0], "exit") == 0)
         ft_exit(cmd);
+    else if (ft_strcmp(cmd[0], "export") == 0)
+        ft_export(cmd , env);
+    // else if (ft_strcmp(cmd[0], "unset") == 0)
+    //     ft_unset(cmd, env);
     else
         return;
 }
@@ -41,6 +45,10 @@ int if_bultins(char **cmd)
 		return 1;
 	else if (ft_strcmp(cmd[0], "env") == 0)
 		return 1;
+	else if (ft_strcmp(cmd[0], "export") == 0)
+		return 1;
+	// else if (ft_strcmp(cmd[0], "unset") == 0)
+	// 	return 1;
 	else if (ft_strcmp(cmd[0], "exit") == 0)
 		return 1;
 	return 0;

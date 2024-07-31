@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.1337.ma>        +#+  +:+       +#+        */
+/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/28 10:19:52 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/31 14:21:40 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -493,7 +493,6 @@ int heredoc(char *delimiter, t_env *env)
 	char *s;
 	
 	char *runm = ft_itoa((int)delimiter);
-	printf("runm = %s\n", runm);
 	s = ft_strjoin(ft_strdup("/tmp/."), runm);
     fd = open(s,  O_CREAT | O_WRONLY | O_TRUNC, 0777);
     unlink(s);
@@ -802,17 +801,8 @@ int main(int ac, char **av, char **env)
 		// 	i = 0;
 		// 	tmp = tmp->next;
 		// }
-		if((data->cmd) && if_bultins(data->cmd->args))
-		{
-			check_bultins(data->cmd->args, &data->env);
-			// printf("bultins\n");
-		}
-		else if (data->cmd )
-		{
-			// printf("execute\n");
-			// printf("execute\n");
+		if (data->cmd )
 			execute_this(data);
-		}
 		ft_lstclearcmd(data->cmd);
 		data->cmd = NULL;
 		ft_lstclear(parse);

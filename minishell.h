@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/27 15:58:04 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/07/31 14:14:41 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,15 +94,20 @@ typedef struct s_data
 int		ft_echo(char **argv);
 void	ft_exit(char **str);
 int		ft_pwd();
-void ft_cd(char *arg, t_env **env);
+void	ft_cd(char *arg, t_env **env);
 void	real_env(t_env *a, int i, char **cmd);
+int		ft_export(char **cmd, t_env **env);
+int ft_unset(char **cmd, char *str,t_env **env);
+
 // // -----------------------
-void	handle_redirection(t_data *data);
+void	handle_redirection(t_cmd *cmd);
 void	execute_this(t_data *data);
 void	check_bultins(char **cmd, t_env **env);
-int if_bultins(char **cmd);
+int		if_bultins(char **cmd);
+
 // // -----------------------
 
+void	add_env(t_env **envs, char *key, char *value);
 int		count_str(char *str, char *set);
 char 	**my_split(char *str, char *set);
 t_parse	*ft_lstnew(char *content, t_token token);
