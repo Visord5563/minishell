@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 11:06:06 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/26 15:06:48 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/07/29 06:58:28 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ int	is_space2(char c, char *set)
 
 int	count_str(char *str, char *set)
 {
-	int	i;
-	int	count;
-	char quote;
+	int		i;
+	int		count;
+	char	quote;
 
 	count = 0;
 	i = 0;
@@ -48,25 +48,20 @@ int	count_str(char *str, char *set)
 			else if (str[i] == quote)
 				quote = '\0';
 			else if (quote == '\0' && ft_strchr(set, str[i]))
-				break;
+				break ;
 			i++;
 		}
-		// while (str[i] != '\0' && !is_space2(str[i], set) && str[i] != '"' && str[i] != '\'')
-		// 	i++;
 	}
 	return (count);
 }
 
 int	ft_strlen2(char *str, char *set)
 {
-	int	i;
+	int		i;
+	char	quote;
 
 	i = 0;
-	char quote;
-	
 	quote = '\0';
-	// while (str[i] && !is_space2(str[i], set))
-	// 	i++;
 	while (str[i] != '\0')
 	{
 		if (quote == '\0' && (str[i] == '"' || str[i] == '\''))
@@ -74,7 +69,7 @@ int	ft_strlen2(char *str, char *set)
 		else if (str[i] == quote)
 			quote = '\0';
 		else if (quote == '\0' && ft_strchr(set, str[i]))
-			break;
+			break ;
 		i++;
 	}
 	return (i);
@@ -113,24 +108,18 @@ char	**my_split(char *str, char *set)
 		while (*str != '\0' && is_space2(*str, set))
 			str++;
 		if (*str != '\0')
-		{
-			strings[i] = ft_word(str, set);
-			i++;
-		}
-		// while (*str && !is_space2(*str, set))
-		// 	str++;
+			strings[i++] = ft_word(str, set);
 		while (*str != '\0')
 		{
 			if (quote == '\0' && (*str == '"' || *str == '\''))
 				quote = *str;
-			else if (str[i] == quote)
+			else if (*str == quote)
 				quote = '\0';
 			else if (quote == '\0' && ft_strchr(set, *str))
-				break;
+				break ;
 			str++;
 		}
 	}
 	strings[i] = 0;
 	return (strings);
 }
-

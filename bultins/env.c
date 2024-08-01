@@ -1,27 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strcmp.c                                        :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/10 10:12:58 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/27 17:19:37 by saharchi         ###   ########.fr       */
+/*   Created: 2024/07/24 12:59:44 by ehafiane          #+#    #+#             */
+/*   Updated: 2024/07/30 00:56:38 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 
-int	ft_strcmp(const char *s1, const char *s2)
+#include "../minishell.h"
+
+void	real_env(t_env *a, int i, char **cmd)
 {
-	size_t	i;
-
-	i = 0;
-	while (s1[i] == s2[i])
+	(void)cmd;
+	while (a != NULL)
 	{
-		if (s1[i] == '\0' && s2[i] == '\0')
-			return (0);
-		i++;
+		if (i == 1)
+		{
+			printf("%s=%s\n", a->key, a->value);
+		}
+		else
+		{
+			printf("%s=%s", a->key, a->value);
+			if (a->next != NULL)
+				printf("\n");
+		}
+		a = a->next;
 	}
-	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+	printf("\n");
 }

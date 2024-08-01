@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/10 16:04:16 by saharchi          #+#    #+#             */
-/*   Updated: 2023/11/24 20:48:24 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/01 03:04:38 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,6 @@ char	*ft_strtrim(char const *s1, char const *set)
 	while (ft_strchr(set, s1[j]) && j > 0)
 		j--;
 	len = j - i + 1;
+	free((char *)s1);
 	return (ft_substr(s1, i, len));
 }
