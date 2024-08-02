@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:58:37 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/30 00:53:10 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/07/31 17:51:28 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void set_env(t_env **env, const char *name, const char *value)
 {
     t_env *tmp = *env;
     t_env *prev = NULL;
+    t_env *new_var = malloc(sizeof(t_env));
 
     while (tmp)
     {
@@ -28,8 +29,6 @@ void set_env(t_env **env, const char *name, const char *value)
         prev = tmp;
         tmp = tmp->next;
     }
-
-    t_env *new_var = malloc(sizeof(t_env));
     new_var->key = strdup(name);
     new_var->value = strdup(value);
     new_var->next = NULL;
@@ -84,7 +83,7 @@ void ft_cd(char *arg, t_env **env)
             if (chdir(home) == -1)
             {
                 perror("minishell");
-                // g_flags.exit_stat = 1;
+                g_flags.exit_stat = 1;
             }
             else
             {
@@ -99,7 +98,7 @@ void ft_cd(char *arg, t_env **env)
         else
         {
             fprintf(stderr, "minishell: cd: HOME not set\n");
-            // g_flags.exit_stat = 1;
+            g_flags.exit_stat = 1;
         }
         return;
     }
@@ -111,7 +110,7 @@ void ft_cd(char *arg, t_env **env)
             if (chdir(oldpwd) == -1)
             {
                 perror("minishell");
-                // g_flags.exit_stat = 1;
+                g_flags.exit_stat = 1;
             }
             else
             {
@@ -126,7 +125,7 @@ void ft_cd(char *arg, t_env **env)
         else
         {
             fprintf(stderr, "minishell: cd: OLDPWD not set\n");
-            // g_flags.exit_stat = 1;
+            g_flags.exit_stat = 1;
         }
         return;
     }
@@ -134,7 +133,7 @@ void ft_cd(char *arg, t_env **env)
     if (chdir(arg) == -1)
     {
         perror("minishell");
-        // g_flags.exit_stat = 1;
+        g_flags.exit_stat = 1;
     }
     else
     {
@@ -149,3 +148,4 @@ void ft_cd(char *arg, t_env **env)
         }
     }
 }
+

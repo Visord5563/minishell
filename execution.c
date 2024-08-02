@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:44:59 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/30 00:33:28 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/07/31 18:02:18 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,44 +92,41 @@ void execute_this(t_data *data)
     while (cmd_list)
     {
         if (pipe(fd) == -1)
-        {
-            perror("pipe");
-            exit(EXIT_FAILURE);
-        }
-
+            ft_error("pipe", 1);
         pid = fork();
         if (pid < 0)
-        {
-            perror("fork");
-            exit(EXIT_FAILURE);
-        }
+            ft_error("fork", 1);
         if (pid == 0)
         {
             dup2(fd_in, 0);
             if (cmd_list->next)
                 dup2(fd[1], 1);
-
             close(fd[0]);
             close(fd[1]);
-
-            handle_redirection(data);
-            path = get_path(cmd_list->args[0], data->env);
-
-           if(data->cmd->args[0])
+            handle_redirection(cmd_list);  
+            if (if_bultins(cmd_list->args))
             {
-                if (path != NULL)
+                check_bultins(cmd_list->args, &data->env);
+                exit(EXIT_SUCCESS);
+            }
+            else
+            {
+                path = get_path(cmd_list->args[0], data->env);
+
+                if (cmd_list->args[0])
                 {
-                    execve(path, cmd_list->args, env);
-                    free(path);
+                    if (path != NULL)
+                    {
+                        execve(path, cmd_list->args, env);
+                        free(path);
+                    }
+                    else
+                        execve(cmd_list->args[0], cmd_list->args, env);
+                    print_command_not_found(cmd_list->args[0]);
+                    exit(EXIT_FAILURE);
                 }
                 else
-                    execve(cmd_list->args[0], cmd_list->args, env);
-                fprintf(stderr, "minishell: %s: command not found\n", cmd_list->args[0]);
-                exit(EXIT_FAILURE);
-            }
-            else 
-            {
-                exit(EXIT_FAILURE);
+                    exit(EXIT_FAILURE);
             }
         }
         else
@@ -153,4 +150,5 @@ void execute_this(t_data *data)
             perror("waitpid");
         }
     }
+    free(env); 
 }

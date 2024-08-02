@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 10:15:41 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/24 11:51:52 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/07/31 17:51:58 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int count_argc(char **argv)
 		i++;
 	return i;
 }
+
 int is_n_flag(char *arg)
 {
 	if (arg[0] == '-' && arg[1] == 'n')
