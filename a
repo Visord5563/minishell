@@ -1,0 +1,16 @@
+a
+a.out
+b
+bultins
+execution.c
+handle_errors.c
+libft
+main.c
+makefile
+minishell
+minishell.h
+obj
+parse_list.c
+path_test.c
+redirection.c
+split.c
