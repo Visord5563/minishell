@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/31 18:02:15 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/02 00:38:19 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ typedef struct s_fd
 typedef struct s_cmd
 {
 	char **args;
-	t_fd *fd;
+	t_fd fd;
 	struct s_cmd *next;
 } t_cmd;
 
@@ -109,14 +109,30 @@ void print_command_not_found(const char *command);
 
 // // -----------------------
 
-void	add_env(t_env **envs, char *key, char *value);
+// void	add_env(t_env **envs, char *key, char *value);
+
 int		count_str(char *str, char *set);
-char 	**my_split(char *str, char *set);
+char	**my_split(char *str, char *set);
 t_parse	*ft_lstnew(char *content, t_token token);
 void	ft_lstadd_back(t_parse **lst, t_parse *new);
 t_parse	*ft_lstlast(t_parse *lst);
 int		ft_lstsize(t_parse *lst);
 void	ft_lstclear(t_parse *lst);
 void	sighandel(int sig);
+void	ft_expend(t_parse **parse, t_env *envs);
+void	parse_line(char *line, t_parse **parse, t_env **env);
+void	ft_env(t_env **envs, char **env);
+void	ft_lstcmd(t_data **data, t_parse **parse);
+void	check_quotes(t_parse **parse);
+void	check_heredoc(t_parse **parse, t_env *env);
+void	ft_lstclearcmd(t_cmd *cmd);
+void	ft_free(char **str);
+char	*delete_quotes(char *str);
+char	*expend_str(char *str, t_env *envs);
+char	*check_value(char *key, t_env *envs);
+int		is_space(char *str);
+t_cmd	*ft_lstnewcmd(char **content, t_fd fd);
+void	ft_add_backcmd(t_cmd **cmd, t_cmd *new);
+int		count_args(t_parse *parse);
 
 #endif

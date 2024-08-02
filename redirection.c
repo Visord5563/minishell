@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 11:57:21 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/31 14:12:47 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/02 00:39:17 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ void redirect_input_from_file(int file_fd)
 
 void handle_redirection(t_cmd *cmd)
 {
-    if (cmd->fd->fd_in > 0) {
-        redirect_input_from_file(cmd->fd->fd_in);
+    if (cmd->fd.fd_in > 0) {
+        redirect_input_from_file(cmd->fd.fd_in);
     }
-    if (cmd->fd->fd_out > 1) {
-        redirect_output_to_file(cmd->fd->fd_out);
+    if (cmd->fd.fd_out > 1) {
+        redirect_output_to_file(cmd->fd.fd_out);
     }
 }
 
