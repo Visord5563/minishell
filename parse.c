@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:44:37 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/01 07:03:20 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/02 07:07:09 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,25 +46,19 @@ int	check_syntax(t_parse **parse)
 
 	tmp = *parse;
 	if (tmp && tmp->token == PIPE)
-	{
-		printf("Minishell: syntax error near unexpected token `|'\n");
-		return (1);
-	}
+		return (print_error("|"), 1);
 	while (tmp)
 	{
 		if (tmp->token == PIPE && (!tmp->next || tmp->next->token == PIPE))
-		{
-			printf("Minishell: syntax error near unexpected token `|'\n");
-			return (1);
-		}
+			return (print_error("|"), 1);
 		else if ((tmp->token == RIN || tmp->token == ROUT || tmp->token == APP
 				|| tmp->token == HDOC)
 			&& (!tmp->next || (tmp->next->token != WORD)))
 		{
 			if (!tmp->next)
-				printf("Minishell: syntax error near unexpected token `newline'\n");
+				print_error("newline");
 			else
-				printf("Minishell: syntax error near unexpected token `%s'\n", tmp->next->text);
+				print_error(tmp->next->text);
 			return (1);
 		}
 		tmp = tmp->next;
@@ -90,32 +84,13 @@ int	str_len(char *line, int i, char *quote)
 	return (j);
 }
 
-void exit_status(t_env **env, char *status)
-{
-	t_env *tmp;
-
-	tmp = *env;
-	while(tmp)
-	{
-		if (!ft_strcmp(tmp->key, "?"))
-		{
-			free(tmp->value);
-			tmp->value = ft_strdup(status);
-			return ;
-		}
-		tmp = tmp->next;
-	}
-}
-
 void	parse_line(char *line, t_parse **parse, t_env **env)
 {
 	int		i;
 	int		j;
 	char	quote;
 
-	(void)env;
-	i = 0;
-	quote = '\0';
+	(1) && (i = 0, quote = '\0');
 	while (line[i])
 	{
 		while (line[i] == ' ' || (line[i] >= 9 && line[i] <= 13))
@@ -131,7 +106,7 @@ void	parse_line(char *line, t_parse **parse, t_env **env)
 	if (quote != '\0' || check_syntax(parse) == 1)
 	{
 		if (quote != '\0')
-			printf("Minishell: syntax error near unexpected token `%c'\n", quote);
+			print_error_quote(quote);
 		exit_status(env, "258");
 		(1) && (ft_lstclear(*parse), *parse = NULL);
 		return ;

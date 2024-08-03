@@ -1,0 +1,23 @@
+Minishell$  echo kk | exit
+exit
+
+bash-3.2$ echo kk | exit
+bash-3.2$ 
+-------------------------
+Minishell$ pwd
+/Users/saharchi/Desktop/minishell
+Minishell$ cd ..
+Minishell$ pwd
+/Users/saharchi/Desktop/minishell
+Minishell$ 
+-------------------------
+
+cd not working 
+
+---------------------------------
+Minishell$ ~
+minishell: ~: command not found
+
+bash-3.2$ ~
+bash: /Users/saharchi: is a directory
+---------------------------------

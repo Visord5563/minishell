@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:52:48 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/27 20:26:50 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/02 07:01:12 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,11 @@ int	is_space(char *str)
 		i++;
 	}
 	return (0);
+}
+
+void	print_error_quote(char quote)
+{
+	ft_putstr_fd("Minishell: syntax error near unexpected token `", 2);
+	ft_putchar_fd(quote, 2);
+	ft_putstr_fd("'\n", 2);
 }
