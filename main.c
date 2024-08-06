@@ -6,11 +6,12 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/02 10:25:37 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/06 10:20:08 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+	// #include <termios.h>
 
 int main(int ac, char **av, char **env)
 {
@@ -19,6 +20,9 @@ int main(int ac, char **av, char **env)
     t_parse *parse;   //termios
     (void)ac;
     (void)av;
+
+	// termios term;
+	// tcgetattr(0, &term);	
 	
 	data = malloc(sizeof(t_data));
 	parse = NULL;
@@ -41,21 +45,21 @@ int main(int ac, char **av, char **env)
 		if (line && *line)
         	add_history(line);
 
-		// t_cmd *tmp = data->cmd;
-		// int i = 0;
-		// while (tmp)
-		// {
-		// 	printf("----------------cmd--------------------\n");
-		// 	printf("fd_in = %d\n", tmp->fd->fd_in);
-		// 	printf("fd_out = %d\n", tmp->fd->fd_out);
-		// 	while (tmp->args[i])
-		// 	{
-		// 		printf("args[%d] = %s\n", i, tmp->args[i]);
-		// 		i++;
-		// 	}
-		// 	i = 0;
-		// 	tmp = tmp->next;
-		// }
+		t_cmd *tmp = data->cmd;
+		int i = 0;
+		while (tmp)
+		{
+			printf("----------------cmd--------------------\n");
+			printf("fd_in = %d\n", tmp->fd.fd_in);
+			printf("fd_out = %d\n", tmp->fd.fd_out);
+			while (tmp->args[i])
+			{
+				printf("args[%d] = %s\n", i, tmp->args[i]);
+				i++;
+			}
+			i = 0;
+			tmp = tmp->next;
+		}
 		if (data->cmd )
 			execute_this(data);
 		ft_lstclearcmd(data->cmd);

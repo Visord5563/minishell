@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:44:59 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/31 18:02:18 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/02 11:32:42 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ void execute_this(t_data *data)
         num_cmds++;
         tmp_cmd_list = tmp_cmd_list->next;
     }
+    
     while (cmd_list)
     {
         if (pipe(fd) == -1)
@@ -101,16 +102,15 @@ void execute_this(t_data *data)
             dup2(fd_in, 0);
             if (cmd_list->next)
                 dup2(fd[1], 1);
-            close(fd[0]);
-            close(fd[1]);
-            handle_redirection(cmd_list);  
             if (if_bultins(cmd_list->args))
             {
                 check_bultins(cmd_list->args, &data->env);
-                exit(EXIT_SUCCESS);
+                return;
             }
-            else
-            {
+            close(fd[0]);
+            close(fd[1]);
+            
+                handle_redirection(cmd_list);  
                 path = get_path(cmd_list->args[0], data->env);
 
                 if (cmd_list->args[0])
@@ -127,7 +127,6 @@ void execute_this(t_data *data)
                 }
                 else
                     exit(EXIT_FAILURE);
-            }
         }
         else
         {
