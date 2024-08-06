@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 11:06:06 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/29 06:58:28 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/02 06:21:26 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,8 @@ char	**my_split(char *str, char *set)
 	int		i;
 	char	quote;
 
-	i = 0;
-	quote = '\0';
-	strings = (char **)malloc(sizeof(char *)
-			* (count_str(str, set) + 1));
+	(1) && (i = 0, quote = '\0');
+	strings = (char **)malloc(sizeof(char *) * (count_str(str, set) + 1));
 	while (*str != '\0')
 	{
 		while (*str != '\0' && is_space2(*str, set))

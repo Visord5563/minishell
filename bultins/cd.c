@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:58:37 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/31 17:51:28 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/04 00:05:52 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ void ft_cd(char *arg, t_env **env)
 
     home = get_home(*env);
     oldpwd = get_oldpwd(*env);
-
     if (!arg || strcmp(arg, "~") == 0)
     {
         if (home)

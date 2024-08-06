@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/06 10:20:08 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/06 16:33:27 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int main(int ac, char **av, char **env)
 {
     char *line;
 	t_data *data;
-    t_parse *parse;   //termios
+    t_parse *parse;
     (void)ac;
     (void)av;
 
@@ -38,7 +38,7 @@ int main(int ac, char **av, char **env)
         if (!line)
             break; 
 		parse_line(line, &parse, &data->env);
-		ft_expend(&parse, data->env);
+		ft_expand(&parse, data->env);
 		check_quotes(&parse);
 		check_heredoc(&parse, data->env);
 		ft_lstcmd(&data, &parse);

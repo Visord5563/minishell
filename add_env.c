@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:45:45 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/01 04:36:50 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/03 06:44:01 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int	count_args(t_parse *parse)
 			else
 				count++;
 		}
-		else if(parse->token == HDOC || parse->token == ROUT || parse->token == APP || parse->token == RIN)
+		else if (parse->token == HDOC || parse->token == ROUT
+			|| parse->token == APP || parse->token == RIN)
 			parse = parse->next;
 		parse = parse->next;
 	}
