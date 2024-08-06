@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:48:40 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/02 06:20:08 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/06 16:40:09 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	heredoc(char *delimiter, t_env *env)
 		}
 		free(del);
 		if (ft_strchr(delimiter, '\'') == 0 && ft_strchr(delimiter, '"') == 0)
-			line = expand_str(line, env);
+			line = expend_str(line, env);
 		ft_putendl_fd(line, fd);
 		free(line);
 	}

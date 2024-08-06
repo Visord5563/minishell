@@ -6,11 +6,18 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:41:50 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/06 16:33:57 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/06 16:40:16 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	print_error(char *text)
+{
+	ft_putstr_fd("Minishell: syntax error near unexpected token `", 2);
+	ft_putstr_fd(text, 2);
+	ft_putstr_fd("'\n", 2);
+}
 
 int	check_forexp(char c, int i)
 {
@@ -76,7 +83,7 @@ char	*expend_str(char *str, t_env *envs)
 	return (str);
 }
 
-void	ft_expend(t_parse **parse, t_env *envs)
+void	ft_expend(t_parse **parse, t_env *envs)	
 {
 	t_parse	*tmp;
 

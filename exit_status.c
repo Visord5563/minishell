@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_status.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 06:57:44 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/03 03:31:48 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/06 16:40:02 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	handle_expand(t_env *env, char *str)
 	char	*tmp;
 
 	fd = 0;
-	tmp = expand_str(ft_strdup(str), env);
+	tmp = expend_str(ft_strdup(str), env);
 	if (is_space(tmp) || ft_strcmp(tmp, "") == 0)
 	{
 		tmp = ft_strtrim(tmp, " \t\n\v\f\r");
