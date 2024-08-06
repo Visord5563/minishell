@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/03 03:39:26 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/05 10:32:08 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int main(int ac, char **av, char **env)
 {
     char *line;
 	t_data *data;
-    t_parse *parse;   //termios
+    t_parse *parse;
     (void)ac;
     (void)av;
 	

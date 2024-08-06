@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:49:55 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/03 03:32:45 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/03 03:56:34 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ int	handle_in_ou(t_parse **parse, int *fd_in, int *fd_out, t_data **data)
 	return (*parse = (*parse)->next, 0);
 }
 
-void stock_args(char *text , int flag, char ***args, int *j)
+void	stock_args(char *text, int flag, char ***args, int *j)
 {
 	int		k;
 	char	**str;
