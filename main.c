@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/06 16:40:29 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/09 09:04:43 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ int main(int ac, char **av, char **env)
 		// while (tmp)
 		// {
 		// 	printf("----------------cmd--------------------\n");
-		// 	printf("fd_in = %d\n", tmp->fd.fd_in);
-		// 	printf("fd_out = %d\n", tmp->fd.fd_out);
+		// 	printf("fd_in = %d\n", tmp->fd->fd_in);
+		// 	printf("fd_out = %d\n", tmp->fd->fd_out);
 		// 	while (tmp->args[i])
 		// 	{
 		// 		printf("args[%d] = %s\n", i, tmp->args[i]);

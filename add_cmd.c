@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:49:55 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/03 03:56:34 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/07 16:24:30 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,11 +102,11 @@ void	ft_lstcmd(t_data **data, t_parse **parse)
 	char	**args;
 	t_parse	*tmp;
 
-	fd.fd_in = 0;
-	fd.fd_out = 1;
 	tmp = *parse;
 	while (tmp)
 	{
+		fd.fd_in = 0;
+		fd.fd_out = 1;
 		if (add_args(&tmp, &args, *data, &fd) == -1)
 		{
 			ft_lstclearcmd((*data)->cmd);
