@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_bultins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 09:21:42 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/31 16:35:09 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/09 11:02:50 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	check_bultins(char **cmd, t_env **env)
     else if (ft_strcmp(cmd[0], "pwd") == 0)
         ft_pwd();
 	else if (ft_strcmp(cmd[0], "env") == 0)
-		real_env(*env, 0, cmd);
+		real_env(*env, 1, cmd);
     else if (ft_strcmp(cmd[0], "exit") == 0)
         ft_exit(cmd);
     else if (ft_strcmp(cmd[0], "export") == 0)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 12:59:44 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/31 17:52:02 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/09 11:04:16 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@ void	real_env(t_env *a, int i, char **cmd)
 	{
 		if (i == 1)
 		{
-			printf("%s=%s\n", a->key, a->value);
+			if (ft_strcmp(a->key, "?"))
+				printf("%s=%s\n", a->key, a->value);
 		}
 		else
 		{
@@ -30,5 +31,4 @@ void	real_env(t_env *a, int i, char **cmd)
 		}
 		a = a->next;
 	}
-	printf("\n");
 }
