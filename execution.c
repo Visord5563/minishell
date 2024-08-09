@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:44:59 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/03 03:04:20 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/09 11:11:42 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,6 +80,7 @@ void execute_this(t_data *data)
     int cmd_index = 0;
     int num_cmds = 0;
     int childpids[256];
+    int created_child = 0;
 
     char **env = join_lst(data->env);
     t_cmd *cmd_list = data->cmd;
@@ -93,6 +94,11 @@ void execute_this(t_data *data)
     {
         if (pipe(fd) == -1)
             ft_error("pipe", 1);
+        if (if_bultins(cmd_list->args) && !cmd_list->next)
+        {
+            check_bultins(cmd_list->args, &data->env);
+            break;
+        }
         pid = fork();
         if (pid < 0)
             ft_error("fork", 1);
@@ -131,6 +137,7 @@ void execute_this(t_data *data)
         }
         else
         {
+            created_child = 1;  
             childpids[cmd_index++] = pid;
             if (fd_in != 0)
                 close(fd_in);
@@ -143,11 +150,14 @@ void execute_this(t_data *data)
     if (fd_in != 0)
         close(fd_in);
 
-    for (int i = 0; i < num_cmds; i++)
+    if(created_child)
     {
-        if (waitpid(childpids[i], &status, 0) == -1)
+        for (int i = 0; i < num_cmds; i++)
         {
-            perror("waitpid");
+            if (waitpid(childpids[i], &status, 0) == -1)
+            {
+                perror("waitpid");
+            }
         }
     }
     free(env); 
