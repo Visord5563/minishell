@@ -85,7 +85,7 @@ Minishell$ cat << l
 =================================================================
 ==82136==ERROR: AddressSanitizer: heap-buffer-overflow on address 0x60200000588f at pc 0x000108f35d13 bp 0x7ffee6cd3390 sp 0x7ffee6cd3388
 READ of size 1 at 0x60200000588f thread T0
-    #0 0x108f35d12 in expend_str expand.c:78
+    #0 0x108f35d12 in expand_str expand.c:78
     #1 0x108f34e42 in heredoc herdoc.c:102
     #2 0x108f34fc0 in check_heredoc herdoc.c:122
     #3 0x108f2fa23 in main main.c:43
@@ -96,13 +96,13 @@ allocated by thread T0 here:
     #0 0x108fe417d in wrap_malloc+0x9d (libclang_rt.asan_osx_dynamic.dylib:x86_64h+0x4917d)
     #1 0x108f3df84 in ft_strjoin+0xc4 (minishell:x86_64+0x100011f84)
     #2 0x108f3571c in return_value expand.c:50
-    #3 0x108f35c65 in expend_str expand.c:73
+    #3 0x108f35c65 in expand_str expand.c:73
     #4 0x108f34e42 in heredoc herdoc.c:102
     #5 0x108f34fc0 in check_heredoc herdoc.c:122
     #6 0x108f2fa23 in main main.c:43
     #7 0x7fff701d6cc8 in start+0x0 (libdyld.dylib:x86_64+0x1acc8)
 
-SUMMARY: AddressSanitizer: heap-buffer-overflow expand.c:78 in expend_str
+SUMMARY: AddressSanitizer: heap-buffer-overflow expand.c:78 in expand_str
 Shadow bytes around the buggy address:
   0x1c0400000ac0: fa fa 02 fa fa fa fd fa fa fa fd fa fa fa fd fd
   0x1c0400000ad0: fa fa fd fa fa fa fd fa fa fa fd fa fa fa fd fd

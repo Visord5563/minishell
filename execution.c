@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:44:59 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/09 11:14:21 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/09 12:45:53 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ void execute_this(t_data *data)
     int num_cmds = 0;
     int childpids[256];
     int created_child = 0;
+    int flag = 0;
 
     char **env = join_lst(data->env);
     t_cmd *cmd_list = data->cmd;
@@ -90,74 +91,85 @@ void execute_this(t_data *data)
         num_cmds++;
         tmp_cmd_list = tmp_cmd_list->next;
     }
-    
     while (cmd_list)
     {
-        if (pipe(fd) == -1)
-            ft_error("pipe", 1);
-        if (if_bultins(cmd_list->args) && !cmd_list->next)
+        if (cmd_list->next)
         {
-            check_bultins(cmd_list->args, &data->env);
-            break;
-        }
-        pid = fork();
-        if (pid < 0)
-            ft_error("fork", 1);
-        if (pid == 0)
-        {
-            dup2(fd_in, 0);
-            if (cmd_list->next)
-                dup2(fd[1], 1);
-            if (if_bultins(cmd_list->args))
+            flag = 1;
+            if (pipe(fd) == -1)
             {
-                check_bultins(cmd_list->args, &data->env);
-                return;
+                perror("pipe");
+                exit(EXIT_FAILURE);
             }
-            close(fd[0]);
-            close(fd[1]);
-            
-                handle_redirection(cmd_list);  
+        }
+        if (if_bultins(cmd_list->args) && flag == 0)
+        {
+            handle_redirection(cmd_list);
+            check_bultins(cmd_list->args, &data->env);
+            dup2(0, 1);
+            // break; 
+        }
+        else
+        {
+            pid = fork();
+            if (pid < 0)
+            {
+                perror("fork");
+                exit(EXIT_FAILURE);
+            }
+            if (pid == 0)
+            {
+                dup2(fd_in, 0); 
+                if (cmd_list->next)
+                    dup2(fd[1], 1); 
+                close(fd[0]);
+                close(fd[1]);
+                handle_redirection(cmd_list);
                 path = get_path(cmd_list->args[0], data->env);
-
                 if (cmd_list->args[0])
                 {
+                if (if_bultins(cmd_list->args) && flag == 1)
+                {
+                    check_bultins(cmd_list->args, &data->env);
+                    exit(EXIT_SUCCESS); 
+                }
                     if (path != NULL)
                     {
                         execve(path, cmd_list->args, env);
                         free(path);
                     }
                     else
+                    {
                         execve(cmd_list->args[0], cmd_list->args, env);
+                    }
                     print_command_not_found(cmd_list->args[0]);
                     exit(EXIT_FAILURE);
                 }
-                else
-                    exit(EXIT_FAILURE);
-        }
-        else
-        {
-            created_child = 1;  
-            childpids[cmd_index++] = pid;
-            if (fd_in != 0)
-                close(fd_in);
-            close(fd[1]);
-            fd_in = fd[0];
+                // else
+                // {
+                //     exit(EXIT_FAILURE);
+                // }
+            }
+            else
+            {
+                created_child = 1;
+                childpids[cmd_index++] = pid;
+                if (fd_in != 0)
+                    close(fd_in);
+
+                if (cmd_list->next)
+                    close(fd[1]);
+                fd_in = fd[0];
+            }
         }
         cmd_list = cmd_list->next;
     }
-
     if (fd_in != 0)
         close(fd_in);
-
-    if(created_child)
-    {
-        for (int i = 0; i < num_cmds; i++)
-        {
+    if (created_child)
+        for (int i = 0; i < cmd_index; i++)
             if (waitpid(childpids[i], &status, 0) == -1)
-            {
                 perror("waitpid");
-            }
-        }
-    }
-    free(env); 
+
+    free(env);
 }

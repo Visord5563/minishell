@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/09 11:14:31 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/09 13:52:57 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,29 +38,30 @@ int main(int ac, char **av, char **env)
         if (!line)
             break; 
 		parse_line(line, &parse, &data->env);
-		ft_expend(&parse, data->env);
+		ft_expand(&parse, data->env);
 		check_quotes(&parse);
 		check_heredoc(&parse, data->env);
 		ft_lstcmd(&data, &parse);
 		if (line && *line)
         	add_history(line);
 
-		t_cmd *tmp = data->cmd;
-		int i = 0;
-		while (tmp)
-		{
-			printf("----------------cmd--------------------\n");
-			printf("fd_in = %d\n", tmp->fd.fd_in);
-			printf("fd_out = %d\n", tmp->fd.fd_out);
-			while (tmp->args[i])
-			{
-				printf("args[%d] = %s\n", i, tmp->args[i]);
-				i++;
-			}
-			i = 0;
-			tmp = tmp->next;
-		}
-		if (data->cmd )
+		// t_cmd *tmp = data->cmd;
+		// int i = 0;
+		// while (tmp)
+		// {
+		// 	printf("----------------cmd--------------------\n");
+		// 	printf("fd_in = %d\n", tmp->fd.fd_in);
+		// 	printf("fd_out = %d\n", tmp->fd.fd_out);
+		// 	while (tmp->args[i])
+		// 	{
+		// 		printf("args[%d] = %s\n", i, tmp->args[i]);
+		// 		i++;
+		// 	}
+		// 	i = 0;
+		// 	tmp = tmp->next;
+		// }
+		
+		if (data->cmd)
 			execute_this(data);
 		ft_lstclearcmd(data->cmd);
 		data->cmd = NULL;

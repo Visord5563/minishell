@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/06 16:37:20 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/09 13:54:37 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ void	ft_cd(char *arg, t_env **env);
 void	real_env(t_env *a, int i, char **cmd);
 int		ft_export(char **cmd, t_env **env);
 void ft_unset(t_env **env, const char *name);
+void	export_env(t_env *a, char **cmd);
 
 // // -----------------------
 void	handle_redirection(t_cmd *cmd);
@@ -119,7 +120,7 @@ t_parse	*ft_lstlast(t_parse *lst);
 int		ft_lstsize(t_parse *lst);
 void	ft_lstclear(t_parse *lst);
 void	sighandel(int sig);
-void	ft_expend(t_parse **parse, t_env *envs);
+void	ft_expand(t_parse **parse, t_env *envs);
 void	parse_line(char *line, t_parse **parse, t_env **env);
 void	ft_env(t_env **envs, char **env);
 void	ft_lstcmd(t_data **data, t_parse **parse);
@@ -128,7 +129,7 @@ void	check_heredoc(t_parse **parse, t_env *env);
 void	ft_lstclearcmd(t_cmd *cmd);
 void	ft_free(char **str);
 char	*delete_quotes(char *str);
-char	*expend_str(char *str, t_env *envs);
+char	*expand_str(char *str, t_env *envs);
 char	*check_value(char *key, t_env *envs);
 int		is_space(char *str);
 t_cmd	*ft_lstnewcmd(char **content, t_fd fd);
