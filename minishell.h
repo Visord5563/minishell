@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/09 13:54:37 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/10 09:38:28 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,6 @@
 #include "./libft/libft.h"
 #include <fcntl.h>
 
-
-typedef struct s_flags {
-    int exit_stat;
-} t_flags;
-t_flags g_flags;
 
 typedef struct g_signle
 {
@@ -97,7 +92,7 @@ int		ft_pwd();
 void	ft_cd(char *arg, t_env **env);
 void	real_env(t_env *a, int i, char **cmd);
 int		ft_export(char **cmd, t_env **env);
-void ft_unset(t_env **env, const char *name);
+void	ft_unset(t_env **env, char *name);
 void	export_env(t_env *a, char **cmd);
 
 // // -----------------------
