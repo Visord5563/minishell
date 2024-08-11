@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:48:40 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/09 13:55:15 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/10 23:53:17 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,40 @@ char	*check_del(char *del)
 	return (del);
 }
 
-int	get_name(char *delimiter)
+// int	get_name(char *delimiter)
+// {
+// 	int		fd;
+// 	char	*s;
+// 	char	*runm;
+// 	int		i;
+
+// 	i = 0;
+// 	while (1)
+// 	{
+// 		runm = ft_itoa((int)delimiter + i);
+// 		s = ft_strjoin(ft_strdup("/tmp/."), runm);
+// 		free(runm);
+// 		fd = open(s, O_RDONLY);
+// 		if (fd == -1 && flag == 0)
+// 		{
+// 			fd = open(s, O_CREAT | O_WRONLY | O_TRUNC, 0744);
+// 			unlink(s);
+// 			free(s);
+// 			break ;
+// 		}
+// 		i++;
+// 	}
+// 	free(runm);
+// 	free(s);
+// 	return (fd);
+// }
+
+int	heredoc(char *delimiter, t_env *env)
 {
+	char	*line;
 	int		fd;
+	int		fd1;
+	char	*del;
 	char	*s;
 	char	*runm;
 	int		i;
@@ -64,26 +95,18 @@ int	get_name(char *delimiter)
 	{
 		runm = ft_itoa((int)delimiter + i);
 		s = ft_strjoin(ft_strdup("/tmp/."), runm);
-		if (open(s, O_RDONLY) == -1)
+		free(runm);
+		if (access(s, F_OK | R_OK | W_OK) == -1)
 		{
 			fd = open(s, O_CREAT | O_WRONLY | O_TRUNC, 0744);
-			free(runm);
+			fd1 = open(s, O_RDONLY);
 			unlink(s);
 			free(s);
 			break ;
 		}
+		free(s);
 		i++;
 	}
-	return (fd);
-}
-
-int	heredoc(char *delimiter, t_env *env)
-{
-	char	*line;
-	int		fd;
-	char	*del;
-
-	fd = get_name(delimiter);
 	g_sigl.sig_herdoc = 1;
 	while (1)
 	{
@@ -99,11 +122,12 @@ int	heredoc(char *delimiter, t_env *env)
 		}
 		free(del);
 		if (ft_strchr(delimiter, '\'') == 0 && ft_strchr(delimiter, '"') == 0)
-			line = expand_str(line, env);
+			line = expand_str(line, env, 0);
 		ft_putendl_fd(line, fd);
 		free(line);
 	}
-	return (fd);
+	close(fd);
+	return (fd1);
 }
 
 void	check_heredoc(t_parse **parse, t_env *env)

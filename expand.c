@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:41:50 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/09 13:54:12 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/10 23:54:08 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ch_fexp(char c, int i, int j)
 	return (0);
 }
 
-char	*return_value(char *str, int i, t_env *envs)
+char	*return_value(char *str, int i, t_env *envs, int flag)
 {
 	int		j;
 	char	*new;
@@ -47,7 +47,7 @@ char	*return_value(char *str, int i, t_env *envs)
 		j++;
 	}
 	strtmp = ft_strjoin(new, check_value(ft_substr(str, i + 1, j - i - 1),
-				envs));
+				envs, flag));
 	new = ft_substr(str, j, ft_strlen(str) - j);
 	strtmp = ft_strjoin(strtmp, new);
 	free(new);
@@ -55,7 +55,7 @@ char	*return_value(char *str, int i, t_env *envs)
 	return (strtmp);
 }
 
-char	*expand_str(char *str, t_env *envs)
+char	*expand_str(char *str, t_env *envs, int flag)
 {
 	int		i;
 	int		j;
@@ -75,7 +75,7 @@ char	*expand_str(char *str, t_env *envs)
 				quote = '\0';
 			if (str[i] == '$' && ((quote != '\'' && ch_fexp(str[i + 1], 0, 0))
 					|| (quote == '\0' && ch_fexp(str[i + 1], 1, j))))
-				(1) && (str = return_value(str, i, envs), i--);
+				(1) && (str = return_value(str, i, envs, flag), i--);
 			if (ft_strcmp(str, "") == 0)
 				return (str);
 		}
@@ -87,6 +87,7 @@ char	*expand_str(char *str, t_env *envs)
 void	ft_expand(t_parse **parse, t_env *envs)
 {
 	t_parse	*tmp;
+	int flag = 0;
 
 	tmp = *parse;
 	while (tmp)
@@ -96,10 +97,12 @@ void	ft_expand(t_parse **parse, t_env *envs)
 			tmp = tmp->next;
 		else if (tmp->token == WORD && ft_strchr(tmp->text, '$'))
 		{
-			tmp->text = expand_str(tmp->text, envs);
+			tmp->text = expand_str(tmp->text, envs, flag);
 			if (is_space(tmp->text) || ft_strcmp(tmp->text, "") == 0)
 				tmp->flag = 1;
 		}
+		if (tmp->token == PIPE)
+			flag = 1;
 		tmp = tmp->next;
 	}
 }
