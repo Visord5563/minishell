@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 06:57:44 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/09 13:54:47 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/10 10:02:08 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@ void	exit_status(t_env **env, char *status)
 {
 	t_env	*tmp;
 
-	tmp = *env;
+	if (!env || !*env)
+		return ;
+
+    tmp = *env;
 	while (tmp)
 	{
 		if (!ft_strcmp(tmp->key, "?"))

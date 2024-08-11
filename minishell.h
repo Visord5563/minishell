@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/10 09:38:28 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/10 10:06:05 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "./libft/libft.h"
-#include <fcntl.h>
-
 
 typedef struct g_signle
 {

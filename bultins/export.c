@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 09:13:33 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/09 14:02:37 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/10 10:16:01 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,22 @@ void sort_env(t_env **env)
 
 int ft_export(char **cmd, t_env **env) 
 {
-    (void)cmd;
-    // if (!(cmd[0][1] == '_' && ft_isalpha(cmd[0][1])))
-    // {
-    //     printf("minishell: export: `%s': not a valid identifier\n", cmd[1]);
-    // }
-        sort_env(env);
-        // export_env(*env, &cmd[1]);
-    
+    int i;       
 
-    
+    i = 0;
+    if (!cmd[1])
+    {
+        sort_env(env);
+        return 0;
+    }
+    else if ((!ft_isalpha(cmd[1][i])) && ft_isdigit(cmd[1][i]))
+    {
+        ft_putstr_fd("minishell: unset: `", 2);
+        ft_putstr_fd(cmd[1], 2);
+        ft_putstr_fd("': not a valid identifier\n", 2);
+        exit_status(env, "1");
+        return 0;
+    }
     
     return 0;
 }
