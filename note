@@ -1,41 +1,25 @@
 Minishell$  echo kk | exit
 exit
 
-bash-3.2$ echo kk | exit
-bash-3.2$ 
--------------------------
-Minishell$ pwd
-/Users/saharchi/Desktop/minishell
-Minishell$ cd ..
-Minishell$ pwd
-/Users/saharchi/Desktop/minishell
-Minishell$ 
--------------------------
-
-cd not working 
 
 ---------------------------------
-Minishell$ ~
-minishell: ~: command not found
+Minishell$ mkdir h
+mkdir: h: File exists
+Minishell$ mkdir k
+mkdir: k: File exists
+Minishell$ 
 
-bash-3.2$ ~
-bash: /Users/saharchi: is a directory
 ---------------------------------
 Minishell$ cd h
 minishell: Permission denied
 bash-3.2$ cd h
 bash: cd: h: Permission denied
-
 ---------------------------------
 Minishell$ a
 minishell: a: command not found
 Minishell$ h
 minishell: h: command not found
 
-bash-3.2$ h
-bash: h: is a directory
-bash-3.2$ a
-bash: a: Permission denied
 ---------------------------------
 bash-3.2$ /bultins
 bash: /bultins: No such file or directory
@@ -52,26 +36,92 @@ Minishell$
 bash-3.2$ a/a
 bash: a/a: Not a directory
 bash-3.2$ 
+
 ---------------------------------
-bash-3.2$ cd h
-bash: cd: h: Permission denied
+bash-3.2$ a/a
+bash: a/a: No such file or directory
 bash-3.2$ 
 
-Minishell$ cd h
-minishell: Permission denied
+Minishell$ a/a
+minishell: a/a: command not found
 Minishell$ 
+
 ---------------------------------
+Minishell$ unset $Path
+Invalid environment or name
+
 Minishell$ unset $PATH
-Minishell$ ls
-a               bultins         exit_status.c   handle_errors.c main.c          minishell.h     obj             path_test.c     utils_func.c
-add_cmd.c       delet_quot.c    expand.c        herdoc.c        makefile        new_list.c      parse.c         redirection.c
-add_env.c       execution.c     h               libft           minishell       note            parse_list.c    split.c
-Minishell$ 
+minishell: unset: `/Users/saharchi/.brew/bin:/Users/saharchi/.brew/bin:/Users/saharchi/.brew/bin:/Users/saharchi/bin:/usr/local/bin/nvim:/Users/saharchi/.local/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Library/Apple/usr/bin': not a valid identifier
+[1]    79450 segmentation fault  ./minishell
+
+Minishell$ unset $
+minishell: unset: `$': not a valid identifier
+[1]    83152 segmentation fault  ./minishell
+
 ---------------------------------
 
+Minishell$ export $dssgd
+declare -x ?="1"
+declare -x COLORTERM="truecolor"
+declare -x COMMAND_MODE="unix2003"
+declare -x C_INCLUDE_PATH="/Users/saharchi/.brew/include:/Users/saharchi/.brew/include:/Users/saharchi/.brew/include:"
+declare -x GIT_ASKPASS="/Applications/Visual Studio Code.app/Contents/Resources/app/extensions/git/dist/askpass.sh"
+declare -x HOME="/Users/saharchi"
+declare -x HOMEBREW_CACHE="/tmp/saharchi/Homebrew/Caches"
+declare -x HOMEBREW_TEMP="/tmp/saharchi/Homebrew/Temp"
+declare -x LANG="en_US.UTF-8"
+declare -x LESS="-R"
+declare -x LIBRARY_PATH="/Users/saharchi/.brew/lib:/Users/saharchi/.brew/lib:/Users/saharchi/.brew/lib:"
+declare -x LOGNAME="saharchi"
+declare -x LSCOLORS="Gxfxcxdxbxegedabagacad"
+declare -x LS_COLORS="di=1;36:ln=35:so=32:pi=33:ex=31:bd=34;46:cd=34;43:su=30;41:sg=30;46:tw=30;42:ow=30;43"
+declare -x LaunchInstanceID="36F36F36-9A0E-427C-B77C-FCE571E1BA66"
+declare -x MallocNanoZone="0"
+declare -x OLDPWD="/Users/saharchi/Desktop/minishell"
+declare -x ORIGINAL_XDG_CURRENT_DESKTOP="undefined"
+declare -x PAGER="less"
+declare -x PWD="/Users/saharchi/Desktop/minishell"
+declare -x SECURITYSESSIONID="186a7"
+declare -x SHELL="/bin/zsh"
+declare -x SHLVL="1"
+declare -x SSH_AUTH_SOCK="/private/tmp/com.apple.launchd.30vKKrtwt8/Listeners"
+declare -x TERM="xterm-256color"
+declare -x TERM_PROGRAM="vscode"
+declare -x TERM_PROGRAM_VERSION="1.89.1"
+declare -x TMPDIR="/var/folders/zz/zyxvpxvq6csfxvn_n000cmh8003542/T/"
+declare -x USER="saharchi"
+declare -x USER_ZDOTDIR="/Users/saharchi"
+declare -x VSCODE_GIT_ASKPASS_EXTRA_ARGS=""
+declare -x VSCODE_GIT_ASKPASS_MAIN="/Applications/Visual Studio Code.app/Contents/Resources/app/extensions/git/dist/askpass-main.js"
+declare -x VSCODE_GIT_ASKPASS_NODE="/Applications/Visual Studio Code.app/Contents/Frameworks/Code Helper (Plugin).app/Contents/MacOS/Code Helper (Plugin)"
+declare -x VSCODE_GIT_IPC_HANDLE="/var/folders/zz/zyxvpxvq6csfxvn_n000cmh8003542/T/vscode-git-706e403643.sock"
+declare -x VSCODE_INJECTION="1"
+declare -x XPC_FLAGS="0x0"
+declare -x XPC_SERVICE_NAME="0"
+declare -x ZDOTDIR="/Users/saharchi"
+declare -x ZSH="/Users/saharchi/.oh-my-zsh"
+declare -x _="/Users/saharchi/Desktop/minishell/./minishell"
+declare -x __CF_USER_TEXT_ENCODING="0x19482:0x0:0x0"
+Minishell$ export $dssgd
+
+---------------------------------
+Minishell$ cat
+cat: stdin: Bad file descriptor
+Minishell$ 
+---------------------------------
+ cat | cat cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat |cat | cat 
+cat: [1]    83365 segmentation fault  ./minishell
+cat: stdin: Input/output error
+stdin: Input/output error
+
+---------------------------------
+ls | lsls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls |ls | ls 
+fork: Resource temporarily unavailable
+➜  minishell git:(master) ✗ 
 
 
+bash: fork: Resource temporarily unavailable
+bash-3.2$
 
-
-
+don't exit
 ############################################################################################################
