@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/10 23:50:36 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/11 23:51:29 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,13 +26,6 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include "./libft/libft.h"
-#include <fcntl.h>
-
-
-typedef struct s_flags {
-    int exit_stat;
-} t_flags;
-t_flags g_flags;
 
 typedef struct g_signle
 {
@@ -97,7 +90,7 @@ int		ft_pwd();
 void	ft_cd(char *arg, t_env **env);
 void	real_env(t_env *a, int i, char **cmd);
 int		ft_export(char **cmd, t_env **env);
-void ft_unset(t_env **env, const char *name);
+void ft_unset(t_env **env, char *name);
 
 // // -----------------------
 void	handle_redirection(t_cmd *cmd);
@@ -105,7 +98,10 @@ void	execute_this(t_data *data);
 void	check_bultins(char **cmd, t_env **env);
 int		if_bultins(char **cmd);
 void	ft_error(char *str, int status);
-void print_command_not_found(const char *command);
+void	print_command_not_found(const char *command);
+void	env_key_error(char **cmd, t_env **env, char *msg);
+void	set_env(t_env **env, const char *name, const char *value);
+void	add_env(t_env **envs, char *key, char *value);
 
 // // -----------------------
 

@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 06:57:44 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/10 23:51:13 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/11 23:47:57 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,10 @@ void	exit_status(t_env **env, char *status)
 {
 	t_env	*tmp;
 
-	tmp = *env;
+	if (!env || !*env)
+		return ;
+
+    tmp = *env;
 	while (tmp)
 	{
 		if (!ft_strcmp(tmp->key, "?"))

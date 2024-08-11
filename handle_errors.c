@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 17:52:23 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/07/31 18:02:08 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/11 11:38:54 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,4 +29,14 @@ void print_command_not_found(const char *command)
     write(STDERR_FILENO, prefix, prefix_len);
     write(STDERR_FILENO, command, cmd_len);
     write(STDERR_FILENO, suffix, suffix_len);
+}
+
+void env_key_error(char **cmd, t_env **env, char *msg)
+{
+    ft_putstr_fd("minishell: ", 2);
+    ft_putstr_fd(msg, 2);
+    ft_putstr_fd(": `", 2);
+    ft_putstr_fd(cmd[1], 2);
+    ft_putstr_fd("': not a valid identifier\n", 2);
+    exit_status(env, "1");
 }

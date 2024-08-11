@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:58:37 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/04 00:05:52 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/10 09:38:14 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void ft_cd(char *arg, t_env **env)
             if (chdir(home) == -1)
             {
                 perror("minishell");
-                g_flags.exit_stat = 1;
+                exit_status(env, "1");
             }
             else
             {
@@ -97,7 +97,7 @@ void ft_cd(char *arg, t_env **env)
         else
         {
             fprintf(stderr, "minishell: cd: HOME not set\n");
-            g_flags.exit_stat = 1;
+            exit_status(env, "1");
         }
         return;
     }
@@ -109,7 +109,8 @@ void ft_cd(char *arg, t_env **env)
             if (chdir(oldpwd) == -1)
             {
                 perror("minishell");
-                g_flags.exit_stat = 1;
+                exit_status(env, "1");
+
             }
             else
             {
@@ -124,7 +125,7 @@ void ft_cd(char *arg, t_env **env)
         else
         {
             fprintf(stderr, "minishell: cd: OLDPWD not set\n");
-            g_flags.exit_stat = 1;
+            exit_status(env, "1");
         }
         return;
     }
@@ -132,7 +133,7 @@ void ft_cd(char *arg, t_env **env)
     if (chdir(arg) == -1)
     {
         perror("minishell");
-        g_flags.exit_stat = 1;
+        exit_status(env, "1");
     }
     else
     {
