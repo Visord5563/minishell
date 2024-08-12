@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/12 18:31:37 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/12 19:43:37 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ int main(int ac, char **av, char **env)
 		check_quotes(&parse);
 		check_heredoc(&parse, data->env);
 		ft_lstcmd(&data, &parse);
+		
 		if (line && *line)
         	add_history(line);
 

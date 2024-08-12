@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/12 19:41:55 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/12 19:43:44 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int		ft_pwd(void);
 void	ft_cd(char *arg, t_env **env);
 void	real_env(t_env *a, int i, char **cmd);
 int		ft_export(char **cmd, t_env **env);
-void	ft_unset(t_env **env, char *name);
+void ft_unset(t_env **env, char *name);
 
 // // -----------------------
 void	handle_redirection(t_cmd *cmd);
@@ -134,5 +134,6 @@ void	exit_status(t_env **env, char *status);
 int		handle_expand(t_env *env, char *str);
 int		ha_re_in(char *file, t_env *env);
 int		ha_re_ou(char *file, t_env *env, int token);
+// int		get_name(char *delimiter);
 
 #endif
