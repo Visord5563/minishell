@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:49:55 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/12 18:51:52 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/12 19:40:19 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,10 @@ int	add_args(t_parse **parse, char ***args, t_data *data, t_fd *fd)
 			if (handle_in_ou(parse, &fd->fd_in, &fd->fd_out, &data) == -1)
 			{
 				if (i > 0)
+				{
 					(*args)[j] = NULL;
+					ft_free(*args);
+				}
 				return (-1);
 			}
 		}
@@ -109,8 +112,9 @@ void	ft_lstcmd(t_data **data, t_parse **parse)
 		fd.fd_out = 1;
 		if (add_args(&tmp, &args, *data, &fd) == -1)
 		{
+			exit_status(&(*data)->env, "1");
 			ft_lstclearcmd((*data)->cmd);
-			ft_free(args);
+			free(args);
 			(*data)->cmd = NULL;
 			break ;
 		}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_func.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:52:48 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/02 07:01:12 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/12 19:42:34 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	ft_val_key(t_env *tmp_env, char *key)
 	return (0);
 }
 
-char	*check_value(char *key, t_env *envs)
+char	*check_value(char *key, t_env *envs, int flag)
 {
 	t_env	*tmp;
 
@@ -48,7 +48,16 @@ char	*check_value(char *key, t_env *envs)
 	while (tmp)
 	{
 		if (strcmp(tmp->key, key) == 0)
+		{
+			if (flag == 1)
+			{
+				if (ft_strcmp(tmp->key, "_") == 0)
+					return (free(key), "");
+				else if (ft_strcmp(tmp->key, "?") == 0)	
+					return (free(key), "0");
+			}
 			return (free(key), tmp->value);
+		}
 		tmp = tmp->next;
 	}
 	return (free(key), "");

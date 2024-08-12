@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 06:57:44 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/10 10:02:08 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/12 19:41:01 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	handle_expand(t_env *env, char *str)
 	char	*tmp;
 
 	fd = 0;
-	tmp = expand_str(ft_strdup(str), env);
+	tmp = expand_str(ft_strdup(str), env, 0);
 	if (is_space(tmp) || ft_strcmp(tmp, "") == 0)
 	{
 		tmp = ft_strtrim(tmp, " \t\n\v\f\r");

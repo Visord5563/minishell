@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/12 19:25:35 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/12 19:41:55 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,8 +122,8 @@ void	check_heredoc(t_parse **parse, t_env *env);
 void	ft_lstclearcmd(t_cmd *cmd);
 void	ft_free(char **str);
 char	*delete_quotes(char *str);
-char	*expand_str(char *str, t_env *envs);
-char	*check_value(char *key, t_env *envs);
+char	*expand_str(char *str, t_env *envs, int flag);
+char	*check_value(char *key, t_env *envs, int flag);
 int		is_space(char *str);
 t_cmd	*ft_lstnewcmd(char **content, t_fd fd);
 void	ft_add_backcmd(t_cmd **cmd, t_cmd *new);

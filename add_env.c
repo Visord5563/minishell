@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:45:45 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/03 06:44:01 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/12 19:40:31 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,20 @@ void	add_env(t_env **envs, char *key, char *value)
 	tmp->next = new;
 }
 
+int	check_exits(t_env **envs)
+{
+	t_env *tmp;
+
+	tmp = *envs;
+	while(tmp)
+	{
+		if (ft_strcmp(tmp->key, "?") == 0)
+			return (1);
+		tmp = tmp->next;
+	}
+	return (0);
+}
+
 void	ft_env(t_env **envs, char **env)
 {
 	int		i;
@@ -82,5 +96,6 @@ void	ft_env(t_env **envs, char **env)
 		add_env(envs, key, value);
 		i++;
 	}
-	add_env(envs, ft_strdup("?"), ft_strdup("0"));
+	if (!check_exits(envs))
+		add_env(envs, ft_strdup("?"), ft_strdup("0"));
 }
