@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:44:59 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/09 12:45:53 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/12 18:47:03 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ char **join_lst(t_env *env)
 
 void execute_this(t_data *data)
 {
+    // puts("bsmllllllllllah");
     pid_t pid;
     int fd[2];
     int fd_in = 0;
@@ -139,9 +140,7 @@ void execute_this(t_data *data)
                         free(path);
                     }
                     else
-                    {
                         execve(cmd_list->args[0], cmd_list->args, env);
-                    }
                     print_command_not_found(cmd_list->args[0]);
                     exit(EXIT_FAILURE);
                 }
