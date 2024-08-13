@@ -6,11 +6,11 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 09:13:33 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/12 19:38:08 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/13 10:06:12 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
+#include "../inc/minishell.h"
 
 void	swap_tmp(t_env *tmp, t_env *tmp2)
 {
@@ -49,7 +49,6 @@ void	sort_env(t_env **env, int flag)
 	while (tmp)
 	{
 		tmp2 = tmp->next;
-
 		while (tmp2)
 		{
 			swap_tmp(tmp, tmp2);
@@ -66,7 +65,6 @@ int	is_valid_key(char *var)
 	int	i;
 
 	i = 0;
-
 	if ((!ft_isalpha(var[i]) && var[i] != '_'))
 		return (0);
 	i++;
@@ -144,7 +142,6 @@ int	ft_export(char **cmd, t_env **env)
 	i = 1;
 	if (!cmd[i])
 		return (sort_env(env, 1), 0);
-
 	while (cmd[i])
 	{
 		if (!is_valid_key(cmd[i]))
