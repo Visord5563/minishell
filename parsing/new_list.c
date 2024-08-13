@@ -6,11 +6,11 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:51:06 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/01 06:30:09 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/13 03:27:55 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 t_cmd	*ft_lstnewcmd(char **content, t_fd fd)
 {
@@ -56,6 +56,7 @@ void	ft_lstclearcmd(t_cmd *cmd)
 	{
 		tmp = cmd->next;
 		ft_free(cmd->args);
+		free(cmd->args);
 		free(cmd);
 		cmd = tmp;
 	}
@@ -70,7 +71,7 @@ void	sighandel(int sig)
 			g_sigl.sig_herdoc = 0;
 			close(0);
 		}
-		else
+		else if (!g_sigl.sig_child)
 		{
 			printf("\n");
 			rl_on_new_line();

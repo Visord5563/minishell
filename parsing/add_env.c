@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   add_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:45:45 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/12 19:43:12 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/13 03:27:21 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	count_args(t_parse *parse)
 {
@@ -68,10 +68,10 @@ void	add_env(t_env **envs, char *key, char *value)
 
 int	check_exits(t_env **envs)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
 	tmp = *envs;
-	while(tmp)
+	while (tmp)
 	{
 		if (ft_strcmp(tmp->key, "?") == 0)
 			return (1);

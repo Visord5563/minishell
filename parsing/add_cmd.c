@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   add_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:49:55 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/12 19:43:08 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/13 03:27:07 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	print_erno(t_parse **parse, int *fd_in, int *fd_out)
 {
@@ -36,7 +36,7 @@ int	handle_in_ou(t_parse **parse, int *fd_in, int *fd_out, t_data **data)
 		if ((*parse)->token == HDOC)
 			*fd_in = (*parse)->fd_hdoc;
 		else
-			*fd_in = ha_re_in(tmp, (*data)->env);
+			*fd_in = ha_re_in(tmp, (*data)->env, (*parse)->token);
 	}
 	else if (((*parse)->token == ROUT || (*parse)->token == APP))
 	{
@@ -87,10 +87,9 @@ int	add_args(t_parse **parse, char ***args, t_data *data, t_fd *fd)
 			if (handle_in_ou(parse, &fd->fd_in, &fd->fd_out, &data) == -1)
 			{
 				if (i > 0)
-				{
-					(*args)[j] = NULL;
+					(*args)[i] = NULL;
+				if (i > 0)
 					ft_free(*args);
-				}
 				return (-1);
 			}
 		}

@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:41:50 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/12 19:43:28 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/13 03:27:44 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	print_error(char *text)
 {
@@ -87,8 +87,9 @@ char	*expand_str(char *str, t_env *envs, int flag)
 void	ft_expand(t_parse **parse, t_env *envs)
 {
 	t_parse	*tmp;
-	int flag = 0;
+	int		flag;
 
+	flag = 0;
 	tmp = *parse;
 	while (tmp)
 	{

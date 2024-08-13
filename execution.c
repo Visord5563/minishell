@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:44:59 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/12 19:43:21 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/13 02:05:54 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,9 +122,11 @@ void execute_this(t_data *data)
             {
                 dup2(fd_in, 0); 
                 if (cmd_list->next)
+                {
                     dup2(fd[1], 1); 
-                close(fd[0]);
-                close(fd[1]);
+                    close(fd[0]);
+                    close(fd[1]);
+                }
                 handle_redirection(cmd_list);
                 path = get_path(cmd_list->args[0], data->env);
                 if (cmd_list->args[0])
@@ -166,9 +168,15 @@ void execute_this(t_data *data)
     if (fd_in != 0)
         close(fd_in);
     if (created_child)
+    {
+        g_sigl.sig_child = 1;
         for (int i = 0; i < cmd_index; i++)
             if (waitpid(childpids[i], &status, 0) == -1)
                 perror("waitpid");
+        if (status == 3)
+            printf("Quit: 3\n");
+        g_sigl.sig_child = 0;
+    }
 
     free(env);
 }

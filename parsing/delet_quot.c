@@ -6,11 +6,11 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:46:50 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/27 20:14:45 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/13 03:27:26 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 char	*delete_espace(char *str)
 {

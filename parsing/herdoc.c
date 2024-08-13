@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:48:40 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/12 19:43:33 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/13 03:27:50 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
-char	*haha(char *del, int i, int j)
+char	*delet_dollar(char *del, int i, int j)
 {
 	char	quote;
 	char	*new;
@@ -44,7 +44,7 @@ char	*check_del(char *del)
 {
 	if (ft_strchr(del, '$') || ft_strchr(del, '"') || ft_strchr(del, '\''))
 	{
-		del = haha(del, 0, 0);
+		del = delet_dollar(del, 0, 0);
 		del = delete_quotes(ft_strdup(del));
 	}
 	else
@@ -52,40 +52,9 @@ char	*check_del(char *del)
 	return (del);
 }
 
-// int	get_name(char *delimiter)
-// {
-// 	int		fd;
-// 	char	*s;
-// 	char	*runm;
-// 	int		i;
-
-// 	i = 0;
-// 	while (1)
-// 	{
-// 		runm = ft_itoa((int)delimiter + i);
-// 		s = ft_strjoin(ft_strdup("/tmp/."), runm);
-// 		free(runm);
-// 		fd = open(s, O_RDONLY);
-// 		if (fd == -1 && flag == 0)
-// 		{
-// 			fd = open(s, O_CREAT | O_WRONLY | O_TRUNC, 0744);
-// 			unlink(s);
-// 			free(s);
-// 			break ;
-// 		}
-// 		i++;
-// 	}
-// 	free(runm);
-// 	free(s);
-// 	return (fd);
-// }
-
-int	heredoc(char *delimiter, t_env *env)
+int	get_fd(char *delimiter, int *fd1)
 {
-	char	*line;
 	int		fd;
-	int		fd1;
-	char	*del;
 	char	*s;
 	char	*runm;
 	int		i;
@@ -95,18 +64,27 @@ int	heredoc(char *delimiter, t_env *env)
 	{
 		runm = ft_itoa((int)delimiter + i);
 		s = ft_strjoin(ft_strdup("/tmp/."), runm);
-		free(runm);
 		if (access(s, F_OK | R_OK | W_OK) == -1)
 		{
 			fd = open(s, O_CREAT | O_WRONLY | O_TRUNC, 0744);
-			fd1 = open(s, O_RDONLY);
+			*fd1 = open(s, O_RDONLY);
 			unlink(s);
+			free(runm);
 			free(s);
 			break ;
 		}
-		free(s);
 		i++;
 	}
+	return (fd);
+}
+
+void	heredoc(char *delimiter, t_env *env, int *fd1)
+{
+	char	*line;
+	int		fd;
+	char	*del;
+
+	fd = get_fd(delimiter, fd1);
 	g_sigl.sig_herdoc = 1;
 	while (1)
 	{
@@ -127,7 +105,6 @@ int	heredoc(char *delimiter, t_env *env)
 		free(line);
 	}
 	close(fd);
-	return (fd1);
 }
 
 void	check_heredoc(t_parse **parse, t_env *env)
@@ -143,7 +120,7 @@ void	check_heredoc(t_parse **parse, t_env *env)
 		{
 			if (fd != 0)
 				close(fd);
-			tmp->fd_hdoc = heredoc(tmp->next->text, env);
+			heredoc(tmp->next->text, env, &tmp->fd_hdoc);
 			if (g_sigl.sig_herdoc == 0 || tmp->fd_hdoc == -1)
 			{
 				(1) && (dup2(1, 0), ft_lstclear(*parse), *parse = NULL);

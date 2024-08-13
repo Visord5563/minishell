@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   utils_func.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:52:48 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/12 19:43:00 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/13 03:28:11 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	ft_strchrp(const char *s, char c)
 {
@@ -53,7 +53,7 @@ char	*check_value(char *key, t_env *envs, int flag)
 			{
 				if (ft_strcmp(tmp->key, "_") == 0)
 					return (free(key), "");
-				else if (ft_strcmp(tmp->key, "?") == 0)	
+				else if (ft_strcmp(tmp->key, "?") == 0)
 					return (free(key), "0");
 			}
 			return (free(key), tmp->value);

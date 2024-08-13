@@ -6,11 +6,11 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:44:37 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/02 07:07:09 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/13 03:28:03 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 int	check(char c)
 {

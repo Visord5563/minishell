@@ -6,11 +6,11 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 18:34:16 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/02 04:57:32 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/13 03:27:59 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 t_parse	*ft_lstnew(char *content, t_token token)
 {

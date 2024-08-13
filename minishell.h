@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/12 19:43:44 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/13 04:08:15 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 typedef struct g_signle
 {
 	int	sig_herdoc;
+	int sig_child;
 	int	ma_in;
 }	t_signle;
 
@@ -131,9 +132,9 @@ int		count_args(t_parse *parse);
 void	print_error_quote(char quote);
 void	print_error(char *text);
 void	exit_status(t_env **env, char *status);
-int		handle_expand(t_env *env, char *str);
-int		ha_re_in(char *file, t_env *env);
+int		handle_expand(t_env *env, char *str, int token);
+int		ha_re_in(char *file, t_env *env, int token);
 int		ha_re_ou(char *file, t_env *env, int token);
-// int		get_name(char *delimiter);
+void	parsing(char *line, t_data *data, t_parse **parse);
 
 #endif

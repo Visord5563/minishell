@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exit_status.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 06:57:44 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/12 19:43:24 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/13 03:27:34 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 
 void	exit_status(t_env **env, char *status)
 {
@@ -18,8 +18,7 @@ void	exit_status(t_env **env, char *status)
 
 	if (!env || !*env)
 		return ;
-
-    tmp = *env;
+	tmp = *env;
 	while (tmp)
 	{
 		if (!ft_strcmp(tmp->key, "?"))
@@ -39,10 +38,9 @@ void	ft_free(char **str)
 	i = 0;
 	while (str[i])
 		free(str[i++]);
-	free(str);
 }
 
-int	handle_expand(t_env *env, char *str)
+int	handle_expand(t_env *env, char *str, int token)
 {
 	int		fd;
 	char	*tmp;
@@ -56,18 +54,25 @@ int	handle_expand(t_env *env, char *str)
 			fd = -2;
 	}
 	if (fd != -2)
-		fd = open(tmp, O_RDONLY, 0644);
+	{
+		if (token == ROUT)
+			fd = open(tmp, O_CREAT | O_RDWR | O_TRUNC, 0764);
+		else if (token == APP)
+			fd = open(tmp, O_CREAT | O_RDWR | O_APPEND, 0764);
+		else
+			fd = open(tmp, O_RDONLY, 0644);
+	}
 	free(tmp);
 	return (fd);
 }
 
-int	ha_re_in(char *file, t_env *env)
+int	ha_re_in(char *file, t_env *env, int token)
 {
 	int	fd;
 
 	if (ft_strchr(file, '$'))
 	{
-		fd = handle_expand(env, file);
+		fd = handle_expand(env, file, token);
 		return (fd);
 	}
 	if (!ft_strcmp(file, ""))
@@ -82,7 +87,7 @@ int	ha_re_ou(char *file, t_env *env, int token)
 
 	if (ft_strchr(file, '$'))
 	{
-		fd = handle_expand(env, file);
+		fd = handle_expand(env, file, token);
 		return (fd);
 	}
 	if (token == ROUT)

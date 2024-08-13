@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/12 19:43:37 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/13 03:44:52 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int main(int ac, char **av, char **env)
 
 	// termios term;
 	// tcgetattr(0, &term);	
-	
 	data = malloc(sizeof(t_data));
 	parse = NULL;
 	data->cmd = NULL;
@@ -32,17 +31,13 @@ int main(int ac, char **av, char **env)
 	rl_catch_signals = 0;
 	signal(SIGINT, sighandel);
 	signal(SIGQUIT, sighandel);
+	g_sigl.sig_child = 0;
     while (1)
     {
         line = readline("\033[0;34mMinishell$ \033[0;37m");
         if (!line)
             break; 
-		parse_line(line, &parse, &data->env);
-		ft_expand(&parse, data->env);
-		check_quotes(&parse);
-		check_heredoc(&parse, data->env);
-		ft_lstcmd(&data, &parse);
-		
+		parsing(line, data, &parse);
 		if (line && *line)
         	add_history(line);
 
