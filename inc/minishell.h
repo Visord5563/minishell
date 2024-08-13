@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/13 12:44:21 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/13 13:02:10 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,7 +109,8 @@ void	print_command_not_found(const char *command);
 void	env_key_error(char **cmd, t_env **env, int i, char *msg);
 void	set_env(t_env **env, const char *name, const char *value);
 void	add_env(t_env **envs, char *key, char *value);
-
+char	**join_lst(t_env *env);
+char	*get_path(char *cmd, t_env *env);
 // // -----------------------
 
 // void	add_env(t_env **envs, char *key, char *value);

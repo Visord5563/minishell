@@ -6,7 +6,7 @@
 #    By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/03 17:08:07 by saharchi          #+#    #+#              #
-#    Updated: 2024/08/13 12:35:51 by ehafiane         ###   ########.fr        #
+#    Updated: 2024/08/13 13:02:54 by ehafiane         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,7 @@ LIBFT = ./libft/libft.a
 CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
 RM = rm -f
 
-SRC = main.c parsing/parse_list.c execution/execution.c execution/redirection.c\
+SRC = main.c parsing/parse_list.c execution/help_execute.c execution/execution.c execution/redirection.c\
 	parsing/split.c parsing/exit_status.c bultins/cd.c bultins/echo.c parsing/parsing.c \
 	bultins/env.c bultins/export.c bultins/help_export.c bultins/pwd.c bultins/unset.c parsing/herdoc.c \
 	parsing/expand.c parsing/add_env.c parsing/delet_quot.c \
