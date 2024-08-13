@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/13 10:05:44 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/13 12:34:56 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,16 @@ int		ft_pwd(void);
 void	ft_cd(char *arg, t_env **env);
 void	real_env(t_env *a, int i, char **cmd);
 int		ft_export(char **cmd, t_env **env);
-void ft_unset(t_env **env, char *name);
+void	ft_unset(t_env **env, char *name);
 
+// // -----------------------
+void	swap_tmp(t_env *tmp, t_env *tmp2);
+void	print_export(t_env *env);
+void	sort_env(t_env **env);
+int		is_valid_key(char *var);
+int		env_key_exists(t_env *env, char *key);
+void	update_env(t_env **env, char *key, char *value);
+void	add_or_update_env(t_env **env, char *key, char *value);
 // // -----------------------
 void	handle_redirection(t_cmd *cmd);
 void	execute_this(t_data *data);

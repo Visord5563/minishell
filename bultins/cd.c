@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:58:37 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/13 10:06:12 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/13 12:27:28 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	*get_oldpwd(t_env *env)
 	return (NULL);
 }
 
-void	ft_cd(char *arg, t_env **env)
+void	homd_cd(t_env **env)
 {
 	char	*home;
 	char	*oldpwd;
@@ -79,30 +79,34 @@ void	ft_cd(char *arg, t_env **env)
 	cwd = getcwd(buffer, sizeof(buffer));
 	home = get_home(*env);
 	oldpwd = get_oldpwd(*env);
-	if (!arg || strcmp(arg, "~") == 0)
+	if (home)
 	{
-		if (home)
-		{
-			if (chdir(home) == -1)
-			{
-				perror("minishell");
-				exit_status(env, "1");
-			}
-			else
-			{
-				set_env(env, "OLDPWD", cwd);
-				cwd = getcwd(buffer, sizeof(buffer));
-				if (cwd)
-				{
-					set_env(env, "PWD", cwd);
-				}
-			}
-		}
+		if (chdir(home) == -1)
+			(perror("minishell"), exit_status(env, "1"));
 		else
 		{
-			fprintf(stderr, "minishell: cd: HOME not set\n");
-			exit_status(env, "1");
+			set_env(env, "OLDPWD", cwd);
+			cwd = getcwd(buffer, sizeof(buffer));
+			if (cwd)
+				set_env(env, "PWD", cwd);
 		}
+	}
+	else
+	{
+		fprintf(stderr, "minishell: cd: HOME not set\n");
+		exit_status(env, "1");
+	}
+}
+
+void	ft_cd(char *arg, t_env **env)
+{
+	char	buffer[4096];
+	char	*cwd;
+
+	cwd = getcwd(buffer, sizeof(buffer));
+	if (!arg || strcmp(arg, "~") == 0)
+	{
+		homd_cd(env);
 		return ;
 	}
 	if (chdir(arg) == -1)
@@ -117,9 +121,7 @@ void	ft_cd(char *arg, t_env **env)
 			set_env(env, "OLDPWD", cwd);
 			cwd = getcwd(buffer, sizeof(buffer));
 			if (cwd)
-			{
 				set_env(env, "PWD", cwd);
-			}
 		}
 	}
 }

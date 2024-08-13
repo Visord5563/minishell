@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:11:28 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/13 10:06:12 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/13 12:33:03 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,11 +47,6 @@ void	ft_unset(t_env **env, char *name)
 
 	current = *env;
 	previous = NULL;
-	// if (env == NULL || *env == NULL || name == NULL)
-	// {
-	// 	ft_putstr_fd("Invalid environment or name\n", 2);
-	// 	return ;
-	// }
 	check_syntax(name);
 	while (current != NULL)
 	{
@@ -70,4 +65,3 @@ void	ft_unset(t_env **env, char *name)
 		current = current->next;
 	}
 }
-

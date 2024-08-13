@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:44:59 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/13 10:06:26 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/13 10:19:39 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,8 @@ void execute_this(t_data *data)
             else
             {
                 created_child = 1;
-                childpids[cmd_index++] = pid;
+                if((unsigned long)(cmd_index * 4) < sizeof(childpids))
+                    childpids[cmd_index++] = pid;
                 if (fd_in != 0)
                     close(fd_in);
 
