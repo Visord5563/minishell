@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:44:59 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/13 13:16:39 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/13 23:04:10 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@ void	execute_this(t_data *data)
 	int num_cmds = 0;
 	int childpids[256];
 	int created_child = 0;
-	int i = 0;
 	int flag = 0;
+	// int i = 0;
 
 	char **env = join_lst(data->env);
 	t_cmd *cmd_list = data->cmd;
@@ -52,7 +52,7 @@ void	execute_this(t_data *data)
 			dup2(0, 1);
 			// break; 
 		}
-		else
+		else if (cmd_list->args[0])
 		{
 			pid = fork();
 			if (pid < 0)
@@ -88,10 +88,6 @@ void	execute_this(t_data *data)
 					print_command_not_found(cmd_list->args[0]);
 					exit(EXIT_FAILURE);
 				}
-				// else
-				// {
-				//     exit(EXIT_FAILURE);
-				// }
 			}
 			else
 			{
@@ -113,15 +109,13 @@ void	execute_this(t_data *data)
 	if (created_child)
 	{
 		g_sigl.sig_child = 1;
-		while (i < cmd_index)
-		{
-			if (waitpid(childpids[i], &status, 0) == -1)
-				perror("waitpid");
-			i++;
-		}
+        for (int i = 0; i < cmd_index; i++)
+            if (waitpid(childpids[i], &status, 0) == -1)
+                perror("waitpid");
 		if (status == 3)
 			printf("Quit: 3\n");
 		g_sigl.sig_child = 0;
 	}
 	free(env);
 }
+

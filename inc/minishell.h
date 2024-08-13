@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/13 13:02:10 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/13 22:29:14 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ void	execute_this(t_data *data);
 void	check_bultins(char **cmd, t_env **env);
 int		if_bultins(char **cmd);
 void	ft_error(char *str, int status);
-void	print_command_not_found(const char *command);
+void	print_command_not_found(char *command);
 void	env_key_error(char **cmd, t_env **env, int i, char *msg);
 void	set_env(t_env **env, const char *name, const char *value);
 void	add_env(t_env **envs, char *key, char *value);
