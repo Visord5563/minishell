@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/13 12:34:56 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/13 12:44:21 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 typedef struct g_signle
 {
 	int	sig_herdoc;
-	int sig_child;
+	int	sig_child;
 	int	ma_in;
 }	t_signle;
 
