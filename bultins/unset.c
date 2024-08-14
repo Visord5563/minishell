@@ -3,19 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:11:28 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/13 12:33:03 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/14 23:05:59 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-static void	check_syntax(char *str)
+static int	check_syntax(t_env **env, char *str)
 {
 	int		i;
-	t_env	*tmp;
 
 	i = 0;
 	if (!ft_isalpha(str[i]))
@@ -23,8 +22,8 @@ static void	check_syntax(char *str)
 		ft_putstr_fd("minishell: unset: `", 2);
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd("': not a valid identifier\n", 2);
-		exit_status(&tmp, "1");
-		return ;
+		exit_status(env, "1");
+		return (1);
 	}
 	while (str[i])
 	{
@@ -33,11 +32,12 @@ static void	check_syntax(char *str)
 			ft_putstr_fd("minishell: unset: `", 2);
 			ft_putstr_fd(str, 2);
 			ft_putstr_fd("': not a valid identifier\n", 2);
-			exit_status(&tmp, "1");
-			return ;
+			exit_status(env, "1");
+			return (1);
 		}
 		i++;
 	}
+	return (0);
 }
 
 void	ft_unset(t_env **env, char *name)
@@ -47,10 +47,11 @@ void	ft_unset(t_env **env, char *name)
 
 	current = *env;
 	previous = NULL;
-	check_syntax(name);
+	if (check_syntax(env, name))
+		return ;
 	while (current != NULL)
 	{
-		if (strcmp(current->key, name) == 0)
+		if ((ft_strcmp(current->key, name) == 0) && ft_strcmp(current->key, "?"))
 		{
 			if (previous == NULL)
 				*env = current->next;

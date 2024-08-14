@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:41:50 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/14 02:04:19 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/14 22:43:44 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,20 +46,20 @@ char	*return_value(char *str, int i, t_env *envs, int flag)
 		}
 		j++;
 	}
-	strtmp = ft_strjoin(new, check_value(ft_substr(str, i + 1, j - i - 1),
-				envs, flag));
+	char *tmp = check_value(ft_substr(str, i + 1, j - i - 1), envs, flag);
+	if (ft_strchr(tmp, '\''))
+	{
+		tmp = ft_strjoin(ft_strdup("\""), tmp);
+		tmp = ft_strjoin(tmp, "\"");
+	}
+	else if (ft_strchr(tmp, '"'))
+	{
+		tmp = ft_strjoin(ft_strdup("\'"), tmp);
+		tmp = ft_strjoin(tmp, "\'");
+	}
+	strtmp = ft_strjoin(new, tmp);
 	new = ft_substr(str, j, ft_strlen(str) - j);
 	strtmp = ft_strjoin(strtmp, new);
-	if (ft_strchr(strtmp, '\''))
-	{
-		strtmp = ft_strjoin(ft_strdup("\""), strtmp);
-		strtmp = ft_strjoin(strtmp, "\"");
-	}
-	else if (ft_strchr(strtmp, '"'))
-	{
-		strtmp = ft_strjoin(ft_strdup("\'"), strtmp);
-		strtmp = ft_strjoin(strtmp, "\'");
-	}
 	free(new);
 	free(str);
 	return (strtmp);

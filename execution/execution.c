@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:44:59 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/13 23:04:10 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/14 23:14:09 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void	execute_this(t_data *data)
 				close(fd[0]);
 				close(fd[1]);
 				perror("fork");
-				// exit(EXIT_FAILURE);
 				break ;
 			}
 			if (pid == 0)
