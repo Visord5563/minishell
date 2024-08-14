@@ -73,10 +73,9 @@ void	homd_cd(t_env **env)
 {
 	char	*home;
 	char	*oldpwd;
-	char	buffer[4096];
 	char	*cwd;
 
-	cwd = getcwd(buffer, sizeof(buffer));
+	// cwd = getcwd(NULL, 0);
 	home = get_home(*env);
 	oldpwd = get_oldpwd(*env);
 	if (home)
@@ -86,9 +85,12 @@ void	homd_cd(t_env **env)
 		else
 		{
 			set_env(env, "OLDPWD", cwd);
-			cwd = getcwd(buffer, sizeof(buffer));
+			cwd = getcwd(NULL, 0);
 			if (cwd)
+			{
 				set_env(env, "PWD", cwd);
+			}
+			free(cwd);
 		}
 	}
 	else
@@ -96,19 +98,21 @@ void	homd_cd(t_env **env)
 		fprintf(stderr, "minishell: cd: HOME not set\n");
 		exit_status(env, "1");
 	}
+
 }
 
 void	ft_cd(char *arg, t_env **env)
 {
-	char	buffer[4096];
 	char	*cwd;
 
-	cwd = getcwd(buffer, sizeof(buffer));
 	if (!arg || strcmp(arg, "~") == 0)
 	{
 		homd_cd(env);
 		return ;
+	
 	}
+	puts("bsmllah");
+	cwd = getcwd(NULL, 0);
 	if (chdir(arg) == -1)
 	{
 		perror("minishell");
@@ -119,7 +123,7 @@ void	ft_cd(char *arg, t_env **env)
 		if (cwd)
 		{
 			set_env(env, "OLDPWD", cwd);
-			cwd = getcwd(buffer, sizeof(buffer));
+			cwd = getcwd(NULL, 0);
 			if (cwd)
 				set_env(env, "PWD", cwd);
 		}

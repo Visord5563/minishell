@@ -1,0 +1,12 @@
+a
+b
+bultins
+execution
+inc
+libft
+main.c
+makefile
+minishell
+obj
+parsing
+test

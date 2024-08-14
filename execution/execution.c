@@ -3,15 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:44:59 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/13 23:04:10 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/13 23:28:05 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
+
+void	free_all(char **str)
+{
+	int i = 0;
+	while (str[i])
+	{
+		free(str[i]);
+		i++;
+	}
+	free(str);
+}
 void	execute_this(t_data *data)
 {
 	pid_t pid;
@@ -50,15 +61,16 @@ void	execute_this(t_data *data)
 			handle_redirection(cmd_list);
 			check_bultins(cmd_list->args, &data->env);
 			dup2(0, 1);
-			// break; 
 		}
 		else if (cmd_list->args[0])
 		{
 			pid = fork();
 			if (pid < 0)
-			{
+			{	
+				close(fd[0]);
+				close(fd[1]);
 				perror("fork");
-				exit(EXIT_FAILURE);
+				break ;
 			}
 			if (pid == 0)
 			{
@@ -110,12 +122,15 @@ void	execute_this(t_data *data)
 	{
 		g_sigl.sig_child = 1;
         for (int i = 0; i < cmd_index; i++)
-            if (waitpid(childpids[i], &status, 0) == -1)
-                perror("waitpid");
+		{
+			if (waitpid(childpids[i], &status, 0) == -1)
+				perror("waitpid");
+		}
 		if (status == 3)
 			printf("Quit: 3\n");
 		g_sigl.sig_child = 0;
 	}
-	free(env);
+	// free(env);
+	free_all(env);
 }
 

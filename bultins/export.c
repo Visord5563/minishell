@@ -91,10 +91,7 @@ int	ft_export(char **cmd, t_env **env)
 	while (cmd[i])
 	{
 		if (!is_valid_key(cmd[i]))
-		{
 			env_key_error(cmd, env, i, "export");
-			return (0);
-		}
 		process_key_value(cmd[i], env, &flag);
 		i++;
 	}
