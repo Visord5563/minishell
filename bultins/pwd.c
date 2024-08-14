@@ -28,7 +28,6 @@ int	ft_pwd(t_env *env)
 	else
 	{
 		ft_putendl_fd(old_pwd, 1);
-		// perror("pwd");
 		return (1);
 	}
 }

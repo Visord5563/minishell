@@ -69,6 +69,7 @@ void	execute_this(t_data *data)
 				close(fd[0]);
 				close(fd[1]);
 				perror("fork");
+				// exit(EXIT_FAILURE);
 				break ;
 			}
 			if (pid == 0)
@@ -84,11 +85,11 @@ void	execute_this(t_data *data)
 				path = get_path(cmd_list->args[0], data->env);
 				if (cmd_list->args[0])
 				{
-				if (if_bultins(cmd_list->args) && flag == 1)
-				{
-					check_bultins(cmd_list->args, &data->env);
-					exit(EXIT_SUCCESS); 
-				}
+					if (if_bultins(cmd_list->args) && flag == 1)
+					{
+						check_bultins(cmd_list->args, &data->env);
+						exit(EXIT_SUCCESS); 
+					}
 					if (path != NULL)
 					{
 						execve(path, cmd_list->args, env);
@@ -124,6 +125,12 @@ void	execute_this(t_data *data)
 		{
 			if (waitpid(childpids[i], &status, 0) == -1)
 				perror("waitpid");
+			// if (WIFEXITED(status))
+            // {
+            //     int exit_status = WEXITSTATUS(status);
+            //     if (exit_status == 3)
+            //         printf("Quit: 3\n");
+            // }
 		}
 		if (status == 3)
 			printf("Quit: 3\n");

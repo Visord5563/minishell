@@ -108,7 +108,7 @@ int		if_bultins(char **cmd);
 void	ft_error(char *str, int status);
 void	print_command_not_found(char *command);
 void	env_key_error(char **cmd, t_env **env, int i, char *msg);
-void	set_env(t_env **env, const char *name, const char *value);
+char	*set_env(t_env **env, const char *name, const char *value);
 void	add_env(t_env **envs, char *key, char *value);
 char	**join_lst(t_env *env);
 char	*get_path(char *cmd, t_env *env);
