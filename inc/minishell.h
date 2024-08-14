@@ -86,7 +86,7 @@ typedef struct s_data
 // // -----------------------
 int		ft_echo(char **argv);
 void	ft_exit(char **str);
-int		ft_pwd(void);
+int		ft_pwd(t_env *env);
 void	ft_cd(char *arg, t_env **env);
 void	real_env(t_env *a, int i, char **cmd);
 int		ft_export(char **cmd, t_env **env);
@@ -112,6 +112,7 @@ void	set_env(t_env **env, const char *name, const char *value);
 void	add_env(t_env **envs, char *key, char *value);
 char	**join_lst(t_env *env);
 char	*get_path(char *cmd, t_env *env);
+char	*get_oldpwd(t_env *env);
 // // -----------------------
 
 // void	add_env(t_env **envs, char *key, char *value);

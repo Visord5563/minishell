@@ -111,7 +111,6 @@ void	ft_cd(char *arg, t_env **env)
 		return ;
 	
 	}
-	puts("bsmllah");
 	cwd = getcwd(NULL, 0);
 	if (chdir(arg) == -1)
 	{

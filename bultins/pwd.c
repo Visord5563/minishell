@@ -12,19 +12,23 @@
 
 #include "../inc/minishell.h"
 
-int	ft_pwd(void)
+int	ft_pwd(t_env *env)
 {
+	char *old_pwd;
+	char *cwd;
 
-	char *ced = getcwd(NULL, 0);
-	if (ced)
+	old_pwd = get_oldpwd(env);
+	cwd = getcwd(NULL, 0);
+	if (cwd)
 	{
-		ft_putendl_fd(ced, 1);
-		free(ced);
+		ft_putendl_fd(cwd, 1);
+		free(cwd);
 		return (0);
 	}
 	else
 	{
-		perror("pwd");
+		ft_putendl_fd(old_pwd, 1);
+		// perror("pwd");
 		return (1);
 	}
 }
