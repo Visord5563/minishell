@@ -6,7 +6,7 @@
 /*   By: mehdi <mehdi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/30 16:11:28 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/14 23:32:35 by mehdi            ###   ########.fr       */
+/*   Updated: 2024/08/14 23:45:48 by mehdi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	check_syntax(t_env **env, char *str)
 	int		i;
 
 	i = 0;
-	if (!ft_isalpha(str[i]))
+	if (!ft_isalpha(str[i]) && str[i] != '_')
 	{
 		ft_putstr_fd("minishell: unset: `", 2);
 		ft_putstr_fd(str, 2);

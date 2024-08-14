@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   help_execute.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mehdi <mehdi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 13:00:56 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/13 22:26:13 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/14 23:53:47 by mehdi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,10 +88,13 @@ char	**join_lst(t_env *env)
 	i = 0;
 	while (env != NULL)
 	{
-		envp[i] = ft_strjoin(ft_strdup(env->key), "=");
-		envp[i] = ft_strjoin(envp[i], env->value);
+		if (env->value)
+		{
+			envp[i] = ft_strjoin(ft_strdup(env->key), "=");
+			envp[i] = ft_strjoin(envp[i], env->value);
+			i++;
+		}
 		env = env->next;
-		i++;
 	}
 	envp[i] = NULL;
 	return (envp);
