@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   herdoc.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:48:40 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/13 10:06:12 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/14 01:01:04 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,26 +110,20 @@ void	heredoc(char *delimiter, t_env *env, int *fd1)
 void	check_heredoc(t_parse **parse, t_env *env)
 {
 	t_parse	*tmp;
-	int		fd;
 
-	fd = 0;
 	tmp = *parse;
 	while (tmp)
 	{
 		if (tmp->token == HDOC)
 		{
-			if (fd != 0)
-				close(fd);
 			heredoc(tmp->next->text, env, &tmp->fd_hdoc);
 			if (g_sigl.sig_herdoc == 0 || tmp->fd_hdoc == -1)
 			{
 				(1) && (dup2(1, 0), ft_lstclear(*parse), *parse = NULL);
 				return ;
 			}
-			(1) && (fd = tmp->fd_hdoc, tmp = tmp->next);
+			tmp = tmp->next;
 		}
-		if (tmp->token == PIPE)
-			fd = 0;
 		tmp = tmp->next;
 	}
 	g_sigl.sig_herdoc = 0;

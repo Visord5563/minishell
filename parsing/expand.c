@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:41:50 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/13 10:06:12 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/14 02:04:19 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,16 @@ char	*return_value(char *str, int i, t_env *envs, int flag)
 				envs, flag));
 	new = ft_substr(str, j, ft_strlen(str) - j);
 	strtmp = ft_strjoin(strtmp, new);
+	if (ft_strchr(strtmp, '\''))
+	{
+		strtmp = ft_strjoin(ft_strdup("\""), strtmp);
+		strtmp = ft_strjoin(strtmp, "\"");
+	}
+	else if (ft_strchr(strtmp, '"'))
+	{
+		strtmp = ft_strjoin(ft_strdup("\'"), strtmp);
+		strtmp = ft_strjoin(strtmp, "\'");
+	}
 	free(new);
 	free(str);
 	return (strtmp);

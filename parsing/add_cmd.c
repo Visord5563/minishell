@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:49:55 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/13 10:06:12 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/14 02:54:45 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,9 @@ int	add_args(t_parse **parse, char ***args, t_data *data, t_fd *fd)
 {
 	int		j;
 	int		i;
+	int		flag;
 
+	flag = 0;
 	(1) && (i = count_args(*parse), j = 0);
 	*args = malloc(sizeof(char *) * (i + 1));
 	if (!*args)
@@ -82,15 +84,14 @@ int	add_args(t_parse **parse, char ***args, t_data *data, t_fd *fd)
 	{
 		if ((*parse)->token == WORD)
 			stock_args((*parse)->text, (*parse)->flag, args, &j);
-		else if ((*parse)->token != WORD && (*parse)->token != PIPE)
+		else if ((*parse)->token != WORD && (*parse)->token != PIPE && flag == 0)
 		{
 			if (handle_in_ou(parse, &fd->fd_in, &fd->fd_out, &data) == -1)
 			{
-				if (i > 0)
-					(*args)[i] = NULL;
-				if (i > 0)
-					ft_free(*args);
-				return (-1);
+				while (*parse && (*parse)->token != PIPE)
+					*parse = (*parse)->next;
+				(*args)[j] = NULL;
+				return (flag = 1, -1);
 			}
 		}
 		*parse = (*parse)->next;
@@ -103,21 +104,20 @@ void	ft_lstcmd(t_data **data, t_parse **parse)
 	t_fd	fd;
 	char	**args;
 	t_parse	*tmp;
+	int flag;
 
 	tmp = *parse;
 	while (tmp)
 	{
+		flag = 0;
 		fd.fd_in = 0;
 		fd.fd_out = 1;
 		if (add_args(&tmp, &args, *data, &fd) == -1)
 		{
+			flag = 1;
 			exit_status(&(*data)->env, "1");
-			ft_lstclearcmd((*data)->cmd);
-			free(args);
-			(*data)->cmd = NULL;
-			break ;
 		}
-		ft_add_backcmd(&(*data)->cmd, ft_lstnewcmd(args, fd));
+		ft_add_backcmd(&(*data)->cmd, ft_lstnewcmd(args, fd, flag));
 		if (tmp)
 			tmp = tmp->next;
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit_status.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 06:57:44 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/13 10:06:12 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/14 02:32:40 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,7 @@ void	ft_free(char **str)
 	i = 0;
 	while (str[i])
 		free(str[i++]);
+	free(str);
 }
 
 int	handle_expand(t_env *env, char *str, int token)
@@ -47,7 +48,9 @@ int	handle_expand(t_env *env, char *str, int token)
 
 	fd = 0;
 	tmp = expand_str(ft_strdup(str), env, 0);
-	if (is_space(tmp) || ft_strcmp(tmp, "") == 0)
+	if (ft_strcmp(tmp, "") == 0)
+		fd = -2;
+	if (is_space(tmp))
 	{
 		tmp = ft_strtrim(tmp, " \t\n\v\f\r");
 		if (is_space(tmp) || ft_strcmp(tmp, "") == 0)
@@ -56,9 +59,9 @@ int	handle_expand(t_env *env, char *str, int token)
 	if (fd != -2)
 	{
 		if (token == ROUT)
-			fd = open(tmp, O_CREAT | O_RDWR | O_TRUNC, 0764);
+			fd = open(tmp, O_CREAT | O_RDWR | O_TRUNC, 0664);
 		else if (token == APP)
-			fd = open(tmp, O_CREAT | O_RDWR | O_APPEND, 0764);
+			fd = open(tmp, O_CREAT | O_RDWR | O_APPEND, 0664);
 		else
 			fd = open(tmp, O_RDONLY, 0644);
 	}
@@ -91,8 +94,8 @@ int	ha_re_ou(char *file, t_env *env, int token)
 		return (fd);
 	}
 	if (token == ROUT)
-		fd = open(file, O_CREAT | O_RDWR | O_TRUNC, 0764);
+		fd = open(file, O_CREAT | O_RDWR | O_TRUNC, 0664);
 	else
-		fd = open(file, O_CREAT | O_RDWR | O_APPEND, 0764);
+		fd = open(file, O_CREAT | O_RDWR | O_APPEND, 0664);
 	return (fd);
 }
