@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/13 22:29:14 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/14 02:51:23 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_cmd
 {
 	char			**args;
 	t_fd			fd;
+	int flag;
 	struct s_cmd	*next;
 }	t_cmd;
 
@@ -135,7 +136,7 @@ char	*delete_quotes(char *str);
 char	*expand_str(char *str, t_env *envs, int flag);
 char	*check_value(char *key, t_env *envs, int flag);
 int		is_space(char *str);
-t_cmd	*ft_lstnewcmd(char **content, t_fd fd);
+t_cmd	*ft_lstnewcmd(char **content, t_fd fd, int flag);
 void	ft_add_backcmd(t_cmd **cmd, t_cmd *new);
 int		count_args(t_parse *parse);
 void	print_error_quote(char quote);

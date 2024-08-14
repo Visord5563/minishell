@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_list.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 18:34:16 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/13 10:06:12 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/14 01:02:42 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	ft_lstclear(t_parse *lst)
 	{
 		tmp = lst->next;
 		free(lst->text);
+		if (lst->fd_hdoc >= 3)
+			close(lst->fd_hdoc);
 		free(lst);
 		lst = tmp;
 	}

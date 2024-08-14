@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:44:59 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/13 23:28:05 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/13 23:04:10 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ void	execute_this(t_data *data)
 	int childpids[256];
 	int created_child = 0;
 	int flag = 0;
-	// int i = 0;
 
 	char **env = join_lst(data->env);
 	t_cmd *cmd_list = data->cmd;
@@ -56,13 +55,13 @@ void	execute_this(t_data *data)
 				exit(EXIT_FAILURE);
 			}
 		}
-		if (if_bultins(cmd_list->args) && flag == 0)
+		if (if_bultins(cmd_list->args) && flag == 0 && cmd_list->flag == 0)
 		{
 			handle_redirection(cmd_list);
 			check_bultins(cmd_list->args, &data->env);
 			dup2(0, 1);
 		}
-		else if (cmd_list->args[0])
+		else if (cmd_list->args[0] && cmd_list->flag == 0)
 		{
 			pid = fork();
 			if (pid < 0)

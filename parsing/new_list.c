@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   new_list.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:51:06 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/13 10:06:12 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/14 02:47:28 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-t_cmd	*ft_lstnewcmd(char **content, t_fd fd)
+t_cmd	*ft_lstnewcmd(char **content, t_fd fd, int flag)
 {
 	t_cmd	*list;
 
@@ -21,6 +21,7 @@ t_cmd	*ft_lstnewcmd(char **content, t_fd fd)
 		return (NULL);
 	list->args = content;
 	list->fd = fd;
+	list->flag = flag;
 	list->next = NULL;
 	return (list);
 }
@@ -56,7 +57,10 @@ void	ft_lstclearcmd(t_cmd *cmd)
 	{
 		tmp = cmd->next;
 		ft_free(cmd->args);
-		free(cmd->args);
+		if (cmd->fd.fd_in > 0)
+			close(cmd->fd.fd_in);
+		if (cmd->fd.fd_out > 1)
+			close(cmd->fd.fd_out);
 		free(cmd);
 		cmd = tmp;
 	}
