@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mehdi <mehdi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/14 02:51:23 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/14 23:29:00 by mehdi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int		ft_pwd(t_env *env);
 void	ft_cd(char *arg, t_env **env);
 void	real_env(t_env *a, int i, char **cmd);
 int		ft_export(char **cmd, t_env **env);
-void	ft_unset(t_env **env, char *name);
+void	ft_unset(t_env **env, char **names);
 
 // // -----------------------
 void	swap_tmp(t_env *tmp, t_env *tmp2);
