@@ -28,6 +28,8 @@ int	ft_pwd(t_env *env)
 	else
 	{
 		ft_putendl_fd(old_pwd, 1);
+		free(cwd);
+		free(old_pwd);
 		return (1);
 	}
 }

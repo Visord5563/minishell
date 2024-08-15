@@ -113,6 +113,7 @@ void	add_env(t_env **envs, char *key, char *value);
 char	**join_lst(t_env *env);
 char	*get_path(char *cmd, t_env *env);
 char	*get_oldpwd(t_env *env);
+void	free_all(char **str);
 // // -----------------------
 
 // void	add_env(t_env **envs, char *key, char *value);

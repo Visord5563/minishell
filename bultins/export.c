@@ -23,7 +23,7 @@ void	update_env(t_env **env, char *key, char *value)
 		{
 			free(current->value);
 			current->value = value;
-			return ;
+			return ;		
 		}
 		current = current->next;
 	}
@@ -74,6 +74,7 @@ void	process_key_value(char *cmd, t_env **env, int *flag)
 	else
 	{
 		key = ft_strdup(cmd);
+		printf("%p\n", key);
 		add_or_update_env(env, key, NULL);
 	}
 	*flag = 1;
@@ -91,7 +92,7 @@ int	ft_export(char **cmd, t_env **env)
 	while (cmd[i])
 	{
 		if (!is_valid_key(cmd[i]))
-			env_key_error(cmd, env, i, "export");
+			env_key_error(cmd, env, i, "export"); 
 		process_key_value(cmd[i], env, &flag);
 		i++;
 	}

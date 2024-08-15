@@ -56,7 +56,6 @@ int main(int ac, char **av, char **env)
 		// 	i = 0;
 		// 	tmp = tmp->next;
 		// }
-		
 		if (data->cmd)
 			execute_this(data);
 		ft_lstclearcmd(data->cmd);

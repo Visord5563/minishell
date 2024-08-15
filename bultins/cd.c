@@ -12,6 +12,20 @@
 
 #include "../inc/minishell.h"
 
+void free_env(t_env *env)
+{
+    t_env *tmp;
+
+    while (env)
+    {
+        tmp = env;
+        env = env->next;
+        free(tmp->key);
+        free(tmp->value);
+        free(tmp);
+    }
+}
+
 char	*get_home(t_env *env)
 {
 	t_env	*tmp;
@@ -82,7 +96,6 @@ char *set_env(t_env **env, const char *name, const char *value)
         prev->next = new_var;
     else
         *env = new_var;
-
     return NULL;
 }
 
@@ -177,6 +190,7 @@ void ft_cd(char *arg, t_env **env)
             free(cwd);
             return;
         }
+        free(cwd);
         cwd = getcwd(NULL, 0);
         if (cwd)
         {
