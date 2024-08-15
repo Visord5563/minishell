@@ -14,8 +14,8 @@
 
 int	ft_pwd(t_env *env)
 {
-	char *old_pwd;
-	char *cwd;
+	char	*old_pwd;
+	char	*cwd;
 
 	old_pwd = get_oldpwd(env);
 	cwd = getcwd(NULL, 0);

@@ -23,10 +23,11 @@ void	update_env(t_env **env, char *key, char *value)
 		{
 			free(current->value);
 			current->value = value;
-			return ;		
+			break ;
 		}
 		current = current->next;
 	}
+	free(key);
 }
 
 void	add_or_update_env(t_env **env, char *key, char *value)
@@ -45,7 +46,11 @@ void	join_env(t_env *env, char *key, char *value)
 	while (current)
 	{
 		if (ft_strcmp(current->key, key) == 0)
+		{
 			current->value = ft_strjoin(current->value, value);
+			free(value);
+			free(key);
+		}
 		current = current->next;
 	}
 }
@@ -63,7 +68,6 @@ void	process_key_value(char *cmd, t_env **env, int *flag)
 			join_env(*env, key, value);
 		else
 			add_or_update_env(env, key, value);
-		(*env) = (*env)->next;
 	}
 	else if (ft_strchr(cmd, '='))
 	{
@@ -74,7 +78,6 @@ void	process_key_value(char *cmd, t_env **env, int *flag)
 	else
 	{
 		key = ft_strdup(cmd);
-		printf("%p\n", key);
 		add_or_update_env(env, key, NULL);
 	}
 	*flag = 1;
@@ -92,7 +95,7 @@ int	ft_export(char **cmd, t_env **env)
 	while (cmd[i])
 	{
 		if (!is_valid_key(cmd[i]))
-			env_key_error(cmd, env, i, "export"); 
+			env_key_error(cmd, env, i, "export");
 		process_key_value(cmd[i], env, &flag);
 		i++;
 	}

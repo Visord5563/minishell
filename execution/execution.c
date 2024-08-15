@@ -65,7 +65,7 @@ void	execute_this(t_data *data)
 		{
 			pid = fork();
 			if (pid < 0)
-			{	
+			{
 				close(fd[0]);
 				close(fd[1]);
 				perror("fork");

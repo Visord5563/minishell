@@ -40,42 +40,44 @@ static int	check_syntax(t_env **env, char *str)
 	return (0);
 }
 
-void ft_unset(t_env **env, char **names)
+void	help_unset( t_env **env, char **names, int i)
 {
-    int     i;
-    t_env   *current;
-    t_env   *previous;
-    t_env   *temp;
+	t_env	*temp;
+	t_env	*current;
+	t_env	*previous;
 
-    i = 0;
-    while (names[i] != NULL)
-    {
-        if (check_syntax(env, names[i]) == 0)
-        {
-            current = *env;
-            previous = NULL;
-            while (current != NULL)
-            {
-                if (ft_strcmp(current->key, names[i]) == 0 && ft_strcmp(current->key, "?") != 0)
-                {
-                    if (previous == NULL)
-                        *env = current->next;
-                    else
-                        previous->next = current->next;
-
-                    temp = current;
-                    current = current->next;
-
-                    free(temp->key);
-                    free(temp->value);
-                    free(temp);
-                    break;
-                }
-                previous = current;
-                current = current->next;
-            }
-        }
-        i++;
-    }
+	current = *env;
+	previous = NULL;
+	while (current != NULL)
+	{
+		if (ft_strcmp(current->key, names[i]) == 0
+			&& ft_strcmp(current->key, "?") != 0)
+		{
+			if (previous == NULL)
+				*env = current->next;
+			else
+				previous->next = current->next;
+			temp = current;
+			current = current->next;
+			free(temp->key);
+			free(temp->value);
+			free(temp);
+			break ;
+		}
+		previous = current;
+		current = current->next;
+	}
 }
 
+void	ft_unset(t_env **env, char **names)
+{
+	int		i;
+
+	i = 0;
+	while (names[i] != NULL)
+	{
+		if (check_syntax(env, names[i]) == 0)
+			help_unset(env, names, i);
+		i++;
+	}
+}

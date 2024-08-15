@@ -54,8 +54,7 @@ int	ft_echo(char **argv)
 	}
 	while (argv[i])
 	{
-		// printf("%s", argv[i]);
-		write(1, argv[i], ft_strlen(argv[i]));
+		ft_putstr_fd(argv[i], 1);
 		if (argv[i + 1])
 			write(1, " ", 1);
 		i++;
