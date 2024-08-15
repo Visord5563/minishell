@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mehdi <mehdi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/14 22:47:22 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/14 23:41:55 by mehdi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int main(int ac, char **av, char **env)
 	g_sigl.sig_child = 0;
     while (1)
     {
+		if (!ttyname(0))
+			break;
         line = readline("\033[0;34mMinishell$ \033[0;37m");
         if (!line)
             break; 

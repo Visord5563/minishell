@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+         #
+#    By: mehdi <mehdi@student.42.fr>                +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/03 17:08:07 by saharchi          #+#    #+#              #
-#    Updated: 2024/08/14 00:44:56 by saharchi         ###   ########.fr        #
+#    Updated: 2024/08/14 23:54:41 by mehdi            ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 
 LIBFT = ./libft/libft.a
 
-CFLAGS = -Wall -Wextra -Werror -g #-fsanitize=address
+CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 RM = rm -f
 
 SRC = main.c parsing/parse_list.c execution/help_execute.c execution/execution.c execution/redirection.c\
