@@ -103,7 +103,6 @@ void	ft_env(t_env **envs, char **env, int flag)
 		set_env(envs, "PWD", cwd);
 		add_env(envs, ft_strdup("PATH"), ft_strdup("/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."));
 		add_env(envs, ft_strdup("SHLVL"), ft_strdup("1"));
-		add_env(envs, ft_strdup("_"), ft_strdup("/usr/bin/env"));
 		free(cwd);
 	}
 	if (!check_exits(envs))

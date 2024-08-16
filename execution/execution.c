@@ -131,8 +131,14 @@ void	execute_this(t_data *data)
 				if (WIFEXITED(status))
 					status = WEXITSTATUS(status);
 				else if(WIFSIGNALED(status))
+				{
 					status = WTERMSIG(status) + 128;
-				exit_status(&data->env, ft_itoa(status));
+					if (status == 131)
+						printf("Quit: 3\n");
+				}
+				char *tmp = ft_itoa(status);
+				exit_status(&data->env, tmp);
+				free(tmp);
 			}
 			i++;
 		}

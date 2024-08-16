@@ -19,8 +19,8 @@ void	real_env(t_env *a)
 	tmp = malloc(sizeof(t_cmd));
 	while (a != NULL)
 	{
-		// if (ft_strcmp(a->key, "?"))
-		// {
+		if (ft_strcmp(a->key, "?"))
+		{
 			if (a->value)
 			{
 				if (!ft_strcmp(a->key, "PATH"))
@@ -31,7 +31,7 @@ void	real_env(t_env *a)
 				else
 					printf("%s=%s\n", a->key, a->value);
 			}
-		// }
+		}
 		a = a->next;
 	}
 	free(tmp);

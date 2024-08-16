@@ -65,6 +65,7 @@ typedef struct s_env
 	char			*key;
 	char			*value;
 	struct s_env	*next;
+	char			*cwd;
 }	t_env;
 
 typedef struct s_parse

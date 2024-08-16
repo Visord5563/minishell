@@ -14,6 +14,7 @@
 
 void	check_bultins(char **cmd, t_env **env)
 {
+	// int a;
 	if (ft_strcmp(cmd[0], "echo") == 0)
 		ft_echo(cmd, env);
 	else if (ft_strcmp(cmd[0], "cd") == 0)
@@ -30,6 +31,7 @@ void	check_bultins(char **cmd, t_env **env)
 		ft_unset(env, cmd);
 	else
 		return ;
+	// exit_status(env, );
 }
 
 int	if_bultins(char **cmd)
