@@ -65,9 +65,9 @@ void	execute_this(t_data *data)
 			pid = fork();
 			if (pid < 0)
 			{
+				perror("fork");
 				close(fd[0]);
 				close(fd[1]);
-				perror("fork");
 				break ;
 			}
 			if (pid == 0)
@@ -119,10 +119,12 @@ void	execute_this(t_data *data)
 	if (created_child)
 	{
 		g_sigl.sig_child = 1;
-        for (int i = 0; i < cmd_index; i++)
+		int i = 0;
+        while(i < cmd_index)
 		{
 			if (waitpid(childpids[i], &status, 0) == -1)
 				perror("waitpid");
+			i++;
 		}
 		if (status == 3)
 			printf("Quit: 3\n");

@@ -89,7 +89,7 @@ int		ft_echo(char **argv);
 void	ft_exit(char **str);
 int		ft_pwd(t_env *env);
 void	ft_cd(char *arg, t_env **env);
-void	real_env(t_env *a, int i, char **cmd);
+void	real_env(t_env *a);
 int		ft_export(char **cmd, t_env **env);
 void	ft_unset(t_env **env, char **names);
 

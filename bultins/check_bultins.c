@@ -21,7 +21,7 @@ void	check_bultins(char **cmd, t_env **env)
 	else if (ft_strcmp(cmd[0], "pwd") == 0)
 		ft_pwd(*env);
 	else if (ft_strcmp(cmd[0], "env") == 0)
-		real_env(*env, 1, cmd);
+		real_env(*env);
 	else if (ft_strcmp(cmd[0], "exit") == 0)
 		ft_exit(cmd);
 	else if (ft_strcmp(cmd[0], "export") == 0)

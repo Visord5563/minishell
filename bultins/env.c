@@ -12,16 +12,23 @@
 
 #include "../inc/minishell.h"
 
-void	real_env(t_env *a, int i, char **cmd)
+void	real_env(t_env *a)
 {
-	(void)cmd;
+	t_cmd *tmp;
+
+	tmp = malloc(sizeof(t_cmd));
 	while (a != NULL)
 	{
-		if (i == 1)
+		if (ft_strcmp(a->key, "?"))
 		{
-			if (ft_strcmp(a->key, "?"))
+			if (a->value)
 			{
-				if (a->value)
+				if (!ft_strcmp(a->key, "PATH"))
+				{
+					if (!tmp->flag)
+						printf("%s=%s\n", a->key, a->value);
+				}
+				else
 					printf("%s=%s\n", a->key, a->value);
 			}
 		}
