@@ -18,7 +18,7 @@ void	ft_error(char *str, int status)
 	exit(status);
 }
 
-void	print_command_not_found(char *command)
+void	print_command_not_found(char *command, t_env **env)
 {
 	char	*prefix;
 	char	*suffix;
@@ -28,6 +28,7 @@ void	print_command_not_found(char *command)
 	ft_putstr_fd(prefix, 2);
 	ft_putstr_fd(command, 2);
 	ft_putstr_fd(suffix, 2);
+	exit_status(env, "127");
 }
 
 void	env_key_error(char **cmd, t_env **env, int i, char *msg)

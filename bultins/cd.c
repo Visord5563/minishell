@@ -178,6 +178,7 @@ void ft_cd(char *arg, t_env **env)
 	if (chdir(arg) == -1)
 	{
 		perror("minishell");
+		free(cwd);
 		exit_status(env, "1");
 	}
 	else

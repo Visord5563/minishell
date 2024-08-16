@@ -11,13 +11,14 @@
 /* ************************************************************************** */
 
 #include "inc/minishell.h"
-	// #include <termios.h>
+	#include <termios.h>
 
 int main(int ac, char **av, char **env)
 {
     char *line;
 	t_data *data;
     t_parse *parse;
+	struct termios term;
     (void)ac;
     (void)av;
 
@@ -64,7 +65,11 @@ int main(int ac, char **av, char **env)
 		// }
 		
 		if (data->cmd)
+		{
+			tcgetattr(0, &term);
 			execute_this(data);
+			tcsetattr(0, 0, &term);
+		}
 		ft_lstclearcmd(data->cmd);
 		data->cmd = NULL;
 		ft_lstclear(parse);

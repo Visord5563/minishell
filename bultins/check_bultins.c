@@ -15,7 +15,7 @@
 void	check_bultins(char **cmd, t_env **env)
 {
 	if (ft_strcmp(cmd[0], "echo") == 0)
-		ft_echo(cmd);
+		ft_echo(cmd, env);
 	else if (ft_strcmp(cmd[0], "cd") == 0)
 		ft_cd(cmd[1], env);
 	else if (ft_strcmp(cmd[0], "pwd") == 0)

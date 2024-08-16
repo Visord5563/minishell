@@ -85,7 +85,7 @@ typedef struct s_data
 }	t_data;
 
 // // -----------------------
-int		ft_echo(char **argv);
+int	ft_echo(char **argv, t_env **env);
 void	ft_exit(char **str);
 int		ft_pwd(t_env *env);
 void	ft_cd(char *arg, t_env **env);
@@ -107,7 +107,8 @@ void	execute_this(t_data *data);
 void	check_bultins(char **cmd, t_env **env);
 int		if_bultins(char **cmd);
 void	ft_error(char *str, int status);
-void	print_command_not_found(char *command);
+// void	print_command_not_found(char *command);
+void	print_command_not_found(char *command, t_env **env);
 void	env_key_error(char **cmd, t_env **env, int i, char *msg);
 char	*set_env(t_env **env, char *name, char *value);
 void	add_env(t_env **envs, char *key, char *value);

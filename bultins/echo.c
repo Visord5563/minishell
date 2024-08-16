@@ -40,7 +40,7 @@ int	is_n_flag(char *arg)
 	return (0);
 }
 
-int	ft_echo(char **argv)
+int	ft_echo(char **argv, t_env **env)
 {
 	int	i;
 	int	flag;
@@ -61,5 +61,6 @@ int	ft_echo(char **argv)
 	}
 	if (!flag)
 		write(1, "\n", 1);
+	exit_status(env, "0");
 	return (1);
 }

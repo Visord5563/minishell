@@ -27,7 +27,7 @@ static int	check_syntax(t_env **env, char *str)
 	}
 	while (str[i])
 	{
-		if (!ft_isalpha(str[i]) && !ft_isdigit(str[i]))
+		if (!ft_isalpha(str[i]) && !ft_isdigit(str[i]) && str[0] != '_')
 		{
 			ft_putstr_fd("minishell: unset: `", 2);
 			ft_putstr_fd(str, 2);
@@ -51,7 +51,7 @@ void	help_unset( t_env **env, char **names, int i)
 	while (current != NULL)
 	{
 		if (ft_strcmp(current->key, names[i]) == 0
-			&& ft_strcmp(current->key, "?") != 0)
+			&& ft_strcmp(current->key, "?") != 0 && ft_strcmp(current->key, "_") != 0)
 		{
 			if (previous == NULL)
 				*env = current->next;

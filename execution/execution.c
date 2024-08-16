@@ -51,6 +51,7 @@ void	execute_this(t_data *data)
 			if (pipe(fd) == -1)
 			{
 				perror("pipe");
+				exit_status(&data->env, "1");
 				exit(EXIT_FAILURE);
 			}
 		}
@@ -66,6 +67,7 @@ void	execute_this(t_data *data)
 			if (pid < 0)
 			{
 				perror("fork");
+				exit_status(&data->env, "1");
 				close(fd[0]);
 				close(fd[1]);
 				break ;
@@ -95,7 +97,7 @@ void	execute_this(t_data *data)
 					}
 					else
 						execve(cmd_list->args[0], cmd_list->args, env);
-					print_command_not_found(cmd_list->args[0]);
+					print_command_not_found(cmd_list->args[0], &data->env);
 					exit(EXIT_FAILURE);
 				}
 			}
@@ -127,7 +129,10 @@ void	execute_this(t_data *data)
 			i++;
 		}
 		if (status == 3)
+		{
 			printf("Quit: 3\n");
+			exit_status(&data->env, "131");
+		}
 		g_sigl.sig_child = 0;
 	}
 	free_all(env);
