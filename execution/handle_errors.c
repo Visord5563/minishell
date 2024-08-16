@@ -26,9 +26,17 @@ void	print_command_not_found(char *command, t_env **env)
 	(void)env;
 	prefix = "minishell: ";
 	suffix = ": command not found\n";
+	if (ft_strchr(command, '/'))
+	{
+		ft_putstr_fd(prefix, 2);
+		ft_putstr_fd("/", 2);
+		ft_putstr_fd("is a directory\n", 2);
+		exit(126);
+	}
 	ft_putstr_fd(prefix, 2);
 	ft_putstr_fd(command, 2);
 	ft_putstr_fd(suffix, 2);
+	exit(127);
 }
 
 void	env_key_error(char **cmd, t_env **env, int i, char *msg)

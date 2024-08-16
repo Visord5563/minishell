@@ -126,15 +126,23 @@ void	execute_this(t_data *data)
 		{
 			if (waitpid(childpids[i], &status, 0) == -1)
 				perror("waitpid");
+			else
+			{
+				if (WIFEXITED(status))
+					status = WEXITSTATUS(status);
+				else if(WIFSIGNALED(status))
+					status = WTERMSIG(status) + 128;
+				exit_status(&data->env, ft_itoa(status));
+			}
 			i++;
 		}
-		if (status == 256)
-			exit_status(&data->env, "127");
-		if (status == 3)
-		{
-			printf("Quit: 3\n");
-			exit_status(&data->env, "131");
-		}
+		// if (status == 256)
+		// 	exit_status(&data->env, "127");
+		// if (status == 3)
+		// {
+		// 	printf("Quit: 3\n");
+		// 	exit_status(&data->env, "131");
+		// }
 		g_sigl.sig_child = 0;
 	}
 	free_all(env);
