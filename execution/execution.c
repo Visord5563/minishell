@@ -128,6 +128,8 @@ void	execute_this(t_data *data)
 				perror("waitpid");
 			i++;
 		}
+		if (status == 256)
+			exit_status(&data->env, "127");
 		if (status == 3)
 		{
 			printf("Quit: 3\n");
