@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 11:06:06 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/14 00:32:20 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/16 03:19:17 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,16 +41,8 @@ int	count_str(char *str, char *set)
 			i++;
 		if (str[i] != '\0')
 			count++;
-		while (str[i] != '\0')
-		{
-			if (quote == '\0' && (str[i] == '"' || str[i] == '\''))
-				quote = str[i];
-			else if (str[i] == quote)
-				quote = '\0';
-			else if (quote == '\0' && ft_strchr(set, str[i]))
-				break ;
+		while (str[i] != '\0' && !is_space2(str[i], set))
 			i++;
-		}
 	}
 	return (count);
 }
@@ -58,20 +50,10 @@ int	count_str(char *str, char *set)
 int	ft_strlen2(char *str, char *set)
 {
 	int		i;
-	char	quote;
 
 	i = 0;
-	quote = '\0';
-	while (str[i] != '\0')
-	{
-		if (quote == '\0' && (str[i] == '"' || str[i] == '\''))
-			quote = str[i];
-		else if (str[i] == quote)
-			quote = '\0';
-		else if (quote == '\0' && ft_strchr(set, str[i]))
-			break ;
+	while (str[i] != '\0' && !is_space2(str[i], set))
 		i++;
-	}
 	return (i);
 }
 
@@ -107,16 +89,8 @@ char	**my_split(char *str, char *set)
 			str++;
 		if (*str != '\0')
 			strings[i++] = ft_word(str, set);
-		while (*str != '\0')
-		{
-			if (quote == '\0' && (*str == '"' || *str == '\''))
-				quote = *str;
-			else if (*str == quote)
-				quote = '\0';
-			else if (quote == '\0' && ft_strchr(set, *str))
-				break ;
+		while (*str != '\0' && !is_space2(*str, set))
 			str++;
-		}
 	}
 	strings[i] = 0;
 	return (strings);

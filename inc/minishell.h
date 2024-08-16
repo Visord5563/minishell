@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdi <mehdi@student.42.fr>                +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/14 23:29:00 by mehdi            ###   ########.fr       */
+/*   Updated: 2024/08/16 04:10:32 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@ typedef struct s_data
 	char			*line;
 	struct s_cmd	*cmd;
 	struct s_env	*env;
+	int				flag;
 }	t_data;
 
 // // -----------------------
@@ -108,7 +109,7 @@ int		if_bultins(char **cmd);
 void	ft_error(char *str, int status);
 void	print_command_not_found(char *command);
 void	env_key_error(char **cmd, t_env **env, int i, char *msg);
-char	*set_env(t_env **env, const char *name, const char *value);
+char	*set_env(t_env **env, char *name, char *value);
 void	add_env(t_env **envs, char *key, char *value);
 char	**join_lst(t_env *env);
 char	*get_path(char *cmd, t_env *env);
@@ -128,7 +129,7 @@ void	ft_lstclear(t_parse *lst);
 void	sighandel(int sig);
 void	ft_expand(t_parse **parse, t_env *envs);
 void	parse_line(char *line, t_parse **parse, t_env **env);
-void	ft_env(t_env **envs, char **env);
+void	ft_env(t_env **envs, char **env, int flag);
 void	ft_lstcmd(t_data **data, t_parse **parse);
 void	check_quotes(t_parse **parse);
 void	check_heredoc(t_parse **parse, t_env *env);

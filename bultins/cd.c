@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:58:37 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/13 12:27:28 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/16 04:11:56 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ char	*get_oldpwd(t_env *env)
 	return (NULL);
 }
 
-char *set_env(t_env **env, const char *name, const char *value)
+char *set_env(t_env **env, char *name, char *value)
 {
 	t_env	*tmp;
 	t_env	*prev;

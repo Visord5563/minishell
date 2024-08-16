@@ -1,0 +1,7 @@
+
+
+export a="dsfjdkls"
+export a
+
+declare -x ad?sd
+declare -x ad\sd
