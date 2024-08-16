@@ -5,3 +5,5 @@ export a
 
 declare -x ad?sd
 declare -x ad\sd
+
+(this test works perfectly)

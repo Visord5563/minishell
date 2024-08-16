@@ -38,6 +38,8 @@ int main(int ac, char **av, char **env)
 	g_sigl.sig_child = 0;
     while (1)
     {
+		if (!ttyname(0))
+			break;
         line = readline("\033[0;34mMinishell$ \033[0;37m");
         if (!line)
             break; 

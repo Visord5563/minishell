@@ -12,7 +12,6 @@
 
 #include "../inc/minishell.h"
 
-
 void	free_all(char **str)
 {
 	int i = 0;
@@ -124,18 +123,11 @@ void	execute_this(t_data *data)
 		{
 			if (waitpid(childpids[i], &status, 0) == -1)
 				perror("waitpid");
-			// if (WIFEXITED(status))
-            // {
-            //     int exit_status = WEXITSTATUS(status);
-            //     if (exit_status == 3)
-            //         printf("Quit: 3\n");
-            // }
 		}
 		if (status == 3)
 			printf("Quit: 3\n");
 		g_sigl.sig_child = 0;
 	}
-	// free(env);
 	free_all(env);
 }
 
