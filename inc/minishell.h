@@ -86,8 +86,8 @@ typedef struct s_data
 }	t_data;
 
 // // -----------------------
-int	ft_echo(char **argv, t_env **env);
-void	ft_exit(char **str);
+int		ft_echo(char **argv, t_env **env);
+void	ft_exit(char **str, t_env **env);
 int		ft_pwd(t_env *env);
 void	ft_cd(char *arg, t_env **env);
 void	real_env(t_env *a);

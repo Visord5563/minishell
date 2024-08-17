@@ -35,4 +35,5 @@ void	real_env(t_env *a)
 		a = a->next;
 	}
 	free(tmp);
+	exit_status(&a, "0");
 }

@@ -19,7 +19,7 @@ void	update_env(t_env **env, char *key, char *value)
 	current = *env;
 	while (current)
 	{
-		if (ft_strcmp(current->key, key) == 0)
+		if ((ft_strcmp(current->key, key) == 0) && value)
 		{
 			free(current->value);
 			current->value = value;
@@ -95,11 +95,16 @@ int	ft_export(char **cmd, t_env **env)
 	while (cmd[i])
 	{
 		if (!is_valid_key(cmd[i]))
+		{
 			env_key_error(cmd, env, i, "export");
+			exit_status(env, "1");
+			return (1);
+		}
 		process_key_value(cmd[i], env, &flag);
 		i++;
 	}
 	if (!flag)
 		sort_env(env);
+	exit_status(env, "0");
 	return (0);
 }
