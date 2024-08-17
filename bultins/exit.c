@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:52:23 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/13 10:06:12 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/17 17:25:08 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,26 @@ void	print_exit(char *str)
 	printf("%s: numeric argument required\n", str);
 }
 
+int ft_isstring(char *str)
+{
+	int	i;
+	
+	i = 0;
+	while (str[i])
+	{
+		if (ft_isalpha(str[i]))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 void	ft_exit(char **str, t_env **env)
 {
 	str[1] = ft_strtrim(str[1], " ");
 	if (str[1])
 	{
-		if (str[2])
+		if (str[2] && !ft_isstring(str[1]))
 		{
 			printf("exit\nminishell: exit: too many arguments\n");
 			exit_status(env, "1");

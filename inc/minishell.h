@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/16 04:10:32 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/17 15:59:04 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,9 @@ typedef struct s_data
 	struct s_cmd	*cmd;
 	struct s_env	*env;
 	int				flag;
+	int 			temp;
+	char 			*path;
+	int 			flag_pipe;
 }	t_data;
 
 // // -----------------------
