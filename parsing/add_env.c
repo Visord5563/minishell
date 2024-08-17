@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:45:45 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/16 03:33:23 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/17 12:08:18 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,7 @@ void	ft_env(t_env **envs, char **env, int flag)
 		set_env(envs, "PWD", cwd);
 		add_env(envs, ft_strdup("PATH"), ft_strdup("/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."));
 		add_env(envs, ft_strdup("SHLVL"), ft_strdup("1"));
+		add_env(envs, ft_strdup("_"), ft_strdup("/usr/bin/env"));
 		free(cwd);
 	}
 	if (!check_exits(envs))

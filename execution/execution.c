@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:44:59 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/14 23:14:09 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/17 15:20:45 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,23 @@ void	free_all(char **str)
 		i++;
 	}
 	free(str);
+}
+
+void close_fd(int *fd)
+{
+	close(fd[0]);
+	close(fd[1]);
+}
+
+void pipe_error(t_data *data, int *fd, int *flag)
+{
+	*flag = 1;
+	if (pipe(fd) == -1)
+	{
+		perror("pipe");
+		exit_status(&data->env, "1");
+		exit(EXIT_FAILURE);	
+	}
 }
 void	execute_this(t_data *data)
 {
@@ -46,15 +63,7 @@ void	execute_this(t_data *data)
 	while (cmd_list)
 	{
 		if (cmd_list->next)
-		{
-			flag = 1;
-			if (pipe(fd) == -1)
-			{
-				perror("pipe");
-				exit_status(&data->env, "1");
-				exit(EXIT_FAILURE);
-			}
-		}
+			pipe_error(data , fd , &flag);
 		if (if_bultins(cmd_list->args) && flag == 0 && cmd_list->flag == 0)
 		{
 			handle_redirection(cmd_list);
@@ -68,8 +77,7 @@ void	execute_this(t_data *data)
 			{
 				perror("fork");
 				exit_status(&data->env, "1");
-				close(fd[0]);
-				close(fd[1]);
+				close_fd(fd);
 				break ;
 			}
 			if (pid == 0)
@@ -78,8 +86,7 @@ void	execute_this(t_data *data)
 				if (cmd_list->next)
 				{
 					dup2(fd[1], 1); 
-					close(fd[0]);
-					close(fd[1]);
+					close_fd(fd);
 				}
 				handle_redirection(cmd_list);
 				path = get_path(cmd_list->args[0], data->env);
@@ -142,13 +149,6 @@ void	execute_this(t_data *data)
 			}
 			i++;
 		}
-		// if (status == 256)
-		// 	exit_status(&data->env, "127");
-		// if (status == 3)
-		// {
-		// 	printf("Quit: 3\n");
-		// 	exit_status(&data->env, "131");
-		// }
 		g_sigl.sig_child = 0;
 	}
 	free_all(env);

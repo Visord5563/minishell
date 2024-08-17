@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 10:15:38 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/13 10:06:12 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/17 12:44:52 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,10 @@ int	ft_pwd(t_env *env)
 
 	old_pwd = get_oldpwd(env);
 	cwd = getcwd(NULL, 0);
+	env->cwd = cwd;
 	if (cwd)
 	{
-		ft_putendl_fd(cwd, 1);
+		ft_putendl_fd(env->cwd, 1);
 		free(cwd);
 		return (0);
 	}

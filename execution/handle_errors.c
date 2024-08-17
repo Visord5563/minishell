@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_errors.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 17:52:23 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/13 22:29:24 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/17 15:33:34 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,18 @@ void	ft_error(char *str, int status)
 	exit(status);
 }
 
+int check_for_bs(char *str)
+{
+	int i = 0;
+	while (str[i])
+	{
+		if (str[i] != '/')
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 void	print_command_not_found(char *command, t_env **env)
 {
 	char	*prefix;
@@ -26,12 +38,19 @@ void	print_command_not_found(char *command, t_env **env)
 	(void)env;
 	prefix = "minishell: ";
 	suffix = ": command not found\n";
-	if (ft_strchr(command, '/'))
+	if ((ft_strchr(command + 1, '/') && ft_strchr(command, '.')) || !check_for_bs(command))
 	{
 		ft_putstr_fd(prefix, 2);
 		ft_putstr_fd("/", 2);
 		ft_putstr_fd("is a directory\n", 2);
 		exit(126);
+	}
+	else if (ft_strchr(command, '/'))
+	{
+		ft_putstr_fd(prefix, 2);
+		ft_putstr_fd(command, 2);
+		ft_putstr_fd(": No such file or directory \n", 2);
+		exit(127);
 	}
 	ft_putstr_fd(prefix, 2);
 	ft_putstr_fd(command, 2);
