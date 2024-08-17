@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 11:05:34 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/17 11:05:36 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/17 18:32:07 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,5 @@ char	**join_lst(t_env *env)
 		}
 		env = env->next;
 	}
-	envp[i] = NULL;
-	return (envp);
+	return (envp[i] = NULL, envp);
 }

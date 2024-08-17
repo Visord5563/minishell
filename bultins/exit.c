@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:52:23 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/17 17:25:08 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/17 18:27:04 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ void	print_exit(char *str)
 	printf("%s: numeric argument required\n", str);
 }
 
-int ft_isstring(char *str)
+int	ft_isstring(char *str)
 {
 	int	i;
-	
+
 	i = 0;
 	while (str[i])
 	{
