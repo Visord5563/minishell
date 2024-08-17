@@ -80,4 +80,5 @@ void	ft_unset(t_env **env, char **names)
 			help_unset(env, names, i);
 		i++;
 	}
+	exit_status(env, "0");
 }

@@ -30,15 +30,22 @@ int	not_digit(char *c)
 		i++;
 	while (c[i])
 	{
-		if (!ft_isdigit(c[i]) && !check_space(c[i]))
+		if (!ft_isdigit(c[i]))
 			return (1);
 		i++;
 	}
 	return (0);
 }
 
+void	print_exit(char *str)
+{
+	printf("exit\nminishell: exit: ");
+	printf("%s: numeric argument required\n", str);
+}
+
 void	ft_exit(char **str, t_env **env)
 {
+	str[1] = ft_strtrim(str[1], " ");
 	if (str[1])
 	{
 		if (str[2])
@@ -53,11 +60,7 @@ void	ft_exit(char **str, t_env **env)
 			exit(ft_atoi(str[1]) % 256);
 		}
 		else
-		{
-			printf("exit\nminishell: exit: ");
-			printf("%s: numeric argument required\n", str[1]);
-			exit(255);
-		}
+			(print_exit(str[1]), exit(255));
 	}
 	else
 	{
