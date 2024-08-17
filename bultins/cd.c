@@ -3,18 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mehdi <mehdi@student.42.fr>                +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:58:37 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/17 18:29:14 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/17 23:57:18 by mehdi            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+// check header
 
 #include "../inc/minishell.h"
 
 void	help_with_error(t_env **env)
 {
-	perror("minishell");
+	ft_putstr_fd("cd : error retrieving current directory: getcwd: cannot \
+		access parent directories: No such file or directory\n", 2);
 	exit_status(env, "1");
 }
 
@@ -65,6 +68,7 @@ void	home_cd(t_env **env)
 	if (home)
 	{
 		change_directory(env, home, cwd);
+		exit_status(env, "0");
 	}
 	else
 	{
