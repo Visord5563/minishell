@@ -6,8 +6,8 @@
       "type": "lldb",
       "request": "launch",
       "args": [],
-      "cwd": "/Users/mehdi/1337/minishell",
-      "program": "/Users/mehdi/1337/minishell/build/Debug/outDebug"
+      "cwd": "/Users/ehafiane/1337/minishell",
+      "program": "/Users/ehafiane/1337/minishell/build/Debug/outDebug"
     }
   ]
 }

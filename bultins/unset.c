@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdi <mehdi@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/30 16:11:28 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/14 23:45:48 by mehdi            ###   ########.fr       */
+/*   Created: 2024/08/17 11:05:26 by ehafiane          #+#    #+#             */
+/*   Updated: 2024/08/17 11:06:59 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,8 @@ void	help_unset( t_env **env, char **names, int i)
 	while (current != NULL)
 	{
 		if (ft_strcmp(current->key, names[i]) == 0
-			&& ft_strcmp(current->key, "?") != 0 && ft_strcmp(current->key, "_") != 0)
+			&& ft_strcmp(current->key, "?") != 0
+			&& ft_strcmp(current->key, "_") != 0)
 		{
 			if (previous == NULL)
 				*env = current->next;
@@ -60,8 +61,7 @@ void	help_unset( t_env **env, char **names, int i)
 			temp = current;
 			current = current->next;
 			free(temp->key);
-			free(temp->value);
-			free(temp);
+			(free(temp->value), free(temp));
 			break ;
 		}
 		previous = current;

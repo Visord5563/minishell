@@ -32,12 +32,11 @@ void	print_export(t_env *env)
 {
 	while (env)
 	{
-
 		if (env->value && ft_strcmp(env->key, "?"))
 			printf("declare -x %s=\"%s\"\n", env->key, env->value);
 		else
 		{
-			if(ft_strcmp(env->key, "?"))
+			if (ft_strcmp(env->key, "?"))
 				printf("declare -x %s\n", env->key);
 		}
 		env = env->next;

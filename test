@@ -1,9 +1,20 @@
+Minishell$ << l cat
+> $USER
+> "$USER"
+> '$USER'
+> l
+ehafiane
+"ehafiane"
+'$USER'
 
 
-export a="dsfjdkls"
-export a
+how it should be in bash:
 
-declare -x ad?sd
-declare -x ad\sd
-
-(this test works perfectly)
+bash-3.2$ << l cat
+> $USER
+> "$USER"
+> '$USER'
+> l
+ehafiane
+"ehafiane"
+'ehafiane'

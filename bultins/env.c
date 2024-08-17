@@ -14,7 +14,7 @@
 
 void	real_env(t_env *a)
 {
-	t_cmd *tmp;
+	t_cmd	*tmp;
 
 	tmp = malloc(sizeof(t_cmd));
 	while (a != NULL)
