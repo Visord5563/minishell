@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:44:59 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/17 16:33:51 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/17 18:23:30 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void exec_process(t_data *data, t_cmd *cmd_list, int flag)
 	exit(EXIT_FAILURE);
 }
 
-void split_execute_func(t_data *data, t_cmd *cmd_list, int *fd, int flag)
+void child_process(t_data *data, t_cmd *cmd_list, int *fd, int flag)
 {
 	dup2(data->temp, 0); 
 	if (cmd_list->next)
@@ -158,7 +158,7 @@ void	execute_this(t_data *data)
 				break ;
 			}
 			if (pid == 0)
-				split_execute_func(data, cmd_list, fd, flag);
+				child_process(data, cmd_list, fd, flag);
 			else
 			{
 				created_child = 1;
