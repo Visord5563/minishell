@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:52:23 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/17 18:27:04 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/18 18:19:13 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,7 @@ void	ft_exit(char **str, t_env **env)
 		}
 		else if (not_digit(str[1]) == 0)
 		{
-			printf("exit\n");
-			exit(ft_atoi(str[1]) % 256);
+			(printf("exit\n"), exit(ft_atoi(str[1]) % 256));
 		}
 		else
 			(print_exit(str[1]), exit(255));
@@ -79,7 +78,10 @@ void	ft_exit(char **str, t_env **env)
 	else
 	{
 		printf("exit\n");
-		exit(0);
+		if (look_for_key(*env, "?") != NULL)
+			exit(ft_atoi(look_for_key(*env, "?")) % 256);
+		else
+			exit(0);
 	}
 	exit_status(env, "0");
 }

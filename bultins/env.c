@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 12:59:44 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/17 18:10:25 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/18 18:19:20 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,18 @@ void	free_env(t_env *env)
 		free(tmp->value);
 		free(tmp);
 	}
+}
+
+char	*look_for_key(t_env *env, char *key)
+{
+	t_env	*tmp;
+
+	tmp = env;
+	while (tmp)
+	{
+		if (ft_strcmp(tmp->key, key) == 0)
+			return (tmp->value);
+		tmp = tmp->next;
+	}
+	return (NULL);
 }

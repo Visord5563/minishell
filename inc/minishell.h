@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/17 17:47:29 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/18 18:19:32 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,7 @@ int		ft_export(char **cmd, t_env **env);
 void	ft_unset(t_env **env, char **names);
 
 // // -----------------------
+char	*look_for_key(t_env *env, char *key);
 void	free_env(t_env *env);
 char	*get_home(t_env *env);
 char	*get_oldpwd(t_env *env);
