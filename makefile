@@ -3,14 +3,12 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: mehdi <mehdi@student.42.fr>                +#+  +:+       +#+         #
+#    By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/03 17:08:07 by saharchi          #+#    #+#              #
-#    Updated: 2024/08/17 23:58:02 by mehdi            ###   ########.fr        #
+#    Updated: 2024/08/18 16:23:23 by ehafiane         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
-
-# check header
 
 NAME = minishell
 

@@ -3,14 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdi <mehdi@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:44:59 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/17 23:57:30 by mehdi            ###   ########.fr       */
+/*   Updated: 2024/08/18 16:23:39 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// check header
 
 #include "../inc/minishell.h"
 

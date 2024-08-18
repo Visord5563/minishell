@@ -3,14 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mehdi <mehdi@student.42.fr>                +#+  +:+       +#+        */
+/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 10:15:38 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/17 23:57:25 by mehdi            ###   ########.fr       */
+/*   Updated: 2024/08/18 15:38:17 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-// check header
 
 #include "../inc/minishell.h"
 
