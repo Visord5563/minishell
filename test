@@ -18,3 +18,10 @@ bash-3.2$ << l cat
 ehafiane
 "ehafiane"
 'ehafiane'
+
+
+
+test this:
+
+echo $42testtest
+
