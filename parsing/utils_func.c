@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:52:48 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/20 16:54:50 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/21 15:37:31 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*check_value(char *key, t_env *envs, int flag)
 				else if (ft_strcmp(tmp->key, "?") == 0)
 					return (free(key), "0");
 			}
-			return (free(key), tmp->value);
+			return (free(key), ft_strdup(tmp->value));
 		}
 		tmp = tmp->next;
 	}
