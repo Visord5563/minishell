@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/18 18:19:32 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/21 11:25:39 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,13 @@ typedef struct g_signle
 }	t_signle;
 
 t_signle	g_sigl;
+
+typedef struct s_flag
+{
+	int		flag;
+	int		flag1;
+	char	quote;
+} t_flag;
 
 typedef enum s_token
 {
@@ -146,7 +153,7 @@ void	check_heredoc(t_parse **parse, t_env *env);
 void	ft_lstclearcmd(t_cmd *cmd);
 void	ft_free(char **str);
 char	*delete_quotes(char *str);
-char	*expand_str(char *str, t_env *envs, int flag);
+char	*expand_str(char *str, t_env *envs, t_flag *flag);
 char	*check_value(char *key, t_env *envs, int flag);
 int		is_space(char *str);
 t_cmd	*ft_lstnewcmd(char **content, t_fd fd, int flag);
@@ -159,5 +166,7 @@ int		handle_expand(t_env *env, char *str, int token);
 int		ha_re_in(char *file, t_env *env, int token);
 int		ha_re_ou(char *file, t_env *env, int token);
 void	parsing(char *line, t_data *data, t_parse **parse);
+int	ch_fexp(char c, int i, int j);
+char	*return_value(char *str, int i, t_env *envs, t_flag *flag);
 
 #endif

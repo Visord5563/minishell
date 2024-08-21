@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:48:40 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/14 01:01:04 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/21 11:26:51 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,12 +78,44 @@ int	get_fd(char *delimiter, int *fd1)
 	return (fd);
 }
 
+char	*expand_str_in_her(char *str, t_env *envs, t_flag *flag)
+{
+	int		i;
+	int		j;
+	char	quote;
+
+	(1) && (i = 0, j = 0, quote = '\0');
+	while (str[i])
+	{
+		j++;
+		if (str[i] != '$')
+			j = 0;
+		if (str[i])
+		{
+			if (quote == '\0' && (str[i] == '\'' || str[i] == '"'))
+				quote = str[i];
+			else if (quote == str[i] && (str[i] == '\'' || str[i] == '"'))
+				quote = '\0';
+			if (str[i] == '$' && ch_fexp(str[i + 1], 0, 0))
+				(1) && (str = return_value(str, i, envs, flag), i--);
+			if (ft_strcmp(str, "") == 0)
+				return (str);
+		}
+		i++;
+	}
+	return (str);
+}
+
 void	heredoc(char *delimiter, t_env *env, int *fd1)
 {
 	char	*line;
 	int		fd;
 	char	*del;
+	t_flag	flag;
 
+	flag.flag1 = 0;
+	flag.flag = 0;
+	flag.quote = '\0';
 	fd = get_fd(delimiter, fd1);
 	g_sigl.sig_herdoc = 1;
 	while (1)
@@ -100,7 +132,7 @@ void	heredoc(char *delimiter, t_env *env, int *fd1)
 		}
 		free(del);
 		if (ft_strchr(delimiter, '\'') == 0 && ft_strchr(delimiter, '"') == 0)
-			line = expand_str(line, env, 0);
+			line = expand_str_in_her(line, env, &flag);
 		ft_putendl_fd(line, fd);
 		free(line);
 	}

@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 06:57:44 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/14 02:32:40 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/21 10:33:21 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,13 @@ int	handle_expand(t_env *env, char *str, int token)
 {
 	int		fd;
 	char	*tmp;
+	t_flag	flag;
 
+	flag.flag1 = 0;
+	flag.flag = 0;
+	flag.quote = '\0';
 	fd = 0;
-	tmp = expand_str(ft_strdup(str), env, 0);
+	tmp = expand_str(ft_strdup(str), env, &flag);
 	if (ft_strcmp(tmp, "") == 0)
 		fd = -2;
 	if (is_space(tmp))

@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:49:55 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/14 02:54:45 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/21 10:38:37 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,12 @@ void	stock_args(char *text, int flag, char ***args, int *j)
 			(*args)[(*j)++] = ft_strdup(text);
 		else
 		{
+			// text = delete_quotes(text);
 			str = my_split(text, " \t\n\v\f\r");
 			k = 0;
 			while (str[k])
-				(*args)[(*j)++] = delete_quotes(str[k++]);
+				(*args)[(*j)++] = str[k++];
+			free(str);
 		}
 	}
 }
@@ -84,7 +86,8 @@ int	add_args(t_parse **parse, char ***args, t_data *data, t_fd *fd)
 	{
 		if ((*parse)->token == WORD)
 			stock_args((*parse)->text, (*parse)->flag, args, &j);
-		else if ((*parse)->token != WORD && (*parse)->token != PIPE && flag == 0)
+		else if ((*parse)->token != WORD
+			&& (*parse)->token != PIPE && flag == 0)
 		{
 			if (handle_in_ou(parse, &fd->fd_in, &fd->fd_out, &data) == -1)
 			{
@@ -104,7 +107,7 @@ void	ft_lstcmd(t_data **data, t_parse **parse)
 	t_fd	fd;
 	char	**args;
 	t_parse	*tmp;
-	int flag;
+	int		flag;
 
 	tmp = *parse;
 	while (tmp)

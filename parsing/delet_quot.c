@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   delet_quot.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:46:50 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/13 10:06:12 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/08/21 10:38:18 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,9 @@ void	check_quotes(t_parse **parse)
 	tmp = *parse;
 	while (tmp)
 	{
-		if (tmp->token == HDOC || tmp->flag == 1)
+		if (tmp->token == HDOC)
 			tmp = tmp->next;
-		else if (tmp->text)
+		else if (tmp->text /*&& tmp->flag != 1*/)
 		{
 			if (ft_strchr(tmp->text, '\'') || ft_strchr(tmp->text, '"'))
 				tmp->text = delete_quotes(tmp->text);
