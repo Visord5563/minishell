@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:45:45 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/20 09:51:27 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/26 01:51:09 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,7 @@ void	ft_env(t_env **envs, char **env, int flag)
 	char	*value;
 	char	*cwd;
 
-	i = 0;
-	key = NULL;
-	value = NULL;
+	(1) && (i = 0, key = NULL, value = NULL);
 	while (env[i])
 	{
 		key = ft_substr(env[i], 0, ft_strchr(env[i], '=') - env[i]);
@@ -99,9 +97,9 @@ void	ft_env(t_env **envs, char **env, int flag)
 	}
 	if (flag == 1)
 	{
-		cwd = getcwd(NULL, 0);
-		set_env(envs, "PWD", cwd);
-		add_env(envs, ft_strdup("PATH"), ft_strdup("/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."));
+		(1) && (cwd = getcwd(NULL, 0), set_env(envs, "PWD", cwd));
+		add_env(envs, ft_strdup("PATH"),
+			ft_strdup("/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."));
 		add_env(envs, ft_strdup("SHLVL"), ft_strdup("1"));
 		free(cwd);
 	}

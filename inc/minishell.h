@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/21 14:10:59 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/26 05:11:53 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,5 +168,6 @@ int		ha_re_ou(char *file, t_env *env, int token);
 void	parsing(char *line, t_data *data, t_parse **parse);
 int	ch_fexp(char c, int i, int j);
 char	*return_value(char *str, int i, t_env *envs, t_flag *flag);
+int	count_quotes(char *text);
 
 #endif

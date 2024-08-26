@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:46:50 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/21 10:38:18 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/26 05:31:11 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,9 +70,10 @@ void	check_quotes(t_parse **parse)
 	tmp = *parse;
 	while (tmp)
 	{
-		if (tmp->token == HDOC)
+		if (tmp->token == HDOC || tmp->token == RIN
+			|| tmp->token == APP || tmp->token == ROUT)
 			tmp = tmp->next;
-		else if (tmp->text /*&& tmp->flag != 1*/)
+		else if (tmp->text)
 		{
 			if (ft_strchr(tmp->text, '\'') || ft_strchr(tmp->text, '"'))
 				tmp->text = delete_quotes(tmp->text);

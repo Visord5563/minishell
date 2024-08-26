@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:49:55 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/21 13:13:55 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/26 05:31:25 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,11 @@ void	print_erno(t_parse **parse, int *fd_in, int *fd_out)
 int	handle_in_ou(t_parse **parse, int *fd_in, int *fd_out, t_data **data)
 {
 	char	*tmp;
+	t_flag	flag;
 
+	flag.flag1 = 0;
+	flag.flag = 0;
+	flag.quote = '\0';
 	tmp = (*parse)->next->text;
 	if ((*parse)->token == HDOC || (*parse)->token == RIN)
 	{
@@ -36,13 +40,13 @@ int	handle_in_ou(t_parse **parse, int *fd_in, int *fd_out, t_data **data)
 		if ((*parse)->token == HDOC)
 			*fd_in = (*parse)->fd_hdoc;
 		else
-			*fd_in = ha_re_in(tmp, (*data)->env, (*parse)->token);
+			*fd_in = ha_re_in(ft_strdup(tmp), (*data)->env, (*parse)->token);
 	}
 	else if (((*parse)->token == ROUT || (*parse)->token == APP))
 	{
 		if (*fd_out != 1)
 			close(*fd_out);
-		*fd_out = ha_re_ou(tmp, (*data)->env, (*parse)->token);
+		*fd_out = ha_re_ou(ft_strdup(tmp), (*data)->env, (*parse)->token);
 	}
 	if (*fd_in == -1 || *fd_in == -2 || *fd_out == -1 || *fd_out == -2)
 		return (print_erno(parse, fd_in, fd_out), -1);
@@ -61,7 +65,6 @@ void	stock_args(char *text, int flag, char ***args, int *j)
 			(*args)[(*j)++] = ft_strdup(text);
 		else
 		{
-			// text = delete_quotes(text);
 			str = my_split(text, " \t\n\v\f\r");
 			k = 0;
 			while (str[k])
@@ -77,8 +80,7 @@ int	add_args(t_parse **parse, char ***args, t_data *data, t_fd *fd)
 	int		i;
 	int		flag;
 
-	flag = 0;
-	(1) && (i = count_args(*parse), j = 0);
+	(1) && (i = count_args(*parse), flag = 0, j = 0);
 	*args = malloc(sizeof(char *) * (i + 1));
 	if (!*args)
 		exit(0);
@@ -93,8 +95,7 @@ int	add_args(t_parse **parse, char ***args, t_data *data, t_fd *fd)
 			{
 				while (*parse && (*parse)->token != PIPE)
 					*parse = (*parse)->next;
-				(*args)[j] = NULL;
-				return (flag = 1, -1);
+				return ((*args)[j] = NULL, flag = 1, -1);
 			}
 		}
 		*parse = (*parse)->next;

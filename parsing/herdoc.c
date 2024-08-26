@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:48:40 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/21 14:10:22 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/26 05:36:50 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,18 +106,25 @@ char	*expand_str_in_her(char *str, t_env *envs, t_flag *flag)
 	return (str);
 }
 
-void	heredoc(char *delimiter, t_env *env, int *fd1)
+void	putstr_her(char *line, char *delimiter, t_env *env, int fd)
 {
-	char	*line;
-	int		fd;
-	char	*del;
 	t_flag	flag;
 
 	flag.flag1 = 0;
 	flag.flag = 0;
 	flag.quote = '\0';
-	fd = get_fd(delimiter, fd1);
-	g_sigl.sig_herdoc = 1;
+	if (ft_strchr(delimiter, '\'') == 0 && ft_strchr(delimiter, '"') == 0)
+		line = expand_str_in_her(line, env, &flag);
+	ft_putendl_fd(line, fd);
+}
+
+void	heredoc(char *delimiter, t_env *env, int *fd1)
+{
+	char	*line;
+	int		fd;
+	char	*del;
+
+	(1) && (fd = get_fd(delimiter, fd1), g_sigl.sig_herdoc = 1);
 	while (1)
 	{
 		line = readline("> ");
@@ -131,9 +138,7 @@ void	heredoc(char *delimiter, t_env *env, int *fd1)
 			break ;
 		}
 		free(del);
-		if (ft_strchr(delimiter, '\'') == 0 && ft_strchr(delimiter, '"') == 0)
-			line = expand_str_in_her(line, env, &flag);
-		ft_putendl_fd(line, fd);
+		putstr_her(line, delimiter, env, fd);
 		free(line);
 	}
 	close(fd);
