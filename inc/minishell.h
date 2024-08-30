@@ -10,6 +10,8 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+//check
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -93,6 +95,11 @@ typedef struct s_data
 	int 			temp;
 	char 			*path;
 	int 			flag_pipe;
+	int				fd[2];
+	int				cmd_index;
+	int				childpids[256];
+	int				created_child;
+	int				flag_exec;
 }	t_data;
 
 // // -----------------------
