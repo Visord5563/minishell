@@ -3,14 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/26 05:11:53 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/31 11:45:30 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-//check
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -101,6 +99,7 @@ typedef struct s_data
 	int				created_child;
 	int				flag_exec;
 }	t_data;
+
 
 // // -----------------------
 int		ft_echo(char **argv, t_env **env);
