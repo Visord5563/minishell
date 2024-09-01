@@ -18,9 +18,11 @@ void	ft_error(char *str, int status)
 	exit(status);
 }
 
-int check_for_bs(char *str)
+int	check_for_bs(char *str)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (str[i])
 	{
 		if (str[i] != '/')
@@ -38,7 +40,8 @@ void	print_command_not_found(char *command, t_env **env)
 	(void)env;
 	prefix = "minishell: ";
 	suffix = ": command not found\n";
-	if ((ft_strchr(command + 1, '/') && ft_strchr(command, '.')) || !check_for_bs(command))
+	if ((ft_strchr(command + 1, '/') && ft_strchr(command, '.'))
+		|| !check_for_bs(command))
 	{
 		ft_putstr_fd(prefix, 2);
 		ft_putstr_fd("/", 2);
@@ -66,4 +69,15 @@ void	env_key_error(char **cmd, t_env **env, int i, char *msg)
 	ft_putstr_fd(cmd[i], 2);
 	ft_putstr_fd("': not a valid identifier\n", 2);
 	exit_status(env, "1");
+}
+
+void	pipe_error(t_data *data, int *fd, int *flag)
+{
+	*flag = 1;
+	if (pipe(fd) == -1)
+	{
+		perror("pipe");
+		exit_status(&data->env, "1");
+		exit(EXIT_FAILURE);
+	}
 }

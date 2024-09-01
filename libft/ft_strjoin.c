@@ -16,6 +16,7 @@ char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*nstr;
 	size_t	len;
+
 	if (!s1 && !s2)
 		return (NULL);
 	if (!s1 || !s2)
@@ -31,6 +32,6 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		return (NULL);
 	ft_strlcpy(nstr, s1, ft_strlen(s1) + 1);
 	ft_strlcat(nstr, s2, len);
-	free((void*)s1);
+	free((void *)s1);
 	return (nstr);
 }

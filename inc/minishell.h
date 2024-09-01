@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include <stdio.h>
+# include <termios.h>
 # include <stdlib.h>
 # include <unistd.h>
 # include <string.h>
@@ -41,7 +42,7 @@ typedef struct s_flag
 	int		flag;
 	int		flag1;
 	char	quote;
-} t_flag;
+}	t_flag;
 
 typedef enum s_token
 {
@@ -63,7 +64,7 @@ typedef struct s_cmd
 {
 	char			**args;
 	t_fd			fd;
-	int flag;
+	int				flag;
 	struct s_cmd	*next;
 }	t_cmd;
 
@@ -90,16 +91,15 @@ typedef struct s_data
 	struct s_cmd	*cmd;
 	struct s_env	*env;
 	int				flag;
-	int 			temp;
-	char 			*path;
-	int 			flag_pipe;
+	int				temp;
+	char			*path;
+	int				flag_pipe;
 	int				fd[2];
 	int				cmd_index;
 	int				childpids[256];
 	int				created_child;
 	int				flag_exec;
 }	t_data;
-
 
 // // -----------------------
 int		ft_echo(char **argv, t_env **env);
@@ -123,6 +123,15 @@ int		is_valid_key(char *var);
 int		env_key_exists(t_env *env, char *key);
 void	update_env(t_env **env, char *key, char *value);
 void	add_or_update_env(t_env **env, char *key, char *value);
+void	pipe_error(t_data *data, int *fd, int *flag);
+void	wait_pid_fun(int cmd_index, int *childpids, t_data *data);
+void	free_all(char **str);
+void	close_fd(int *fd);
+void	exec_process(t_data *data, t_cmd *cmd_list, int flag);
+void	failed_fork(t_data *data, int *fd);
+void	one_bultin(t_data *data, t_cmd *cmd_list);
+void	help_cd(t_env **env, char *cwd);
+void	help_with_error(t_env **env);
 // // -----------------------
 void	handle_redirection(t_cmd *cmd);
 void	execute_this(t_data *data);
@@ -132,7 +141,6 @@ void	ft_error(char *str, int status);
 // void	print_command_not_found(char *command);
 void	print_command_not_found(char *command, t_env **env);
 void	env_key_error(char **cmd, t_env **env, int i, char *msg);
-char	*set_env(t_env **env, char *name, char *value);
 void	add_env(t_env **envs, char *key, char *value);
 char	**join_lst(t_env *env);
 char	*get_path(char *cmd, t_env *env);
@@ -172,8 +180,8 @@ int		handle_expand(t_env *env, char *str, int token);
 int		ha_re_in(char *file, t_env *env, int token);
 int		ha_re_ou(char *file, t_env *env, int token);
 void	parsing(char *line, t_data *data, t_parse **parse);
-int	ch_fexp(char c, int i, int j);
+int		ch_fexp(char c, int i, int j);
 char	*return_value(char *str, int i, t_env *envs, t_flag *flag);
-int	count_quotes(char *text);
+int		count_quotes(char *text);
 
 #endif

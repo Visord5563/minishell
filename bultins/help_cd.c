@@ -60,3 +60,23 @@ char	*set_env(t_env **env, char *name, char *value)
 	}
 	return (NULL);
 }
+
+void	help_cd(t_env **env, char *cwd)
+{
+	if (set_env(env, "OLDPWD", cwd) != NULL)
+	{
+		help_with_error(env);
+		free(cwd);
+		return ;
+	}
+	free(cwd);
+	cwd = getcwd(NULL, 0);
+	if (cwd)
+	{
+		if (set_env(env, "PWD", cwd) != NULL)
+			help_with_error(env);
+		free(cwd);
+	}
+	else
+		help_with_error(env);
+}

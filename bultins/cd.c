@@ -14,8 +14,8 @@
 
 void	help_with_error(t_env **env)
 {
-	char	*home;;
-	
+	char	*home;
+
 	home = get_home(*env);
 	if (home == NULL)
 	{
@@ -29,8 +29,8 @@ void	help_with_error(t_env **env)
 
 void	help_with_error_2(t_env **env, char *cwd)
 {
-	char	*home;;
-	
+	char	*home;
+
 	home = get_home(*env);
 	if (home == NULL)
 	{
@@ -41,7 +41,8 @@ void	help_with_error_2(t_env **env, char *cwd)
 	if (!cwd)
 	{
 		ft_putstr_fd("minishell: cd: error retrieving current directory:", 2);
-		ft_putstr_fd(" getcwd: cannot access parent directories: No such file or directory\n", 2);
+		ft_putstr_fd(" getcwd: cannot access parent directories:", 2);
+		ft_putstr_fd(" No such file or directory\n", 2);
 		exit_status(env, "1");
 		chdir(home);
 		return ;
@@ -105,26 +106,6 @@ void	home_cd(t_env **env)
 		exit_status(env, "1");
 		free(cwd);
 	}
-}
-
-void	help_cd(t_env **env, char *cwd)
-{
-	if (set_env(env, "OLDPWD", cwd) != NULL)
-	{
-		help_with_error(env);
-		free(cwd);
-		return ;
-	}
-	free(cwd);
-	cwd = getcwd(NULL, 0);
-	if (cwd)
-	{
-		if (set_env(env, "PWD", cwd) != NULL)
-			help_with_error(env);
-		free(cwd);
-	}
-	else
-		help_with_error(env);
 }
 
 void	ft_cd(char *arg, t_env **env)

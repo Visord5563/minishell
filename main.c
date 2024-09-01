@@ -11,17 +11,16 @@
 /* ************************************************************************** */
 
 #include "inc/minishell.h"
-	#include <termios.h>
 
-int main(int ac, char **av, char **env)
+int	main(int ac, char **av, char **env)
 {
-    char *line;
-	t_data *data;
-    t_parse *parse;
-	struct termios term;
+    char			*line;
+	t_data			*data;
+    t_parse			*parse;
+	struct termios	term;
+
     (void)ac;
     (void)av;
-
 	data = malloc(sizeof(t_data));
 	parse = NULL;
 	data->cmd = NULL;
