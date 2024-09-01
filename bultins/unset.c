@@ -17,7 +17,7 @@ static int	check_syntax(t_env **env, char *str)
 	int		i;
 
 	i = 0;
-	if (!ft_isalpha(str[i]) && str[i] != '_')
+	if (!ft_isalpha(str[0]) && str[0] != '_')
 	{
 		ft_putstr_fd("minishell: unset: `", 2);
 		ft_putstr_fd(str, 2);
@@ -25,9 +25,10 @@ static int	check_syntax(t_env **env, char *str)
 		exit_status(env, "1");
 		return (1);
 	}
+	i++;
 	while (str[i])
 	{
-		if (!ft_isalpha(str[i]) && !ft_isdigit(str[i]) && str[0] != '_')
+		if (!ft_isalpha(str[i]) && !ft_isdigit(str[i]) && str[i] != '_')
 		{
 			ft_putstr_fd("minishell: unset: `", 2);
 			ft_putstr_fd(str, 2);
