@@ -120,10 +120,12 @@ void	wait_pid_fun(int cmd_index, int *childpids, t_data *data)
 				if (status == 131)
 					printf("Quit: 3");
 				printf("\n");
+				return ;
 			}
 			tmp = ft_itoa(status);
 			exit_status(&data->env, tmp);
 			free(tmp);
+			printf("%d\n", status);
 		}
 		i++;
 	}

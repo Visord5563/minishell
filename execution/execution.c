@@ -80,12 +80,16 @@ void	execute_command(t_data *data, t_cmd *cmd_list)
 void	execute_this(t_data *data)
 {
 	t_cmd	*cmd_list;
+	int		num_cmds;
 
 	data->cmd_index = 0;
 	data->created_child = 0;
 	data->flag_exec = 0;
 	data->temp = 0;
 	cmd_list = data->cmd;
+	num_cmds = count_commands(cmd_list);
+
+	data->childpids = (int *)malloc(sizeof(int) * num_cmds);
 	while (cmd_list)
 	{
 		execute_command(data, cmd_list);
@@ -99,58 +103,5 @@ void	execute_this(t_data *data)
 		wait_pid_fun(data->cmd_index, data->childpids, data);
 		g_sigl.sig_child = 0;
 	}
+	free(data->childpids);
 }
-
-// void execute_this(t_data *data)
-// {
-//  pid_t pid;
-//  int fd[2];
-//  int cmd_index = 0;
-//  int num_cmds = 0;
-//  int childpids[256];
-//  int created_child = 0;
-//  int flag = 0;
-//  data->temp = 0;
-
-//  t_cmd *cmd_list = data->cmd;
-//  num_cmds = count_commands(cmd_list);
-//  while (cmd_list)
-//  {
-//      if (cmd_list->next)
-//          pipe_error(data , fd , &flag);
-//      if (if_bultins(cmd_list->args) && flag == 0 && cmd_list->flag == 0)
-//          one_bultin(data, cmd_list);
-//      else if (cmd_list->args[0] && cmd_list->flag == 0)
-//      {
-//          pid = fork();
-//          if (pid < 0)
-//          {
-//              failed_fork(data, fd);
-//              break ;
-//          }
-//          if (pid == 0)
-//              child_process(data, cmd_list, fd, flag);
-//          else
-//          {
-//              created_child = 1;
-//              if((unsigned long)(cmd_index * 4) < sizeof(childpids))
-//                  childpids[cmd_index++] = pid;
-//              if (data->temp  != 0)
-//                  close(data->temp );
-
-//              if (cmd_list->next)
-//                  close(fd[1]);
-//              data->temp  = fd[0];
-//          }
-//      }
-//      cmd_list = cmd_list->next;
-//  }
-//  if (data->temp  != 0)
-//      close(data->temp );
-//  if (created_child)
-//  {
-//      g_sigl.sig_child = 1;
-//      wait_pid_fun(cmd_index, childpids, data);
-//      g_sigl.sig_child = 0;
-//  }
-// }
