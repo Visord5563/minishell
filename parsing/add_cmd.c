@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:49:55 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/26 05:31:25 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/29 00:26:50 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,6 @@ int	handle_in_ou(t_parse **parse, int *fd_in, int *fd_out, t_data **data)
 	char	*tmp;
 	t_flag	flag;
 
-	flag.flag1 = 0;
 	flag.flag = 0;
 	flag.quote = '\0';
 	tmp = (*parse)->next->text;
@@ -61,14 +60,19 @@ void	stock_args(char *text, int flag, char ***args, int *j)
 	k = 0;
 	if ((!ft_strcmp(text, "") && flag != 1) || ft_strcmp(text, ""))
 	{
-		if (flag != 1)
+		if (flag != 1 && flag != 2)
 			(*args)[(*j)++] = ft_strdup(text);
-		else
+		else if (flag == 1 || flag == 2)
 		{
-			str = my_split(text, " \t\n\v\f\r");
+			str = my_split(text, " \t\n\v\f\r", flag);
 			k = 0;
 			while (str[k])
-				(*args)[(*j)++] = str[k++];
+			{
+				if (flag == 1)
+					(*args)[(*j)++] = delete_quotes(str[k++]);
+				else
+					(*args)[(*j)++] = str[k++];
+			}
 			free(str);
 		}
 	}

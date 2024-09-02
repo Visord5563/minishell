@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/31 11:45:30 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/02 04:24:39 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ typedef struct g_signle
 {
 	int	sig_herdoc;
 	int	sig_child;
-	int	ma_in;
+	int	sig_int;
 }	t_signle;
 
 t_signle	g_sigl;
@@ -40,7 +40,6 @@ t_signle	g_sigl;
 typedef struct s_flag
 {
 	int		flag;
-	int		flag1;
 	char	quote;
 }	t_flag;
 
@@ -150,8 +149,8 @@ void	free_all(char **str);
 
 // void	add_env(t_env **envs, char *key, char *value);
 
-int		count_str(char *str, char *set);
-char	**my_split(char *str, char *set);
+int		count_str(char *str, char *set,int flag);
+char	**my_split(char *str, char *set, int flag);
 t_parse	*ft_lstnew(char *content, t_token token);
 void	ft_lstadd_back(t_parse **lst, t_parse *new);
 t_parse	*ft_lstlast(t_parse *lst);
@@ -180,8 +179,8 @@ int		handle_expand(t_env *env, char *str, int token);
 int		ha_re_in(char *file, t_env *env, int token);
 int		ha_re_ou(char *file, t_env *env, int token);
 void	parsing(char *line, t_data *data, t_parse **parse);
-int		ch_fexp(char c, int i, int j);
+int	ch_fexp(char c, int i);
 char	*return_value(char *str, int i, t_env *envs, t_flag *flag);
-int		count_quotes(char *text);
+int	count_quotes(char *text);
 
 #endif

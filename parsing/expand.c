@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:41:50 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/26 03:38:18 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/29 05:02:57 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,11 @@ void	print_error(char *text)
 	ft_putstr_fd("'\n", 2);
 }
 
-int	ch_fexp(char c, int i, int j)
+int	ch_fexp(char c, int i)
 {
 	if (i == 0 && ((ft_isdigit(c) || ft_isalpha(c) || c == '_' || c == '?')))
 		return (1);
-	else if (i == 1 && (j % 2 != 0) && (ft_isdigit(c) || ft_isalpha(c)
+	else if (i == 1 && (ft_isdigit(c) || ft_isalpha(c)
 			|| c == '_' || c == '?' || c == '"' || c == '\''))
 		return (1);
 	return (0);
@@ -31,7 +31,7 @@ int	ch_fexp(char c, int i, int j)
 
 int	count_forexp(char *str, int j)
 {
-	while (str[j] && ch_fexp(str[j], 0, 0))
+	while (str[j] && ch_fexp(str[j], 0))
 	{
 		if (str[j] == '?')
 		{
@@ -43,30 +43,31 @@ int	count_forexp(char *str, int j)
 	return (j);
 }
 
-char	*add_quot(char *value, int *flag1, char quote)
+char	*add_quot(char *value, char quote)
 {
 	char	*s;
 
 	if (ft_strchr(value, '\'') && quote != '"')
 	{
-		(1) && (s = value, *flag1 = 1);
+		s = value;
 		value = ft_strjoin(ft_strdup("\""), s);
+		free(s);
 		value = ft_strjoin(value, "\"");
 	}
 	else if (ft_strchr(value, '"') && quote != '"')
 	{
-		(1) && (s = value, *flag1 = 1);
+		s = value;
 		value = ft_strjoin(ft_strdup("\'"), s);
+		free(s);
 		value = ft_strjoin(value, "\'");
 	}
 	else if (ft_strchr(value, '"') && quote == '"')
 	{
-		(1) && (s = value, *flag1 = 1);
+		s = value;
 		value = ft_strjoin(ft_strdup("\"\'"), s);
+		free(s);
 		value = ft_strjoin(value, "\'\"");
 	}
-	if (*flag1 == 1)
-		free(s);
 	return (value);
 }
 
@@ -81,7 +82,7 @@ char	*return_value(char *str, int i, t_env *envs, t_flag *flag)
 	new = ft_substr(str, 0, i);
 	value = check_value(ft_substr(str, i + 1, j - i - 1), envs, flag->flag);
 	if (value)
-		value = add_quot(value, &flag->flag1, flag->quote);
+		value = add_quot(value, flag->quote);
 	strtmp = ft_strjoin(new, value);
 	if (value[0] != '\0')
 		free(value);
@@ -106,18 +107,16 @@ char	*expand_str(char *str, t_env *envs, t_flag *flag)
 		j++;
 		if (str[i] != '$')
 			j = 0;
-		if (str[i])
-		{
-			if (quote == '\0' && (str[i] == '\'' || str[i] == '"'))
-				quote = str[i];
-			else if (quote == str[i] && (str[i] == '\'' || str[i] == '"'))
-				quote = '\0';
-			if (str[i] == '$' && ((quote != '\'' && ch_fexp(str[i + 1], 0, 0))
-					|| (quote == '\0' && ch_fexp(str[i + 1], 1, j))))
-				(1) && (str = return_value(str, i, envs, flag), i--);
-			if (ft_strcmp(str, "") == 0)
-				return (str);
-		}
+		if (quote == '\0' && (str[i] == '\'' || str[i] == '"'))
+			quote = str[i];
+		else if (quote == str[i] && (str[i] == '\'' || str[i] == '"'))
+			quote = '\0';
+		if (str[i] == '$' && (j % 2 != 0)
+			&& ((quote != '\'' && ch_fexp(str[i + 1], 0))
+				|| (quote == '\0' && ch_fexp(str[i + 1], 1))))
+			(1) && (str = return_value(str, i, envs, flag), i--);
+		if (ft_strcmp(str, "") == 0)
+			return (str);
 		i++;
 	}
 	return (str);
@@ -148,7 +147,7 @@ int	count_quotes(char *text)
 
 	i = 0;
 	j = 0;
-	while (text[i])
+	while (text[i] && text[i] != '$')
 	{
 		if (text[i] == '"')
 			j++;
@@ -159,17 +158,37 @@ int	count_quotes(char *text)
 	return (j);
 }
 
+int	check_fsplit(char *str)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (str[i])
+	{
+		if (str[i] == '$')
+			j = 1;
+		if (str[i] == '=' && j == 1)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 void	git_expand(t_flag flag, t_parse *tmp, char *str, t_env *envs)
 {
 	int		j;
+	int		i;
 
-	flag.flag1 = 0;
 	flag.quote = is_quote(tmp->text);
-	tmp->text = expand_str(tmp->text, envs, &flag);
+	i = check_fsplit(tmp->text);
 	j = count_quotes(tmp->text);
-	if ((is_space(tmp->text) && ft_strcmp(str, "export")
-			&& (j % 2 == 0)) || ft_strcmp(tmp->text, "") == 0
-		|| (is_space(tmp->text) && ft_strcmp(str, "export") && flag.flag1 == 1))
+	tmp->text = expand_str(tmp->text, envs, &flag);
+	if ((is_space(tmp->text) && ft_strcmp(str, "export") && (j % 2 == 0))
+		|| ft_strcmp(tmp->text, "") == 0)
+		tmp->flag = 2;
+	else if ((is_space(tmp->text) && !ft_strcmp(str, "export")) && i == 1)
 		tmp->flag = 1;
 }
 

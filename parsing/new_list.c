@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:51:06 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/21 10:33:15 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/31 00:39:42 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void	ft_lstclearcmd(t_cmd *cmd)
 
 void	sighandel(int sig)
 {
+	g_sigl.sig_int = sig;
 	if (sig == SIGINT)
 	{
 		if (g_sigl.sig_herdoc == 1)

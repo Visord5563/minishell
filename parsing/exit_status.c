@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 06:57:44 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/26 05:25:23 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/29 05:03:19 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ int	handle_expand(t_env *env, char *str, int token)
 	char	*tmp;
 	t_flag	flag;
 
-	flag.flag1 = 0;
 	flag.flag = 0;
 	flag.quote = '\0';
 	fd = 0;

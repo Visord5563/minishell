@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   help_execute.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 11:05:34 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/17 18:32:07 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/02 04:20:11 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,8 @@ void	wait_pid_fun(int cmd_index, int *childpids, t_data *data)
 			{
 				status = WTERMSIG(status) + 128;
 				if (status == 131)
-					printf("Quit: 3\n");
+					printf("Quit: 3");
+				printf("\n");
 			}
 			tmp = ft_itoa(status);
 			exit_status(&data->env, tmp);
@@ -126,4 +127,5 @@ void	wait_pid_fun(int cmd_index, int *childpids, t_data *data)
 		}
 		i++;
 	}
+	g_sigl.sig_int = 0;
 }

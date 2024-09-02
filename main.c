@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/21 14:19:25 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/09/02 04:22:42 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ int	main(int ac, char **av, char **env)
 			break;
         line = readline("\033[0;34mMinishell$ \033[0;37m");
         if (!line)
-            break; 
+            break;
+		if (g_sigl.sig_int == SIGINT)
+			exit_status(&data->env, "1");
 		parsing(line, data, &parse);
 		if (line && *line)
         	add_history(line);

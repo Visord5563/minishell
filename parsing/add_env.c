@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:45:45 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/26 01:51:09 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/27 05:53:19 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@ int	count_args(t_parse *parse)
 	{
 		if (parse->token == WORD)
 		{
-			if (parse->flag == 1)
-				count += count_str(parse->text, " \t\n\v\f\r");
+			if (parse->flag == 1 || parse->flag == 2)
+				count += count_str(parse->text, " \t\n\v\f\r", parse->flag);
 			else
 				count++;
 		}

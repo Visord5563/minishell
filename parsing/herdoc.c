@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:48:40 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/26 05:36:50 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/08/29 04:57:57 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char	*expand_str_in_her(char *str, t_env *envs, t_flag *flag)
 				quote = str[i];
 			else if (quote == str[i] && (str[i] == '\'' || str[i] == '"'))
 				quote = '\0';
-			if (str[i] == '$' && ch_fexp(str[i + 1], 0, 0))
+			if (str[i] == '$' && ch_fexp(str[i + 1], 0))
 				(1) && (str = return_value(str, i, envs, flag), i--);
 			if (ft_strcmp(str, "") == 0)
 				return (str);
@@ -110,12 +110,12 @@ void	putstr_her(char *line, char *delimiter, t_env *env, int fd)
 {
 	t_flag	flag;
 
-	flag.flag1 = 0;
 	flag.flag = 0;
 	flag.quote = '\0';
 	if (ft_strchr(delimiter, '\'') == 0 && ft_strchr(delimiter, '"') == 0)
 		line = expand_str_in_her(line, env, &flag);
 	ft_putendl_fd(line, fd);
+	free(line);
 }
 
 void	heredoc(char *delimiter, t_env *env, int *fd1)
@@ -139,7 +139,6 @@ void	heredoc(char *delimiter, t_env *env, int *fd1)
 		}
 		free(del);
 		putstr_her(line, delimiter, env, fd);
-		free(line);
 	}
 	close(fd);
 }
@@ -157,6 +156,7 @@ void	check_heredoc(t_parse **parse, t_env *env)
 			if (g_sigl.sig_herdoc == 0 || tmp->fd_hdoc == -1)
 			{
 				(1) && (dup2(1, 0), ft_lstclear(*parse), *parse = NULL);
+				exit_status(&env, "1");
 				return ;
 			}
 			tmp = tmp->next;
