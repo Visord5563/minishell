@@ -151,7 +151,7 @@ void	free_all(char **str);
 
 // void	add_env(t_env **envs, char *key, char *value);
 
-int		count_str(char *str, char *set,int flag);
+int		count_str(char *str, char *set, int flag);
 char	**my_split(char *str, char *set, int flag);
 t_parse	*ft_lstnew(char *content, t_token token);
 void	ft_lstadd_back(t_parse **lst, t_parse *new);
@@ -181,8 +181,8 @@ int		handle_expand(t_env *env, char *str, int token);
 int		ha_re_in(char *file, t_env *env, int token);
 int		ha_re_ou(char *file, t_env *env, int token);
 void	parsing(char *line, t_data *data, t_parse **parse);
-int	ch_fexp(char c, int i);
+int		ch_fexp(char c, int i);
 char	*return_value(char *str, int i, t_env *envs, t_flag *flag);
-int	count_quotes(char *text);
+int		count_quotes(char *text);
 
 #endif
