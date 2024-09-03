@@ -82,9 +82,7 @@ void	execute_this(t_data *data)
 	t_cmd	*cmd_list;
 	int		num_cmds;
 
-	data->cmd_index = 0;
-	data->created_child = 0;
-	data->temp = 0 && (data->flag_exec = 0);
+	initialize_data(data);
 	cmd_list = data->cmd;
 	num_cmds = count_commands(cmd_list);
 	data->childpids = (int *)malloc(sizeof(int) * num_cmds);

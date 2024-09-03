@@ -132,6 +132,7 @@ void	one_bultin(t_data *data, t_cmd *cmd_list);
 void	help_cd(t_env **env, char *cwd);
 void	help_with_error(t_env **env);
 void	print_quit(int status);
+void	initialize_data(t_data *data);
 // // -----------------------
 void	handle_redirection(t_cmd *cmd);
 void	execute_this(t_data *data);

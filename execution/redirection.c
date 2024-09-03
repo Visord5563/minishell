@@ -58,3 +58,11 @@ void	print_quit(int status)
 		printf("Quit: 3");
 	printf("\n");
 }
+
+void	initialize_data(t_data *data)
+{
+	data->cmd_index = 0;
+	data->created_child = 0;
+	data->temp = 0;
+	data->flag_exec = 0;
+}
