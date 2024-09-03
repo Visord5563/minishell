@@ -84,14 +84,15 @@ void	execute_this(t_data *data)
 
 	data->cmd_index = 0;
 	data->created_child = 0;
-	data->flag_exec = 0;
-	data->temp = 0;
+	data->temp = 0 && (data->flag_exec = 0);
 	cmd_list = data->cmd;
 	num_cmds = count_commands(cmd_list);
-
 	data->childpids = (int *)malloc(sizeof(int) * num_cmds);
 	while (cmd_list)
 	{
+		if (num_cmds > 1000)
+			return (ft_putstr_fd("fork: Resource\
+			temporarily unavailable\n", 2));
 		execute_command(data, cmd_list);
 		cmd_list = cmd_list->next;
 	}

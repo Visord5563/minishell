@@ -51,3 +51,10 @@ void	handle_redirection(t_cmd *cmd)
 	if (cmd->fd.fd_out > 1)
 		redirect_output_to_file(cmd->fd.fd_out);
 }
+
+void	print_quit(int status)
+{
+	if (status == 131)
+		printf("Quit: 3");
+	printf("\n");
+}

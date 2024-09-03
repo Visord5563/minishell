@@ -105,8 +105,8 @@ void	wait_pid_fun(int cmd_index, int *childpids, t_data *data)
 	int		status;
 	char	*tmp;
 
-	i = 0;
-	while (i < cmd_index)
+	i = -1;
+	while (++i < cmd_index)
 	{
 		if (waitpid(childpids[i], &status, 0) == -1)
 			perror("waitpid");
@@ -117,17 +117,12 @@ void	wait_pid_fun(int cmd_index, int *childpids, t_data *data)
 			else if (WIFSIGNALED(status))
 			{
 				status = WTERMSIG(status) + 128;
-				if (status == 131)
-					printf("Quit: 3");
-				printf("\n");
-				return ;
+				return (print_quit(status));
 			}
 			tmp = ft_itoa(status);
 			exit_status(&data->env, tmp);
 			free(tmp);
-			printf("%d\n", status);
 		}
-		i++;
 	}
 	g_sigl.sig_int = 0;
 }
