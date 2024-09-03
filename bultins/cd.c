@@ -44,7 +44,7 @@ void	help_with_error_2(t_env **env, char *cwd)
 		ft_putstr_fd(" getcwd: cannot access parent directories:", 2);
 		ft_putstr_fd(" No such file or directory\n", 2);
 		exit_status(env, "1");
-		chdir(home);
+		chdir((*env)->cwd);
 		return ;
 	}
 	perror("minishell");
@@ -115,8 +115,7 @@ void	ft_cd(char *arg, t_env **env)
 	cwd = getcwd(NULL, 0);
 	if (!cwd)
 	{
-		printf("1111arg = %s\n", arg);
-		printf("1111cwd = %s\n", cwd);
+		(*env)->cwd = look_for_key(*env, "OLDPWD");
 		help_with_error_2(env, cwd);
 		return ;
 	}
