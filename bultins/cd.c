@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:58:37 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/31 14:16:45 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/07 13:06:02 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,8 @@ void	ft_cd(char *arg, t_env **env)
 		free(cwd);
 		return ;
 	}
+	if (*arg == '\0')
+		return (free(cwd));
 	if (chdir(arg) == -1)
 	{
 		help_with_error(env);

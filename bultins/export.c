@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 09:13:33 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/13 12:43:08 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/07 13:06:08 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,9 @@ int	ft_export(char **cmd, t_env **env)
 		{
 			env_key_error(cmd, env, i, "export");
 			exit_status(env, "1");
-			return (1);
+			flag = 1;
+			i++;
+			continue ;
 		}
 		process_key_value(cmd[i], env, &flag);
 		i++;
