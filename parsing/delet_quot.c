@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:46:50 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/27 03:35:40 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/09/14 04:44:17 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,4 +81,48 @@ void	check_quotes(t_parse **parse)
 		if (tmp)
 			tmp = tmp->next;
 	}
+}
+
+int	ft_strlen2(char *str, char *set)
+{
+	int		i;
+	char	quote;
+
+	i = 0;
+	quote = '\0';
+	while (str[i] != '\0')
+	{
+		if (quote == '\0' && (str[i] == '"' || str[i] == '\''))
+			quote = str[i];
+		else if (str[i] == quote)
+			quote = '\0';
+		else if (quote == '\0' && ft_strchr(set, str[i]))
+			break ;
+		i++;
+	}
+	return (i);
+}
+
+int	count_str(char *str, char *set, int flag)
+{
+	int		i;
+	int		count;
+	char	quote;
+
+	count = 0;
+	i = 0;
+	quote = '\0';
+	while (str[i] != '\0')
+	{
+		while (str[i] != '\0' && is_space2(str[i], set))
+			i++;
+		if (str[i] != '\0')
+			count++;
+		if (flag == 1)
+			i = cont_str_nonq(str, set, i, &quote);
+		else
+			while (str[i] != '\0' && !is_space2(str[i], set))
+				i++;
+	}
+	return (count);
 }

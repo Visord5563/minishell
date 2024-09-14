@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 11:06:06 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/29 02:43:57 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/09/14 04:43:22 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,16 +26,6 @@ int	is_space2(char c, char *set)
 	return (0);
 }
 
-int	ft_strlen1(char *str, char *set)
-{
-	int		i;
-
-	i = 0;
-	while (str[i] != '\0' && !is_space2(str[i], set))
-		i++;
-	return (i);
-}
-
 int	cont_str_nonq(char *str, char *set, int i, char *quote)
 {
 	while (str[i] != '\0')
@@ -45,50 +35,6 @@ int	cont_str_nonq(char *str, char *set, int i, char *quote)
 		else if (str[i] == *quote)
 			*quote = '\0';
 		else if (*quote == '\0' && ft_strchr(set, str[i]))
-			break ;
-		i++;
-	}
-	return (i);
-}
-
-int	count_str(char *str, char *set, int flag)
-{
-	int		i;
-	int		count;
-	char	quote;
-
-	count = 0;
-	i = 0;
-	quote = '\0';
-	while (str[i] != '\0')
-	{
-		while (str[i] != '\0' && is_space2(str[i], set))
-			i++;
-		if (str[i] != '\0')
-			count++;
-		if (flag == 1)
-			i = cont_str_nonq(str, set, i, &quote);
-		else
-			while (str[i] != '\0' && !is_space2(str[i], set))
-				i++;
-	}
-	return (count);
-}
-
-int	ft_strlen2(char *str, char *set)
-{
-	int		i;
-	char	quote;
-
-	i = 0;
-	quote = '\0';
-	while (str[i] != '\0')
-	{
-		if (quote == '\0' && (str[i] == '"' || str[i] == '\''))
-			quote = str[i];
-		else if (str[i] == quote)
-			quote = '\0';
-		else if (quote == '\0' && ft_strchr(set, str[i]))
 			break ;
 		i++;
 	}

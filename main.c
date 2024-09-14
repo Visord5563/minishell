@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/09/02 04:22:42 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/09/14 04:59:33 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,23 +48,6 @@ int	main(int ac, char **av, char **env)
 		parsing(line, data, &parse);
 		if (line && *line)
         	add_history(line);
-
-		// t_cmd *tmp = data->cmd;
-		// int i = 0;
-		// while (tmp)
-		// {
-		// 	printf("----------------cmd--------------------\n");
-		// 	printf("fd_in = %d\n", tmp->fd.fd_in);
-		// 	printf("fd_out = %d\n", tmp->fd.fd_out);
-		// 	while (tmp->args[i])
-		// 	{
-		// 		printf("args[%d] = %s\n", i, tmp->args[i]);
-		// 		i++;
-		// 	}
-		// 	i = 0;
-		// 	tmp = tmp->next;
-		// }
-		
 		if (data->cmd)
 		{
 			tcgetattr(0, &term);

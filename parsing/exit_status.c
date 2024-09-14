@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/02 06:57:44 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/29 05:03:19 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/09/14 04:36:57 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,28 +97,6 @@ int	ha_re_in(char *file, t_env *env, int token)
 	if (ft_strchr(file, '\'') || ft_strchr(file, '"'))
 		file = delete_quotes(file);
 	fd = open(file, O_RDONLY, 0644);
-	free(file);
-	return (fd);
-}
-
-int	ha_re_ou(char *file, t_env *env, int token)
-{
-	int	fd;
-	int	flag;
-
-	flag = 0;
-	if (ft_strchr(file, '$'))
-	{
-		fd = handle_expand(env, file, token);
-		free(file);
-		return (fd);
-	}
-	if (ft_strchr(file, '\'') || ft_strchr(file, '"'))
-		file = delete_quotes(file);
-	if (token == ROUT)
-		fd = open(file, O_CREAT | O_RDWR | O_TRUNC, 0664);
-	else
-		fd = open(file, O_CREAT | O_RDWR | O_APPEND, 0664);
 	free(file);
 	return (fd);
 }

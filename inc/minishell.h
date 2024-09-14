@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/09/02 04:24:39 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/09/14 04:52:07 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,7 @@
 # include <termios.h>
 # include <stdlib.h>
 # include <unistd.h>
-# include <string.h>
 # include <fcntl.h>
-# include <dirent.h>
 # include <sys/wait.h>
 # include <limits.h>
 # include <errno.h>
@@ -86,7 +84,6 @@ typedef struct s_parse
 
 typedef struct s_data
 {
-	char			*line;
 	struct s_cmd	*cmd;
 	struct s_env	*env;
 	int				flag;
@@ -184,5 +181,15 @@ void	parsing(char *line, t_data *data, t_parse **parse);
 int		ch_fexp(char c, int i);
 char	*return_value(char *str, int i, t_env *envs, t_flag *flag);
 int		count_quotes(char *text);
+int		ft_strlen2(char *str, char *set);
+int		ft_strlen1(char *str, char *set);
+int		get_fd(char *delimiter, int *fd1);
+void	putstr_her(char *line, char *delimiter, t_env *env, int fd);
+char	*add_quot(char *value, char quote);
+int		count_forexp(char *str, int j);
+char	is_quote(char *text);
+int		is_space2(char c, char *set);
+int		cont_str_nonq(char *str, char *set, int i, char *quote);
+char	*expand_str_in_her(char *str, t_env *envs, t_flag *flag);
 
 #endif

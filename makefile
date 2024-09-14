@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+         #
+#    By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/03 17:08:07 by saharchi          #+#    #+#              #
-#    Updated: 2024/08/31 11:45:52 by ehafiane         ###   ########.fr        #
+#    Updated: 2024/09/14 04:54:24 by saharchi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = minishell
 
 LIBFT = ./libft/libft.a
 
-CFLAGS = -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror 
 RM = rm -f
 
 SRC = main.c parsing/parse_list.c execution/help_execute.c execution/help_execute_2.c execution/execution.c \
@@ -24,7 +24,7 @@ SRC = main.c parsing/parse_list.c execution/help_execute.c execution/help_execut
 	bultins/unset.c parsing/herdoc.c parsing/expand.c parsing/add_env.c \
 	parsing/delet_quot.c bultins/exit.c bultins/check_bultins.c \
 	execution/handle_errors.c parsing/add_cmd.c parsing/new_list.c\
-	parsing/parse.c parsing/utils_func.c \
+	parsing/parse.c parsing/utils_func.c parsing/utils.c parsing/utils1.c\
 
 OBJDIR = obj
 OBJ = $(SRC:%.c=$(OBJDIR)/%.o)
