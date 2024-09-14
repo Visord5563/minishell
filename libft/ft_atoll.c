@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 17:46:43 by saharchi          #+#    #+#             */
-/*   Updated: 2024/07/10 19:15:03 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/14 10:31:08 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 #define MAX_LL LLONG_MAX
 
-static long long result(const char *s, int i, int sign)
+static long long	result(const char *s, int i, int sign)
 {
 	long long	r;
 
@@ -34,7 +34,7 @@ static long long result(const char *s, int i, int sign)
 	return (r);
 }
 
-long long ft_atoll(const char *str)
+long long	ft_atoll(const char *str)
 {
 	int			i;
 	long long	r;
