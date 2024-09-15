@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:44:59 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/18 16:23:39 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/15 11:23:49 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void	execute_command(t_data *data, t_cmd *cmd_list)
 
 	if (cmd_list->next)
 		pipe_error(data, data->fd, &data->flag_exec);
-	if (if_bultins(cmd_list->args) && data->flag_exec == 0
+	if (if_bultins(&cmd_list->args[0]) && data->flag_exec == 0
 		&& cmd_list->flag == 0)
 		one_bultin(data, cmd_list);
 	else if (cmd_list->args[0] && cmd_list->flag == 0)
@@ -89,8 +89,8 @@ void	execute_this(t_data *data)
 	while (cmd_list)
 	{
 		if (num_cmds > 1000)
-			return (ft_putstr_fd("fork: Resource\
-			temporarily unavailable\n", 2));
+			return (ft_putstr_fd("fork:\
+			Resource temporarily unavailable\n", 2));
 		execute_command(data, cmd_list);
 		cmd_list = cmd_list->next;
 	}

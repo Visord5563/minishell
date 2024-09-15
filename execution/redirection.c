@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 11:57:21 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/13 13:20:12 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/15 11:08:25 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,7 @@ void	handle_redirection(t_cmd *cmd)
 void	print_quit(int status)
 {
 	if (status == 131)
-		printf("Quit: 3");
-	printf("\n");
+		printf("Quit: 3\n");
 }
 
 void	initialize_data(t_data *data)
