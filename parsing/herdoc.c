@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:48:40 by saharchi          #+#    #+#             */
-/*   Updated: 2024/09/14 04:41:01 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/09/16 10:50:19 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,9 @@ char	*delet_dollar(char *del, int i, int j)
 
 char	*check_del(char *del)
 {
-	if (ft_strchr(del, '$') || ft_strchr(del, '"') || ft_strchr(del, '\''))
-	{
-		del = delet_dollar(del, 0, 0);
-		del = delete_quotes(ft_strdup(del));
-	}
+	del = delet_dollar(del, 0, 0);
+	if (ft_strchr(del, '"') || ft_strchr(del, '\''))
+		del = delete_quotes(del);
 	else
 		del = ft_strdup(del);
 	return (del);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:44:59 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/09/15 11:23:49 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/16 13:52:59 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,9 @@ void	execute_this(t_data *data)
 	data->childpids = (int *)malloc(sizeof(int) * num_cmds);
 	while (cmd_list)
 	{
-		if (num_cmds > 1000)
-			return (ft_putstr_fd("fork:\
-			Resource temporarily unavailable\n", 2));
+		// if (num_cmds > 1000)
+		// 	return (ft_putstr_fd("fork:\
+		// 	Resource temporarily unavailable\n", 2));
 		execute_command(data, cmd_list);
 		cmd_list = cmd_list->next;
 	}
