@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/09/18 13:34:37 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/18 13:41:12 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,6 @@ void	update_env(t_env **env, char *key, char *value);
 void	add_or_update_env(t_env **env, char *key, char *value);
 void	pipe_error(t_data *data, int *fd, int *flag);
 void	wait_pid_fun(int cmd_index, int *childpids, t_data *data);
-void	free_all(char **str);
 void	close_fd(int *fd);
 void	exec_process(t_data *data, t_cmd *cmd_list, int flag);
 void	failed_fork(t_data *data, int *fd);
@@ -136,17 +135,11 @@ void	execute_this(t_data *data);
 void	check_bultins(char **cmd, t_env **env);
 int		if_bultins(char **cmd);
 void	ft_error(char *str, int status);
-// void	print_command_not_found(char *command);
 void	print_command_not_found(char *command, t_env **env);
 void	env_key_error(char **cmd, t_env **env, int i, char *msg);
 void	add_env(t_env **envs, char *key, char *value);
 char	**join_lst(t_env *env);
 char	*get_path(char *cmd, t_env *env);
-char	*get_oldpwd(t_env *env);
-void	free_all(char **str);
-// // -----------------------
-
-// void	add_env(t_env **envs, char *key, char *value);
 
 int		count_str(char *str, char *set, int flag);
 char	**my_split(char *str, char *set, int flag);

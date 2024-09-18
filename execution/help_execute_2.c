@@ -6,24 +6,11 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 15:33:00 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/09/15 11:12:36 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/18 13:38:52 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
-
-void	free_all(char **str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		free(str[i]);
-		i++;
-	}
-	free(str);
-}
 
 void	close_fd(int *fd)
 {
