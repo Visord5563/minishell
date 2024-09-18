@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 11:57:21 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/09/15 11:08:25 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/18 13:32:38 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ void	handle_redirection(t_cmd *cmd)
 		redirect_output_to_file(cmd->fd.fd_out);
 }
 
-void	print_quit(int status)
+void	print_quit(t_data *data)
 {
-	if (status == 131)
-		printf("Quit: 3\n");
+	printf("Quit: 3\n");
+	exit_status(&data->env, "131");
 }
 
 void	initialize_data(t_data *data)
