@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   help_execute.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 11:05:34 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/09/20 12:19:53 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/09/20 16:20:21 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,7 @@ void	wait_pid_fun(int cmd_index, int *childpids, t_data *data)
 			{
 				status = WTERMSIG(status) + 128;
 				if (status == 131 || status == 130)
-					print_quit(status);
-				return ;
+					print_quit(status, data);
 			}
 			tmp = ft_itoa(status);
 			exit_status(&data->env, tmp);
