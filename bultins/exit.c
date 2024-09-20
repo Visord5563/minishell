@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 17:52:23 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/18 18:19:13 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/20 23:12:26 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ void	ft_exit(char **str, t_env **env)
 			exit_status(env, "1");
 			return ;
 		}
-		else if (not_digit(str[1]) == 0)
+		else if (not_digit(str[1]) == 0 && ft_strlen(str[1]) < 20)
 		{
 			(printf("exit\n"), exit(ft_atoi(str[1]) % 256));
 		}
