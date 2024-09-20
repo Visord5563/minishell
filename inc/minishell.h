@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/09/20 12:06:10 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/09/20 12:23:45 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,6 @@ void	wait_pid_fun(int cmd_index, int *childpids, t_data *data);
 void	close_fd(int *fd);
 void	exec_process(t_data *data, t_cmd *cmd_list, int flag);
 void	failed_fork(t_data *data, int *fd);
-void	one_bultin(t_data *data, t_cmd *cmd_list);
 void	help_cd(t_env **env, char *cwd);
 void	help_with_error(t_env **env);
 void	print_quit(int status);

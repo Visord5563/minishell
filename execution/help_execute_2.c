@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 15:33:00 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/09/18 13:38:52 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/20 12:24:24 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,4 @@ void	failed_fork(t_data *data, int *fd)
 	perror("fork");
 	exit_status(&data->env, "1");
 	close_fd(fd);
-}
-
-void	one_bultin(t_data *data, t_cmd *cmd_list)
-{
-	handle_redirection(cmd_list);
-	check_bultins(cmd_list->args, &data->env);
-	dup2(0, 1);
 }

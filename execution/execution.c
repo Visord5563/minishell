@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:44:59 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/09/20 11:59:32 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/09/20 12:22:31 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	execute_command(t_data *data, t_cmd *cmd_list)
 		pipe_error(data, data->fd, &data->flag_exec);
 	if (if_bultins(&cmd_list->args[0]) && data->flag_exec == 0
 		&& cmd_list->flag == 0)
-		one_bultin(data, cmd_list);
+		check_bultins(cmd_list->args, &data->env);
 	else if (cmd_list->args[0] && cmd_list->flag == 0)
 	{
 		pid = fork();
