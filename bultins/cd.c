@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:58:37 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/09/07 13:06:02 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/20 00:23:36 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,30 +21,6 @@ void	help_with_error(t_env **env)
 	{
 		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
 		exit_status(env, "1");
-		return ;
-	}
-	perror("minishell");
-	exit_status(env, "1");
-}
-
-void	help_with_error_2(t_env **env, char *cwd)
-{
-	char	*home;
-
-	home = get_home(*env);
-	if (home == NULL)
-	{
-		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
-		exit_status(env, "1");
-		return ;
-	}
-	if (!cwd)
-	{
-		ft_putstr_fd("minishell: cd: error retrieving current directory:", 2);
-		ft_putstr_fd(" getcwd: cannot access parent directories:", 2);
-		ft_putstr_fd(" No such file or directory\n", 2);
-		exit_status(env, "1");
-		chdir((*env)->cwd);
 		return ;
 	}
 	perror("minishell");
@@ -113,12 +89,6 @@ void	ft_cd(char *arg, t_env **env)
 	char	*cwd;
 
 	cwd = getcwd(NULL, 0);
-	if (!cwd)
-	{
-		(*env)->cwd = look_for_key(*env, "OLDPWD");
-		help_with_error_2(env, cwd);
-		return ;
-	}
 	if (!arg || strcmp(arg, "~") == 0)
 	{
 		home_cd(env);

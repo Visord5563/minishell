@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 11:05:34 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/09/18 13:34:11 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/20 01:08:55 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static char	*find_command_in_paths(char *cmd, char **paths)
 	{
 		temp = ft_strjoin(paths[i], "/");
 		full_path = ft_strjoin(temp, cmd);
-		if (access(full_path, F_OK) != -1)
+		if (access(full_path, F_OK | X_OK) != -1)
 		{
 			free(paths);
 			return (full_path);
