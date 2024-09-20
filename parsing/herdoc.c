@@ -6,13 +6,13 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:48:40 by saharchi          #+#    #+#             */
-/*   Updated: 2024/09/16 10:50:19 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/09/20 11:25:40 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-char	*delet_dollar(char *del, int i, int j)
+char	*delet_dollar(char *del, int i, int j, int *flag)
 {
 	char	quote;
 	char	*new;
@@ -30,6 +30,7 @@ char	*delet_dollar(char *del, int i, int j)
 		if (del[i] == '$' && quote == '\0'
 			&& (j % 2 != 0) && (del[i + 1] == '\'' || del[i + 1] == '"'))
 		{
+			*flag = 1;
 			new = ft_substr(del, i + 1, ft_strlen(del) - i + 1);
 			del = ft_strjoin(ft_substr(del, 0, i), new);
 			free(new);
@@ -42,9 +43,18 @@ char	*delet_dollar(char *del, int i, int j)
 
 char	*check_del(char *del)
 {
-	del = delet_dollar(del, 0, 0);
+	int		i;
+	char	*str;
+
+	i = 0;
+	del = delet_dollar(del, 0, 0, &i);
 	if (ft_strchr(del, '"') || ft_strchr(del, '\''))
-		del = delete_quotes(del);
+	{
+		str = del;
+		del = delete_quotes(ft_strdup(str));
+		if (i == 1)
+			free(str);
+	}
 	else
 		del = ft_strdup(del);
 	return (del);

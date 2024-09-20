@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:46:50 by saharchi          #+#    #+#             */
-/*   Updated: 2024/09/16 10:35:11 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/09/20 11:29:24 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*delete_espace(char *str)
 
 	new = malloc(sizeof(char) * (ft_strlen(str) + 1));
 	if (!new)
-		return (NULL);
+		exit(1);
 	i = 0;
 	j = 0;
 	while (str[i])
@@ -43,7 +43,7 @@ char	*delete_quotes(char *str)
 
 	new = malloc(sizeof(char) * (ft_strlen(str) + 1));
 	if (!new)
-		return (NULL);
+		exit(1);
 	i = 0;
 	j = 0;
 	quote = '\0';

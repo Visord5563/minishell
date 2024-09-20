@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/05 22:52:33 by saharchi          #+#    #+#             */
-/*   Updated: 2024/06/10 05:46:28 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/09/20 11:27:32 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ void	*ft_calloc(size_t count, size_t size)
 	if (count && size && ((check / size) != count))
 		return (NULL);
 	c = malloc(size * count);
+	if (!c)
+		exit(1);
 	if (!c)
 		return (NULL);
 	ft_memset(c, 0, count * size);

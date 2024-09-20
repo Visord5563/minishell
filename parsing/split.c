@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/23 11:06:06 by saharchi          #+#    #+#             */
-/*   Updated: 2024/09/14 04:43:22 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/09/20 11:30:29 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,8 @@ char	*ft_word(char *str, char *set, int flag)
 	else
 		len_word = ft_strlen1(str, set);
 	word = (char *)malloc(sizeof(char) * (len_word + 1));
+	if (!word)
+		exit(1);
 	while (i < len_word)
 	{
 		word[i] = str[i];
@@ -84,6 +86,8 @@ char	**my_split(char *str, char *set, int flag)
 
 	(1) && (i = 0, quote = '\0');
 	strings = (char **)malloc(sizeof(char *) * (count_str(str, set, flag) + 1));
+	if (!strings)
+		exit(1);
 	while (*str != '\0')
 	{
 		while (*str != '\0' && is_space2(*str, set))

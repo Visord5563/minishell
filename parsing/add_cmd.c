@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:49:55 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/29 00:26:50 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/09/20 11:29:01 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	add_args(t_parse **parse, char ***args, t_data *data, t_fd *fd)
 	(1) && (i = count_args(*parse), flag = 0, j = 0);
 	*args = malloc(sizeof(char *) * (i + 1));
 	if (!*args)
-		exit(0);
+		exit(1);
 	while (*parse && (*parse)->token != PIPE)
 	{
 		if ((*parse)->token == WORD)

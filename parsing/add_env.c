@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:45:45 by saharchi          #+#    #+#             */
-/*   Updated: 2024/09/14 04:43:59 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/09/20 11:29:08 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ t_env	*ft_envnew(char *key, char *value)
 
 	env = malloc(sizeof(t_env));
 	if (!env)
-		return (NULL);
+		exit(1);
 	env->key = key;
 	env->value = value;
 	env->next = NULL;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:44:59 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/09/20 01:02:37 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/20 11:59:32 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ void	execute_this(t_data *data)
 	cmd_list = data->cmd;
 	num_cmds = count_commands(cmd_list);
 	data->childpids = (int *)malloc(sizeof(int) * num_cmds);
+	if (!data->childpids)
+		exit(1);
 	while (cmd_list)
 	{
 		if (num_cmds > 1000)

@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:51:06 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/31 00:39:42 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/09/20 11:29:32 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ t_cmd	*ft_lstnewcmd(char **content, t_fd fd, int flag)
 
 	list = malloc(sizeof(t_cmd));
 	if (!list)
-		return (NULL);
+		exit(1);
 	list->args = content;
 	list->fd = fd;
 	list->flag = flag;

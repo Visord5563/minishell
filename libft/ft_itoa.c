@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 09:59:43 by saharchi          #+#    #+#             */
-/*   Updated: 2024/08/13 02:49:15 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/09/20 11:27:51 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ char	*ft_itoa(int n)
 	i = count(nb);
 	str = malloc(sizeof(char) * (i + 1));
 	if (!str)
-		return (NULL);
+		exit(1);
 	str[i--] = '\0';
 	if (nb == 0)
 		str[i] = '0';

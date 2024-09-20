@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 12:59:44 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/18 18:19:20 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/20 11:26:41 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	real_env(t_env *a)
 	t_cmd	*tmp;
 
 	tmp = malloc(sizeof(t_cmd));
+	if (!tmp)
+		exit(1);
 	while (a != NULL)
 	{
 		if (ft_strcmp(a->key, "?"))

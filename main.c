@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/09/16 10:52:13 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/09/20 11:39:49 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 void	init_data(t_data **data, char **env)
 {
 	*data = malloc(sizeof(t_data));
+	if (!data)
+		exit(1);
 	(*data)->cmd = NULL;
 	(*data)->env = NULL;
 	if (!env[0])
@@ -34,6 +36,22 @@ void	setup_signals(void)
 	g_sigl.sig_child = 0;
 }
 
+void	exit_program(t_env *env)
+{
+	t_env	*tmp;
+
+	tmp = env;
+	while (tmp)
+	{
+		if (ft_strchr(tmp->key, '?'))
+		{
+			printf("exit");
+			exit(ft_atoi(tmp->value));
+		}
+		tmp = tmp->next;
+	}
+}
+
 void	command_loop(t_data *data, t_parse *parse)
 {
 	char			*line;
@@ -43,7 +61,7 @@ void	command_loop(t_data *data, t_parse *parse)
 	{
 		line = readline("\033[0;34mMinishell$ \033[0;37m");
 		if (!line)
-			break ;
+			exit_program(data->env);
 		if (g_sigl.sig_int == SIGINT)
 			exit_status(&data->env, "1");
 		parsing(line, data, &parse);
