@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:44:59 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/09/21 10:28:13 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/21 21:36:28 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void	execute_this(t_data *data)
 	if (data->created_child)
 	{
 		g_sigl.sig_child = 1;
-		wait_pid_fun(data->cmd_index, data->childpids, data);
+		wait_pid_fun(num_cmds, data->childpids, data);
 		g_sigl.sig_child = 0;
 	}
 	free(data->childpids);

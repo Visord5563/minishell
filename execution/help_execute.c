@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   help_execute.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 11:05:34 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/09/20 16:20:21 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/22 00:36:35 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,9 @@ void	wait_pid_fun(int cmd_index, int *childpids, t_data *data)
 	int		i;
 	int		status;
 	char	*tmp;
+	int		saved_status;
 
-	i = -1;
+	(1) && (i = -1, saved_status = 0);
 	while (++i < cmd_index)
 	{
 		if (waitpid(childpids[i], &status, 0) == -1)
@@ -114,15 +115,14 @@ void	wait_pid_fun(int cmd_index, int *childpids, t_data *data)
 			if (WIFEXITED(status))
 				status = WEXITSTATUS(status);
 			else if (WIFSIGNALED(status))
-			{
 				status = WTERMSIG(status) + 128;
-				if (status == 131 || status == 130)
-					print_quit(status, data);
-			}
+			if (status == 131 || status == 130)
+				saved_status = status;
 			tmp = ft_itoa(status);
 			exit_status(&data->env, tmp);
 			free(tmp);
 		}
 	}
+	print_quit(saved_status);
 	g_sigl.sig_int = 0;
 }

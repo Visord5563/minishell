@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirection.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/11 11:57:21 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/09/20 16:23:06 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/22 00:36:51 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,12 @@ void	handle_redirection(t_cmd *cmd)
 		redirect_output_to_file(cmd->fd.fd_out);
 }
 
-void	print_quit(int status, t_data *data)
+void	print_quit(int status)
 {
-	(void)data;
 	if (status == 131)
-		printf("Quit: 3");
-	printf("\n");
+		printf("Quit: 3\n");
+	else if (status == 130)
+		printf("\n");
 }
 
 void	initialize_data(t_data *data)
