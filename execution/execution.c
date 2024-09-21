@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:44:59 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/09/20 12:22:31 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/21 10:28:13 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,7 @@ void	child_process(t_data *data, t_cmd *cmd_list, int *fd, int flag)
 	handle_redirection(cmd_list);
 	data->path = get_path(cmd_list->args[0], data->env);
 	if (cmd_list->args[0])
-	{
 		exec_process(data, cmd_list, flag);
-	}
 }
 
 void	parent_proccess(t_data *data, t_cmd *cmd_list, int pid)

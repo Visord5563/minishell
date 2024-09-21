@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 17:52:23 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/09/15 10:59:50 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/21 10:52:51 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,7 @@ void	print_command_not_found(char *command, t_env **env)
 	(void)env;
 	prefix = "minishell: ";
 	suffix = ": command not found\n";
-	if ((ft_strchr(command + 1, '/') && ft_strchr(command, '.'))
-		|| !check_for_bs(command))
-	{
-		ft_putstr_fd(prefix, 2);
-		ft_putstr_fd("/", 2);
-		ft_putstr_fd("is a directory\n", 2);
-		exit(126);
-	}
-	else if (ft_strchr(command, '/'))
+	if (ft_strchr(command, '/'))
 	{
 		ft_putstr_fd(prefix, 2);
 		ft_putstr_fd(command, 2);
