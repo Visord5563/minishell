@@ -6,13 +6,13 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 11:05:26 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/17 11:06:59 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/22 02:20:59 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-static int	check_syntax(t_env **env, char *str)
+static int	check_syntax(t_env **env, char *str, int *flag)
 {
 	int		i;
 
@@ -23,7 +23,7 @@ static int	check_syntax(t_env **env, char *str)
 		ft_putstr_fd(str, 2);
 		ft_putstr_fd("': not a valid identifier\n", 2);
 		exit_status(env, "1");
-		return (1);
+		return (*flag = 1, 1);
 	}
 	i++;
 	while (str[i])
@@ -34,7 +34,7 @@ static int	check_syntax(t_env **env, char *str)
 			ft_putstr_fd(str, 2);
 			ft_putstr_fd("': not a valid identifier\n", 2);
 			exit_status(env, "1");
-			return (1);
+			return (*flag = 1, 1);
 		}
 		i++;
 	}
@@ -73,13 +73,16 @@ void	help_unset( t_env **env, char **names, int i)
 void	ft_unset(t_env **env, char **names)
 {
 	int		i;
+	int		flag;
 
 	i = 0;
+	flag = 0;
 	while (names[i] != NULL)
 	{
-		if (check_syntax(env, names[i]) == 0)
+		if (check_syntax(env, names[i], &flag) == 0)
 			help_unset(env, names, i);
 		i++;
 	}
-	exit_status(env, "0");
+	if (!flag)
+		exit_status(env, "0");
 }

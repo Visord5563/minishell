@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 10:15:41 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/09/15 09:32:38 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/22 02:17:36 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int	ft_echo(char **argv, t_env **env)
 	}
 	if (!flag)
 		write(1, "\n", 1);
+	g_sigl.sig_int = 0;
 	exit_status(env, "0");
 	return (1);
 }
