@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_errors.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 17:52:23 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/09/21 10:52:51 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/22 22:53:57 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,39 +18,58 @@ void	ft_error(char *str, int status)
 	exit(status);
 }
 
-int	check_for_bs(char *str)
+int	check_for_bs(t_env *env)
 {
-	int	i;
-
-	i = 0;
-	while (str[i])
+	t_env *tmp = env;
+	while (tmp)
 	{
-		if (str[i] != '/')
-			return (1);
-		i++;
+		if (ft_strncmp(tmp->key, "PATH", 4) == 0)
+		{
+			return 0;	
+		}
+		tmp = tmp->next;
 	}
-	return (0);
+	return 1;
 }
 
-void	print_command_not_found(char *command, t_env **env)
-{
-	char	*prefix;
-	char	*suffix;
 
-	(void)env;
-	prefix = "minishell: ";
-	suffix = ": command not found\n";
-	if (ft_strchr(command, '/'))
+void print_command_not_found(char *command, t_data *data) {
+    char *prefix = "minishell: ";
+    char *suffix = ": command not found\n";
+    struct stat buf;
+
+	ft_putstr_fd(prefix, 2);
+    stat(command, &buf);
+	if(ft_strchr(command , '/'))
 	{
-		ft_putstr_fd(prefix, 2);
-		ft_putstr_fd(command, 2);
-		ft_putstr_fd(": No such file or directory \n", 2);
+        if (S_ISDIR(buf.st_mode))
+		{
+            ft_putstr_fd(command, 2);
+            ft_putstr_fd(": is a directory\n", 2);
+            exit(126);
+        }
+		perror(command);
+		if (errno == 13 || errno == 20)
+			exit(126);
+		if (errno == 2)
+			exit(127);
+    }
+	if (check_for_bs(data->env) == 1)
+	{
+		if (!ft_strcmp(command , "..") || !ft_strcmp(command , "."))
+		{
+			ft_putstr_fd(command, 2);
+			ft_putstr_fd(": is a directory\n", 2);
+			exit(126);
+		}
+		perror(command);
+		if (errno == 13)
+			exit(126);
 		exit(127);
 	}
-	ft_putstr_fd(prefix, 2);
-	ft_putstr_fd(command, 2);
-	ft_putstr_fd(suffix, 2);
-	exit(127);
+    ft_putstr_fd(command, 2);
+    ft_putstr_fd(suffix, 2);
+    exit(127);
 }
 
 void	env_key_error(char **cmd, t_env **env, int i, char *msg)

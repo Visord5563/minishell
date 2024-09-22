@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   help_execute_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 15:33:00 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/09/20 12:24:24 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/22 22:41:20 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	exec_process(t_data *data, t_cmd *cmd_list, int flag)
 	}
 	else
 		execve(cmd_list->args[0], cmd_list->args, env);
-	print_command_not_found(cmd_list->args[0], &data->env);
+	print_command_not_found(cmd_list->args[0], data);
 	exit(EXIT_FAILURE);
 }
 

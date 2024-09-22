@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:44:59 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/09/21 21:36:28 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/09/22 21:27:07 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,9 @@ void	child_process(t_data *data, t_cmd *cmd_list, int *fd, int flag)
 		exec_process(data, cmd_list, flag);
 }
 
-void	parent_proccess(t_data *data, t_cmd *cmd_list, int pid)
+void	parent_proccess(t_data *data, t_cmd *cmd_list)
 {
 	data->created_child = 1;
-	if ((unsigned long)(data->cmd_index * 4) < sizeof(data->childpids))
-		data->childpids[data->cmd_index++] = pid;
 	if (data->temp != 0)
 		close(data->temp);
 	if (cmd_list->next)
@@ -53,25 +51,28 @@ void	parent_proccess(t_data *data, t_cmd *cmd_list, int pid)
 
 void	execute_command(t_data *data, t_cmd *cmd_list)
 {
-	pid_t	pid;
-
 	if (cmd_list->next)
 		pipe_error(data, data->fd, &data->flag_exec);
 	if (if_bultins(&cmd_list->args[0]) && data->flag_exec == 0
 		&& cmd_list->flag == 0)
 		check_bultins(cmd_list->args, &data->env);
-	else if (cmd_list->args[0] && cmd_list->flag == 0)
+	else
 	{
-		pid = fork();
-		if (pid < 0)
+		data->childpids[data->cmd_index] = fork();
+		if (data->childpids[data->cmd_index] < 0)
 		{
 			failed_fork(data, data->fd);
 			return ;
 		}
-		if (pid == 0)
+		if (data->childpids[data->cmd_index] == 0)
+		{
+			if (cmd_list->args[0] == NULL)
+				exit(0);
 			child_process(data, cmd_list, data->fd, data->flag_exec);
+		}
 		else
-			parent_proccess(data, cmd_list, pid);
+			parent_proccess(data, cmd_list);
+		data->cmd_index++;
 	}
 }
 

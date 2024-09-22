@@ -6,7 +6,7 @@
 /*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/09/22 00:29:04 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/09/22 22:41:37 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <sys/wait.h>
+#include <sys/stat.h>
 # include <limits.h>
 # include <errno.h>
 # include <signal.h>
@@ -134,7 +135,7 @@ void	execute_this(t_data *data);
 void	check_bultins(char **cmd, t_env **env);
 int		if_bultins(char **cmd);
 void	ft_error(char *str, int status);
-void	print_command_not_found(char *command, t_env **env);
+void	print_command_not_found(char *command, t_data *data);
 void	env_key_error(char **cmd, t_env **env, int i, char *msg);
 void	add_env(t_env **envs, char *key, char *value);
 char	**join_lst(t_env *env);
