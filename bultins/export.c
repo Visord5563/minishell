@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 09:13:33 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/09/07 13:06:08 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/22 02:00:34 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	join_env(t_env *env, char *key, char *value)
 	}
 }
 
-void	process_key_value(char *cmd, t_env **env, int *flag)
+void	process_key_value(char *cmd, t_env **env)
 {
 	char	*key;
 	char	*value;
@@ -80,7 +80,6 @@ void	process_key_value(char *cmd, t_env **env, int *flag)
 		key = ft_strdup(cmd);
 		add_or_update_env(env, key, NULL);
 	}
-	*flag = 1;
 }
 
 int	ft_export(char **cmd, t_env **env)
@@ -102,11 +101,10 @@ int	ft_export(char **cmd, t_env **env)
 			i++;
 			continue ;
 		}
-		process_key_value(cmd[i], env, &flag);
+		process_key_value(cmd[i], env);
 		i++;
 	}
 	if (!flag)
-		sort_env(env);
-	exit_status(env, "0");
+		exit_status(env, "0");
 	return (0);
 }
