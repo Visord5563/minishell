@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 17:45:56 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/09/23 16:46:40 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/23 18:24:00 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,4 +82,7 @@ void	help_cd(t_env **env, char *cwd)
 		else
 			help_with_error(env);
 	}
+	else
+		ft_putstr_fd("chdir: error retrieving current directory:\
+	getcwd: cannot access parent directories: No such file or directory\n", 2);
 }
