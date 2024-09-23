@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/09/23 16:49:00 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/24 00:41:57 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,8 @@ void	help_with_error(t_env **env);
 void	print_quit(int status);
 void	initialize_data(t_data *data);
 int		handle_status_update(int status, t_cmd *cmd_list, t_data *data);
+void	one_bultin(t_data *data, t_cmd *cmd_list);
+void	wait_this(t_data *data, int num_cmds);
 // // -----------------------
 void	help_ft_env(t_env **envs);
 void	handle_redirection(t_cmd *cmd);

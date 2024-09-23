@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/26 15:45:45 by saharchi          #+#    #+#             */
-/*   Updated: 2024/09/22 02:08:44 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/23 00:15:25 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ void	ft_env(t_env **envs, char **env, int flag)
 	int		i;
 	char	*key;
 	char	*value;
-	char	*cwd;
 
 	(1) && (i = 0, key = NULL, value = NULL);
 	while (env[i])
@@ -97,11 +96,7 @@ void	ft_env(t_env **envs, char **env, int flag)
 	}
 	if (flag == 1)
 	{
-		(1) && (cwd = getcwd(NULL, 0), set_env(envs, "PWD", cwd));
-		add_env(envs, ft_strdup("PATH"),
-			ft_strdup("/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."));
-		add_env(envs, ft_strdup("SHLVL"), ft_strdup("1"));
-		free(cwd);
+		help_ft_env(envs);
 	}
 	if (!check_exits(envs))
 		add_env(envs, ft_strdup("?"), ft_strdup("0"));

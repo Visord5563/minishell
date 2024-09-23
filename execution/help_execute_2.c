@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 15:33:00 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/09/23 16:50:31 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/23 22:40:07 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@ int	handle_status_update(int status, t_cmd *cmd_list, t_data *data)
 	else if (WIFSIGNALED(status))
 		status = WTERMSIG(status) + 128;
 	tmp = ft_itoa(status);
-	if (cmd_list->fd.fd_in == -1 || cmd_list->fd.fd_out == -1)
+	if (cmd_list->fd.fd_in == -1 || cmd_list->fd.fd_out == -1
+		|| cmd_list->fd.fd_in == -2 || cmd_list->fd.fd_out == -2)
 		exit_status(&data->env, "1");
 	else
 		exit_status(&data->env, tmp);

@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:58:37 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/09/20 00:23:36 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/23 22:10:37 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,6 @@ void	change_directory(t_env **env, char *home, char *cwd)
 void	home_cd(t_env **env)
 {
 	char	*home;
-	char	*oldpwd;
 	char	*cwd;
 
 	cwd = getcwd(NULL, 0);
@@ -70,7 +69,6 @@ void	home_cd(t_env **env)
 		return ;
 	}
 	home = get_home(*env);
-	oldpwd = get_oldpwd(*env);
 	if (home)
 	{
 		change_directory(env, home, cwd);
