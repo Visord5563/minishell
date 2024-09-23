@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 17:45:56 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/17 18:26:28 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/23 16:46:40 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,20 +63,23 @@ char	*set_env(t_env **env, char *name, char *value)
 
 void	help_cd(t_env **env, char *cwd)
 {
-	if (set_env(env, "OLDPWD", cwd) != NULL)
-	{
-		help_with_error(env);
-		free(cwd);
-		return ;
-	}
-	free(cwd);
-	cwd = getcwd(NULL, 0);
 	if (cwd)
 	{
-		if (set_env(env, "PWD", cwd) != NULL)
+		if (set_env(env, "OLDPWD", cwd) != NULL)
+		{
 			help_with_error(env);
+			free(cwd);
+			return ;
+		}
 		free(cwd);
+		cwd = getcwd(NULL, 0);
+		if (cwd)
+		{
+			if (set_env(env, "PWD", cwd) != NULL)
+				help_with_error(env);
+			free(cwd);
+		}
+		else
+			help_with_error(env);
 	}
-	else
-		help_with_error(env);
 }

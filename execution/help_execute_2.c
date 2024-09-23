@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   help_execute_2.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/01 15:33:00 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/09/22 22:41:20 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/09/23 16:50:31 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,47 @@ void	failed_fork(t_data *data, int *fd)
 	perror("fork");
 	exit_status(&data->env, "1");
 	close_fd(fd);
+}
+
+int	handle_status_update(int status, t_cmd *cmd_list, t_data *data)
+{
+	char	*tmp;
+
+	if (WIFEXITED(status))
+		status = WEXITSTATUS(status);
+	else if (WIFSIGNALED(status))
+		status = WTERMSIG(status) + 128;
+	tmp = ft_itoa(status);
+	if (cmd_list->fd.fd_in == -1 || cmd_list->fd.fd_out == -1)
+		exit_status(&data->env, "1");
+	else
+		exit_status(&data->env, tmp);
+	free(tmp);
+	return (status);
+}
+
+void	wait_pid_fun(int cmd_index, int *childpids, t_data *data)
+{
+	int		i;
+	int		status;
+	int		saved_status;
+	t_cmd	*cmd_list;
+
+	i = -1;
+	saved_status = 0;
+	cmd_list = data->cmd;
+	while (++i < cmd_index)
+	{
+		if (waitpid(childpids[i], &status, 0) == -1)
+		{
+			perror("waitpid");
+		}
+		else
+		{
+			saved_status = handle_status_update(status, cmd_list, data);
+		}
+		cmd_list = cmd_list->next;
+	}
+	print_quit(saved_status);
+	g_sigl.sig_int = 0;
 }

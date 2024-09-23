@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   help_execute.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 11:05:34 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/09/22 21:28:55 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/09/23 16:48:39 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,39 +96,4 @@ char	**join_lst(t_env *env)
 		env = env->next;
 	}
 	return (envp[i] = NULL, envp);
-}
-
-void	wait_pid_fun(int cmd_index, int *childpids, t_data *data)
-{
-	int		i;
-	int		status;
-	char	*tmp;
-	int		saved_status;
-	t_cmd	*cmd_list;
-
-	(1) && (i = -1, saved_status = 0);
-	cmd_list = data->cmd;
-	while (++i < cmd_index)
-	{
-		if (waitpid(childpids[i], &status, 0) == -1)
-			perror("waitpid");
-		else
-		{
-			if (WIFEXITED(status))
-				status = WEXITSTATUS(status);
-			else if (WIFSIGNALED(status))
-				status = WTERMSIG(status) + 128;
-			if (status == 131 || status == 130)
-				saved_status = status;
-			tmp = ft_itoa(status);
-			if (cmd_list->fd.fd_in == -1 || cmd_list->fd.fd_out == -1)
-				exit_status(&data->env, "1");
-			else 
-				exit_status(&data->env, tmp);
-			free(tmp);
-		}
-		cmd_list = cmd_list->next;
-	}
-	print_quit(saved_status);
-	g_sigl.sig_int = 0;
 }

@@ -3,60 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   handle_errors.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/31 17:52:23 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/09/22 22:53:57 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/09/23 16:48:03 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	ft_error(char *str, int status)
+int	check_ispath(t_env *env)
 {
-	perror(str);
-	exit(status);
-}
+	t_env	*tmp;
 
-int	check_for_bs(t_env *env)
-{
-	t_env *tmp = env;
+	tmp = env;
 	while (tmp)
 	{
 		if (ft_strncmp(tmp->key, "PATH", 4) == 0)
-		{
-			return 0;	
-		}
+			return (0);
 		tmp = tmp->next;
 	}
-	return 1;
+	return (1);
 }
 
+void	handle_command_with_slash(char *command)
+{
+	struct stat	buf;
 
-void print_command_not_found(char *command, t_data *data) {
-    char *prefix = "minishell: ";
-    char *suffix = ": command not found\n";
-    struct stat buf;
+	stat(command, &buf);
+	if (S_ISDIR(buf.st_mode))
+	{
+		ft_putstr_fd(command, 2);
+		ft_putstr_fd(": is a directory\n", 2);
+		exit(126);
+	}
+	perror(command);
+	if (errno == 13 || errno == 20)
+		exit(126);
+	if (errno == 2)
+		exit(127);
+}
 
+void	print_command_not_found(char *command, t_data *data)
+{
+	char		*prefix;
+	char		*suffix;
+
+	prefix = "minishell: ";
+	suffix = ": command not found\n";
 	ft_putstr_fd(prefix, 2);
-    stat(command, &buf);
-	if(ft_strchr(command , '/'))
+	if (ft_strchr(command, '/'))
+		handle_command_with_slash(command);
+	if (check_ispath(data->env) == 1)
 	{
-        if (S_ISDIR(buf.st_mode))
-		{
-            ft_putstr_fd(command, 2);
-            ft_putstr_fd(": is a directory\n", 2);
-            exit(126);
-        }
-		perror(command);
-		if (errno == 13 || errno == 20)
-			exit(126);
-		if (errno == 2)
-			exit(127);
-    }
-	if (check_for_bs(data->env) == 1)
-	{
-		if (!ft_strcmp(command , "..") || !ft_strcmp(command , "."))
+		if (!ft_strcmp(command, "..") || !ft_strcmp(command, "."))
 		{
 			ft_putstr_fd(command, 2);
 			ft_putstr_fd(": is a directory\n", 2);
@@ -67,9 +67,9 @@ void print_command_not_found(char *command, t_data *data) {
 			exit(126);
 		exit(127);
 	}
-    ft_putstr_fd(command, 2);
-    ft_putstr_fd(suffix, 2);
-    exit(127);
+	ft_putstr_fd(command, 2);
+	ft_putstr_fd(suffix, 2);
+	exit(127);
 }
 
 void	env_key_error(char **cmd, t_env **env, int i, char *msg)

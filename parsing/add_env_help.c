@@ -1,33 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   add_env_help.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/11/05 23:48:45 by saharchi          #+#    #+#             */
-/*   Updated: 2024/09/23 16:49:23 by ehafiane         ###   ########.fr       */
+/*   Created: 2024/09/23 00:13:58 by ehafiane          #+#    #+#             */
+/*   Updated: 2024/09/23 00:15:20 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "../inc/minishell.h"
 
-char	*ft_strdup(const char *s1)
+void	help_ft_env(t_env **envs)
 {
-	char	*s;
-	size_t	i;
-	size_t	j;
+	char	*cwd;
 
-	i = ft_strlen(s1);
-	s = (char *)malloc(sizeof(char) * i + 1);
-	if (!s)
-		exit(1);
-	j = 0;
-	while (j < i)
-	{
-		s[j] = s1[j];
-		j++;
-	}
-	s[j] = '\0';
-	return (s);
+	cwd = getcwd(NULL, 0);
+	add_env(envs, ft_strdup("PATH"),
+		ft_strdup("/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:."));
+	add_env(envs, ft_strdup("OLDPWD"), NULL);
+	add_env(envs, ft_strdup("PWD"), ft_strdup(cwd));
+	add_env(envs, ft_strdup("SHLVL"), ft_strdup("1"));
+	add_env(envs, ft_strdup("_"), ft_strdup("/usr/bin/env"));
+	free(cwd);
 }

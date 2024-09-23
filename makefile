@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+         #
+#    By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/03 17:08:07 by saharchi          #+#    #+#              #
-#    Updated: 2024/09/22 21:29:33 by saharchi         ###   ########.fr        #
+#    Updated: 2024/09/23 16:49:48 by ehafiane         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ SRC = main.c parsing/parse_list.c execution/help_execute.c execution/help_execut
 	execution/redirection.c parsing/split.c parsing/exit_status.c bultins/cd.c\
 	bultins/help_cd.c bultins/echo.c parsing/parsing.c \
 	bultins/env.c bultins/export.c bultins/help_export.c bultins/pwd.c\
-	bultins/unset.c parsing/herdoc.c parsing/expand.c parsing/add_env.c \
+	bultins/unset.c parsing/herdoc.c parsing/expand.c parsing/add_env.c parsing/add_env_help.c  \
 	parsing/delet_quot.c bultins/exit.c bultins/check_bultins.c \
 	execution/handle_errors.c parsing/add_cmd.c parsing/new_list.c\
 	parsing/parse.c parsing/utils_func.c parsing/utils.c parsing/utils1.c\
