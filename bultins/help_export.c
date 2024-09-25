@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 12:28:29 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/08/13 12:34:32 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/25 19:06:03 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,12 @@ void	print_export(t_env *env)
 	while (env)
 	{
 		if (env->value && ft_strcmp(env->key, "?"))
-			printf("declare -x %s=\"%s\"\n", env->key, env->value);
+		{
+			if (ft_strcmp(env->key, "_"))
+				printf("declare -x %s=\"%s\"\n", env->key, env->value);
+			else if ((ft_strcmp(env->key, "_") == 0) && env->flag != 505)
+				printf("declare -x %s=\"%s\"\n", env->key, env->value);
+		}
 		else
 		{
 			if (ft_strcmp(env->key, "?"))

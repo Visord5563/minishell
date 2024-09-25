@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/09/24 00:41:57 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/25 19:04:39 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct s_env
 	char			*value;
 	struct s_env	*next;
 	char			*cwd;
+	int				flag;
 }	t_env;
 
 typedef struct s_parse
@@ -132,6 +133,7 @@ void	initialize_data(t_data *data);
 int		handle_status_update(int status, t_cmd *cmd_list, t_data *data);
 void	one_bultin(t_data *data, t_cmd *cmd_list);
 void	wait_this(t_data *data, int num_cmds);
+int		check_syntax_export(t_env **env, char *str, int *flag);
 // // -----------------------
 void	help_ft_env(t_env **envs);
 void	handle_redirection(t_cmd *cmd);
