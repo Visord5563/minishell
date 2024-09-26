@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 14:58:37 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/09/23 22:10:37 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/26 17:20:15 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,6 @@
 
 void	help_with_error(t_env **env)
 {
-	char	*home;
-
-	home = get_home(*env);
-	if (home == NULL)
-	{
-		ft_putstr_fd("minishell: cd: HOME not set\n", 2);
-		exit_status(env, "1");
-		return ;
-	}
 	perror("minishell");
 	exit_status(env, "1");
 }
