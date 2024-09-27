@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 09:13:33 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/09/22 02:00:34 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/27 00:46:55 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void	process_key_value(char *cmd, t_env **env)
 	}
 }
 
-int	ft_export(char **cmd, t_env **env)
+int	ft_export(char **cmd, t_env **env, t_data *data)
 {
 	int		i;
 	int		flag;
@@ -90,7 +90,7 @@ int	ft_export(char **cmd, t_env **env)
 	flag = 0;
 	i = 1;
 	if (!cmd[i])
-		return (sort_env(env), 0);
+		return (sort_env(env, data), 0);
 	while (cmd[i])
 	{
 		if (!is_valid_key(cmd[i]))

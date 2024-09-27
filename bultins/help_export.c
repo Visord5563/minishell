@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/13 12:28:29 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/09/25 19:06:03 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/27 01:24:09 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,27 +28,34 @@ void	swap_tmp(t_env *tmp, t_env *tmp2)
 	}
 }
 
-void	print_export(t_env *env)
+void	print_export(t_env *env, t_data *data)
 {
 	while (env)
 	{
 		if (env->value && ft_strcmp(env->key, "?"))
 		{
 			if (ft_strcmp(env->key, "_"))
-				printf("declare -x %s=\"%s\"\n", env->key, env->value);
+			{
+				if (!ft_strcmp(env->key, "PATH"))
+				{
+					if (data->flag == 0)
+						printf("declare -x %s=\"%s\"\n", env->key, env->value);
+				}
+				else
+					printf("declare -x %s=\"%s\"\n", env->key, env->value);
+			}
 			else if ((ft_strcmp(env->key, "_") == 0) && env->flag != 505)
-				printf("declare -x %s=\"%s\"\n", env->key, env->value);
+				if (data->flag == 0)
+					printf("declare -x %s=\"%s\"\n", env->key, env->value);
 		}
 		else
-		{
 			if (ft_strcmp(env->key, "?"))
 				printf("declare -x %s\n", env->key);
-		}
 		env = env->next;
 	}
 }
 
-void	sort_env(t_env **env)
+void	sort_env(t_env **env, t_data *data)
 {
 	t_env	*tmp;
 	t_env	*tmp2;
@@ -64,7 +71,7 @@ void	sort_env(t_env **env)
 		}
 		tmp = tmp->next;
 	}
-	print_export(*env);
+	print_export(*env, data);
 }
 
 int	is_valid_key(char *var)

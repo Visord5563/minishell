@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/09/25 19:04:39 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/27 01:26:55 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,8 @@ int		ft_echo(char **argv, t_env **env);
 void	ft_exit(char **str, t_env **env);
 int		ft_pwd(t_env *env);
 void	ft_cd(char *arg, t_env **env);
-void	real_env(t_env *a);
-int		ft_export(char **cmd, t_env **env);
+void	real_env(t_env *a, t_data *data);
+int		ft_export(char **cmd, t_env **env, t_data *data);
 void	ft_unset(t_env **env, char **names);
 
 // // -----------------------
@@ -115,8 +115,8 @@ char	*get_home(t_env *env);
 char	*get_oldpwd(t_env *env);
 char	*set_env(t_env **env, char *name, char *value);
 void	swap_tmp(t_env *tmp, t_env *tmp2);
-void	print_export(t_env *env);
-void	sort_env(t_env **env);
+void	print_export(t_env *env, t_data *data);
+void	sort_env(t_env **env, t_data *data);
 int		is_valid_key(char *var);
 int		env_key_exists(t_env *env, char *key);
 void	update_env(t_env **env, char *key, char *value);
@@ -138,7 +138,7 @@ int		check_syntax_export(t_env **env, char *str, int *flag);
 void	help_ft_env(t_env **envs);
 void	handle_redirection(t_cmd *cmd);
 void	execute_this(t_data *data);
-void	check_bultins(char **cmd, t_env **env);
+void	check_bultins(char **cmd, t_env **env, t_data *data);
 int		if_bultins(char **cmd);
 void	ft_error(char *str, int status);
 void	print_command_not_found(char *command, t_data *data);

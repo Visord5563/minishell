@@ -3,22 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/24 12:59:44 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/09/20 11:26:41 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/09/27 01:28:22 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../inc/minishell.h"
 
-void	real_env(t_env *a)
+void	real_env(t_env *a, t_data *tmp)
 {
-	t_cmd	*tmp;
-
-	tmp = malloc(sizeof(t_cmd));
-	if (!tmp)
-		exit(1);
 	while (a != NULL)
 	{
 		if (ft_strcmp(a->key, "?"))
@@ -27,7 +22,7 @@ void	real_env(t_env *a)
 			{
 				if (!ft_strcmp(a->key, "PATH"))
 				{
-					if (!tmp->flag)
+					if (tmp->flag == 0)
 						printf("%s=%s\n", a->key, a->value);
 				}
 				else
@@ -36,7 +31,6 @@ void	real_env(t_env *a)
 		}
 		a = a->next;
 	}
-	free(tmp);
 	exit_status(&a, "0");
 }
 
