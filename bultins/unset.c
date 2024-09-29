@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 11:05:26 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/09/29 09:30:29 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/29 09:31:21 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,14 @@ void	help_unset(t_env **env, char **names, int i)
 			&& ft_strcmp(current->key, "?") != 0
 			&& ft_strcmp(current->key, "_") != 0)
 		{
-			remove_env_var(env, current, previous);
+			if (previous == NULL)
+				*env = current->next;
+			else
+				previous->next = current->next;
+			temp = current;
+			current = current->next;
+			free(temp->key);
+			(free(temp->value), free(temp));
 			break ;
 		}
 		else if (!ft_strcmp(current->key, "_"))

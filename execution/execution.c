@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:44:59 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/09/27 02:23:44 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/09/29 09:31:48 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,8 @@ void	execute_command(t_data *data, t_cmd *cmd_list)
 		}
 		if (data->childpids[data->cmd_index] == 0)
 		{
-			check_command(cmd_list);
+			if (cmd_list->args[0] == NULL)
+				exit(0);
 			child_process(data, cmd_list, data->fd, data->flag_exec);
 		}
 		else

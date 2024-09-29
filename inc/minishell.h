@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/09/27 02:24:45 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/09/29 09:31:54 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,10 +129,7 @@ void	help_with_error(t_env **env);
 void	print_quit(int status);
 void	initialize_data(t_data *data);
 int		handle_status_update(int status, t_cmd *cmd_list, t_data *data);
-void	one_bultin(t_data *data, t_cmd *cmd_list);
-void	wait_this(t_data *data, int num_cmds);
-int		check_syntax_export(t_env **env, char *str, int *flag);
-void	check_command(t_cmd *cmd_list);
+// // -----------------------
 void	help_ft_env(t_env **envs);
 void	handle_redirection(t_cmd *cmd);
 void	execute_this(t_data *data);
