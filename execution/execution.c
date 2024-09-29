@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/12 23:44:59 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/09/23 16:50:22 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/27 02:23:44 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	execute_command(t_data *data, t_cmd *cmd_list)
 		pipe_error(data, data->fd, &data->flag_exec);
 	if (if_bultins(&cmd_list->args[0]) && data->flag_exec == 0
 		&& cmd_list->flag == 0)
-		check_bultins(cmd_list->args, &data->env);
+		one_bultin(data, cmd_list);
 	else
 	{
 		data->childpids[data->cmd_index] = fork();
@@ -66,8 +66,7 @@ void	execute_command(t_data *data, t_cmd *cmd_list)
 		}
 		if (data->childpids[data->cmd_index] == 0)
 		{
-			if (cmd_list->args[0] == NULL)
-				exit(0);
+			check_command(cmd_list);
 			child_process(data, cmd_list, data->fd, data->flag_exec);
 		}
 		else
@@ -90,18 +89,16 @@ void	execute_this(t_data *data)
 	while (cmd_list)
 	{
 		if (num_cmds > 1000)
+		{
+			free(data->childpids);
 			return (ft_putstr_fd("fork:\
 			Resource temporarily unavailable\n", 2));
+		}
 		execute_command(data, cmd_list);
 		cmd_list = cmd_list->next;
 	}
 	if (data->temp != 0)
 		close(data->temp);
-	if (data->created_child)
-	{
-		g_sigl.sig_child = 1;
-		wait_pid_fun(num_cmds, data->childpids, data);
-		g_sigl.sig_child = 0;
-	}
+	wait_this(data, num_cmds);
 	free(data->childpids);
 }

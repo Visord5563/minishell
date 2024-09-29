@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:31 by saharchi          #+#    #+#             */
-/*   Updated: 2024/09/22 18:56:10 by saharchi         ###   ########.fr       */
+/*   Updated: 2024/09/27 01:24:43 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	exit_program(t_env *env)
 	{
 		if (ft_strchr(tmp->key, '?'))
 		{
-			printf("exit");
+			printf("exit\n");
 			exit(ft_atoi(tmp->value));
 		}
 		tmp = tmp->next;

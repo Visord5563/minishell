@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+         #
+#    By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2024/06/03 17:08:07 by saharchi          #+#    #+#              #
-#    Updated: 2024/09/23 16:49:48 by ehafiane         ###   ########.fr        #
+#    Updated: 2024/09/27 02:27:01 by saharchi         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,12 +14,12 @@ NAME = minishell
 
 LIBFT = ./libft/libft.a
 
-CFLAGS = -Wall -Wextra -Werror #-g -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror
 RM = rm -f
 
 SRC = main.c parsing/parse_list.c execution/help_execute.c execution/help_execute_2.c execution/execution.c \
 	execution/redirection.c parsing/split.c parsing/exit_status.c bultins/cd.c\
-	bultins/help_cd.c bultins/echo.c parsing/parsing.c \
+	bultins/help_cd.c bultins/echo.c parsing/parsing.c execution/help_execute_3.c\
 	bultins/env.c bultins/export.c bultins/help_export.c bultins/pwd.c\
 	bultins/unset.c parsing/herdoc.c parsing/expand.c parsing/add_env.c parsing/add_env_help.c  \
 	parsing/delet_quot.c bultins/exit.c bultins/check_bultins.c \

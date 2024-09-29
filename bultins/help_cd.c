@@ -6,7 +6,7 @@
 /*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 17:45:56 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/09/23 18:24:00 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/25 19:04:45 by ehafiane         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,33 @@ void	help_cd(t_env **env, char *cwd)
 	else
 		ft_putstr_fd("chdir: error retrieving current directory:\
 	getcwd: cannot access parent directories: No such file or directory\n", 2);
+}
+
+int	check_syntax_export(t_env **env, char *str, int *flag)
+{
+	int		i;
+
+	i = 0;
+	if (!ft_isalpha(str[0]) && str[0] != '_')
+	{
+		ft_putstr_fd("minishell: unset: `", 2);
+		ft_putstr_fd(str, 2);
+		ft_putstr_fd("': not a valid identifier\n", 2);
+		exit_status(env, "1");
+		return (*flag = 1, 1);
+	}
+	i++;
+	while (str[i])
+	{
+		if (!ft_isalpha(str[i]) && !ft_isdigit(str[i]) && str[i] != '_')
+		{
+			ft_putstr_fd("minishell: unset: `", 2);
+			ft_putstr_fd(str, 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
+			exit_status(env, "1");
+			return (*flag = 1, 1);
+		}
+		i++;
+	}
+	return (0);
 }

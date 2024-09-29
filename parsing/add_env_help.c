@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   add_env_help.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/23 00:13:58 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/09/23 00:15:20 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/27 02:23:20 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,16 @@ void	help_ft_env(t_env **envs)
 	add_env(envs, ft_strdup("SHLVL"), ft_strdup("1"));
 	add_env(envs, ft_strdup("_"), ft_strdup("/usr/bin/env"));
 	free(cwd);
+}
+
+void	check_command(t_cmd *cmd_list)
+{
+	if (cmd_list->args[0] == NULL && cmd_list->fd.fd_in != -1
+		&& cmd_list->fd.fd_out != -1 && cmd_list->fd.fd_in != -2
+		&& cmd_list->fd.fd_out != -2)
+		exit(0);
+	else if (cmd_list->args[0] == NULL || cmd_list->fd.fd_in == -1
+		|| cmd_list->fd.fd_out == -1 || cmd_list->fd.fd_in == -2
+		|| cmd_list->fd.fd_out == -2)
+		exit(1);
 }

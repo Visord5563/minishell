@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/03 16:13:38 by saharchi          #+#    #+#             */
-/*   Updated: 2024/09/23 16:49:00 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/09/27 02:24:45 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ typedef struct s_env
 	char			*value;
 	struct s_env	*next;
 	char			*cwd;
+	int				flag;
 }	t_env;
 
 typedef struct s_parse
@@ -98,24 +99,22 @@ typedef struct s_data
 	int				flag_exec;
 }	t_data;
 
-// // -----------------------
 int		ft_echo(char **argv, t_env **env);
 void	ft_exit(char **str, t_env **env);
 int		ft_pwd(t_env *env);
 void	ft_cd(char *arg, t_env **env);
-void	real_env(t_env *a);
-int		ft_export(char **cmd, t_env **env);
+void	real_env(t_env *a, t_data *data);
+int		ft_export(char **cmd, t_env **env, t_data *data);
 void	ft_unset(t_env **env, char **names);
 
-// // -----------------------
 char	*look_for_key(t_env *env, char *key);
 void	free_env(t_env *env);
 char	*get_home(t_env *env);
 char	*get_oldpwd(t_env *env);
 char	*set_env(t_env **env, char *name, char *value);
 void	swap_tmp(t_env *tmp, t_env *tmp2);
-void	print_export(t_env *env);
-void	sort_env(t_env **env);
+void	print_export(t_env *env, t_data *data);
+void	sort_env(t_env **env, t_data *data);
 int		is_valid_key(char *var);
 int		env_key_exists(t_env *env, char *key);
 void	update_env(t_env **env, char *key, char *value);
@@ -130,11 +129,14 @@ void	help_with_error(t_env **env);
 void	print_quit(int status);
 void	initialize_data(t_data *data);
 int		handle_status_update(int status, t_cmd *cmd_list, t_data *data);
-// // -----------------------
+void	one_bultin(t_data *data, t_cmd *cmd_list);
+void	wait_this(t_data *data, int num_cmds);
+int		check_syntax_export(t_env **env, char *str, int *flag);
+void	check_command(t_cmd *cmd_list);
 void	help_ft_env(t_env **envs);
 void	handle_redirection(t_cmd *cmd);
 void	execute_this(t_data *data);
-void	check_bultins(char **cmd, t_env **env);
+void	check_bultins(char **cmd, t_env **env, t_data *data);
 int		if_bultins(char **cmd);
 void	ft_error(char *str, int status);
 void	print_command_not_found(char *command, t_data *data);
