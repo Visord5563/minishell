@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ehafiane <ehafiane@student.42.fr>          +#+  +:+       +#+        */
+/*   By: saharchi <saharchi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/08/17 11:05:26 by ehafiane          #+#    #+#             */
-/*   Updated: 2024/09/29 09:31:21 by ehafiane         ###   ########.fr       */
+/*   Updated: 2024/10/18 02:59:27 by saharchi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	remove_env_var(t_env **env, t_env *current, t_env *previous)
 void	help_unset(t_env **env, char **names, int i)
 {
 	t_env	*current;
+	t_env	*temp;
 	t_env	*previous;
 
 	current = *env;
